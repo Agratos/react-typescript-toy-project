@@ -3,3 +3,4 @@
 2. router
 3. redux, persist
 4. aip - axios
+5. proxy - http-proxy-middleware X -> webpack devServer
