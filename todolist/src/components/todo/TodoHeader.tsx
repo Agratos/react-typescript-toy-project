@@ -1,12 +1,24 @@
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { BiLeftArrowAlt, BiMenu } from 'react-icons/bi';
 
+import { resetTodo } from 'src/modules/actions/todo';
+
 const TodoHeader = () => {
+    const dispatch = useDispatch();
+
+    const handleReset = () => {
+        dispatch(resetTodo());
+    }
+
     return(
         <Wrapper>
             <ResetWrapper>
-                <BiLeftArrowAlt size={30} />
+                <BiLeftArrowAlt 
+                    size={30} 
+                    onClick={handleReset}
+                />
             </ResetWrapper>
             <Title>카카오톡 Todolist</Title>
             <MenuWrapper>

@@ -45,6 +45,8 @@ const Wrapper = styled.div`
     height: 60px;
     border-radius: 0 0 32px 32px ;
     background-color: white;
+
+    z-index: 4;
 `;
 const Input = styled.input`
     flex: 1;

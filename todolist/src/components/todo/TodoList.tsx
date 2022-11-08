@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import TodoHeader from './TodoHeader';
 import TodoDisplay from './TodoDisplay';
 import TodoInput from './TodoInput';
+import Animation from 'src/components/svg/Animation';
 
 const TodoList = () => {
     return(
@@ -12,10 +13,12 @@ const TodoList = () => {
                 <TodoDisplay />
                 <TodoInput />
             </TodoWrapper>
+            <Animation />
         </Wrapper>
     )
 }
 const Wrapper = styled.div`
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,6 +29,8 @@ const Wrapper = styled.div`
     width: 100%;
 
     background-color: #131414eb;
+
+    z-index: 1;
 `;
 const TodoWrapper = styled.div`
     display: flex;

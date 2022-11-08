@@ -3,9 +3,10 @@ import { createAction } from 'typesafe-actions';
 import { TTodoItemParams } from '../types/todo';
 
 /** 액션 타입 **/
-export const ADD_TODO = 'todo/CHANGE_TODO' as const;
+export const ADD_TODO = 'todo/ADD_TODO' as const;
 export const REMOVE_TODO = 'todo/REMOVE_TODO' as const;
 export const TOGGLE_TODO = 'todo.TOGGLE_TODO' as const;
+export const RESET_TODO = 'todo/RESET_TODO' as const;
 
 /** 액션 생성 함수 **/
 /**
@@ -18,3 +19,4 @@ export const TOGGLE_TODO = 'todo.TOGGLE_TODO' as const;
 export const addTodo = createAction(ADD_TODO)<{text: string}>(); // object 전달
 export const removeTodo = createAction(REMOVE_TODO)<number>(); // id값 전달
 export const toggleTodo = createAction(TOGGLE_TODO)<number>(); // id값 전달
+export const resetTodo = createAction(RESET_TODO)(); //

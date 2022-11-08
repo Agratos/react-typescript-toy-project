@@ -36,6 +36,7 @@ const todoReducer = createReducer<TTodoListState, TTodoAction>(initialState,{
             todo.id === action.payload ? {...todo, done: !todo.done } : todo
         ),
     }),
+    [actions.RESET_TODO]: (state, action) => initialState
 })
 
 export default todoReducer;

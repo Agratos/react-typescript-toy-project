@@ -39,15 +39,19 @@ const Wrapper = styled.div`
     width: 100%;
     height: 100%;
     text-align: center;
-    background-color: black;
+    position: absolute;
+    top: 0px;
+    left: -600px;
+    z-index: -1;
 `;
 const TestSvg = styled(Test)<{dasharray:number, dashoffset: number}>`
     //margin-top: 20%;
     > path {
-        stroke: white;
+        stroke: yellowgreen;
         stroke-dasharray: ${({dasharray}) => dasharray};
         stroke-dashoffset: ${({dashoffset}) => dashoffset}
     }
+    mix-blend-mode: difference;
 `;
 
 export default Animation;
