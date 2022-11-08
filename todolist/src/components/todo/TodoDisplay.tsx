@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-
-import { BiLeftArrowAlt, BiMenu } from 'react-icons/bi';
 
 import TodoBox from './component/TodoBox';
 
@@ -10,22 +8,30 @@ import { RootState } from 'src/modules';
 
 const TodoDisplay = () => {
     const todos = useSelector(({todo}:RootState) => todo.todoItems);
+    const wrapperRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        scrollToBottom();
+    },[todos])
+
+    const scrollToBottom = () => {
+        if(wrapperRef.current){
+            wrapperRef.current.scrollTop = wrapperRef.current.scrollHeight;
+        }
+    }
 
     return(
-        <Wrapper>
-            <HeaderWrapper>
-                <BiLeftArrowAlt size={30} />
-                <Title>카카오톡 TodoList</Title>
-                <BiMenu size={30} />
-            </HeaderWrapper>
-            <BodyWrapper>
-                <span>{`<`}</span>{` 일일 계획 `}<span>{`>`}</span>
+        <Wrapper ref={wrapperRef}>
+            <BodyWrapper >
+                {/* <span>{`<`}</span>{` 일일 계획 `}<span>{`>`}</span> */}
+                {' < 일일 계획 >'}
                 {todos.map(({text, id, done}) => (
                     <TodoBox 
                         key={id}
                         id={id}
                         text={text}
                         done={done}
+                        todos={todos}
                     />
                 ))}
             </BodyWrapper>
@@ -34,21 +40,17 @@ const TodoDisplay = () => {
 }
 const Wrapper = styled.div`
     flex: 1;
-    margin: 10px 16px;
-`;
-const HeaderWrapper = styled.div`
-    display: flex;
-    text-align: left;
+    margin: 4px 16px;
+    overflow-y: auto;
 
-    padding-bottom: 8px;
-    border-bottom: 1px solid #ffffff39;
-`;
-const Title = styled.div`
-    flex: 1;
-    margin-left: 16px;
-    font-size: 20px;
+    -ms-overflow-style: none; // 인터넷 익스플로어
+    scrollbar-width: none; // 파이어폭스
+    ::-webkit-scrollbar{ // 크롬 사파리 오페라 엣지
+        display: none;
+    }
 `;
 const BodyWrapper = styled.div`
+    flex: 1;
     margin-top: 16px;
 `;
 

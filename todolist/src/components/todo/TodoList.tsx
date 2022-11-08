@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+import TodoHeader from './TodoHeader';
 import TodoDisplay from './TodoDisplay';
 import TodoInput from './TodoInput';
 
@@ -7,6 +8,7 @@ const TodoList = () => {
     return(
         <Wrapper>
             <TodoWrapper>
+                <TodoHeader />
                 <TodoDisplay />
                 <TodoInput />
             </TodoWrapper>

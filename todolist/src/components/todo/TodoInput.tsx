@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
@@ -8,10 +8,24 @@ const TodoInput = () => {
     const dispatch = useDispatch();
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const handleResigisterButtonClick = () => {
-        dispatch(addTodo({text: inputRef.current!.value,})) // store에 저장
+    useEffect(() => {
+        window.addEventListener('keydown', keydownEnter);
 
-        inputRef.current!.value = ''; // 초기화
+        return () => window.removeEventListener('keydown', keydownEnter);
+    },[])
+
+    const handleResigisterButtonClick = () => {
+        if(inputRef.current!.value.replace(' ','') === ''){
+            return false;
+        }else{
+            dispatch(addTodo({text: inputRef.current!.value,})) // store에 저장
+
+            inputRef.current!.value = ''; // 초기화
+        }
+    }
+
+    const keydownEnter = (e:KeyboardEvent) => {
+        if(e.key === 'Enter') handleResigisterButtonClick();
     }
     
     return (
@@ -34,11 +48,12 @@ const Wrapper = styled.div`
 `;
 const Input = styled.input`
     flex: 1;
-
+    
     padding-left: 32px;
     border: none;
     border-bottom-left-radius: 32px;
-    font-size: 20px;
+    font-size: 16px;
+    font-family: 'Noto Serif KR', serif;
 
     :focus{
         outline: none ;
@@ -53,6 +68,10 @@ const ResigisterButton = styled.button`
     background-color: white;
 
     font-size: 32px;
+
+    :hover{
+        cursor: pointer;
+    }
 `;
 
 export default TodoInput;
