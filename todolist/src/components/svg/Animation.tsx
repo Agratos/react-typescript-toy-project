@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 
 import Test from 'src/assets/images/svg/test.svg';
+import Test2 from 'src/assets/images/svg/test2.svg';
 
 import getTotalLength from 'src/utils/getTotalLength';
 
@@ -11,7 +12,7 @@ const Animation = () => {
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => { // 변수 설정
-        const temp = getTotalLength({id: 'test_svg', size: 1})[0];
+        const temp = getTotalLength({id: 'test2_svg', size: 1})[0];
         setDashArray(temp);
         setDashOffset(temp);
     },[])
@@ -19,7 +20,7 @@ const Animation = () => {
     useEffect(() => { // 성능 개선?
         const draw = setTimeout(() => {
             calcDashoffset();
-        }, 25)
+        }, 1)
         
         if(!dashoffset) clearInterval(draw);
     },[dashoffset])
@@ -42,14 +43,15 @@ const Wrapper = styled.div`
     top: 0px;
     z-index: -1;
 `;
-const TestSvg = styled(Test)<{dasharray:number, dashoffset: number}>`
+const TestSvg = styled(Test2)<{dasharray:number, dashoffset: number}>`
     //margin-top: 20%;
+    
     > path {
+        transform: scale(0.9);
         stroke: yellowgreen;
         stroke-dasharray: ${({dasharray}) => dasharray};
         stroke-dashoffset: ${({dashoffset}) => dashoffset}
     }
     mix-blend-mode: difference;
 `;
-
 export default Animation;
