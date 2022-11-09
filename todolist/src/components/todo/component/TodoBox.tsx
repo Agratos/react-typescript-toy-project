@@ -28,7 +28,6 @@ const TodoBox = ({id, text, done }:ITodoBoxPros) => {
                 done={done}
                 onClick={handleTodoToggle}
                 onContextMenu={(e) => toggleRemove && handleContextMenu(e)}
-                draggable
             >
                 {text}
             </Box>
