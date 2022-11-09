@@ -67,6 +67,7 @@ const Wrapper = styled.div`
 const BodyWrapper = styled.div`
     flex: 1;
     margin-top: 16px;
+    user-select: none;
 `;
 const Text = styled.div`
     margin-top: 16px;

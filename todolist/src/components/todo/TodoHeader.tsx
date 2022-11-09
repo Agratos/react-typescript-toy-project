@@ -2,48 +2,74 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { BiLeftArrowAlt, BiMenu } from 'react-icons/bi';
+import { BiLeftArrowAlt, BiMenu, BiTrash } from 'react-icons/bi';
 
-import { resetTodo, toggleMenuTodo } from 'src/modules/actions/todo';
+import { resetTodo, toggleMenuTodo, toggleRemoveTodo } from 'src/modules/actions/todo';
 import CheckModal from '../modal/CheckModal';
 import { RootState } from 'src/modules';
 
 const TodoHeader = () => {
+    const {
+        toggleMenu, 
+        toggleRemove
+    } = useSelector(({todo}:RootState) => ({
+        toggleMenu:todo.toggleMenu,
+        toggleRemove:todo.toggleRemove
+    }));
     const dispatch = useDispatch();
-    const {toggleMenu} = useSelector(({todo}:RootState) => ({toggleMenu:todo.toggleMenu}));
-    const [onClickModal, setOnClickModal] = useState<boolean>(false);
+    const [onResetModal, setOnResetModal] = useState<boolean>(false);
+    const [onRemoveModal, setOnRemoveModal] = useState<boolean>(false);
 
     const handleReset = () => {
         dispatch(resetTodo());
-        setOnClickModal(false);
+        setOnResetModal(false);
     }
 
     const handleMenu = () => {
-        dispatch(toggleMenuTodo());
+        dispatch(toggleMenuTodo())
     }
-
-    console.log(toggleMenu);
+    
+    const handleRemove = () => {
+        dispatch(toggleRemoveTodo());
+        setOnRemoveModal(false);
+    }
 
     return(
         <Wrapper>
             <ResetWrapper>
                 <BiLeftArrowAlt 
                     size={30} 
-                    onClick={() => !toggleMenu && setOnClickModal(true)}
+                    onClick={() => !toggleMenu && setOnResetModal(true)}
                 />
             </ResetWrapper>
             <Title>카카오톡 Todolist</Title>
+            <MenuWrapper>
+                {!toggleMenu &&  
+                    <BiTrash
+                        size={30}
+                        onClick={() => setOnRemoveModal(true)}
+                        color={toggleRemove ? 'blue' : 'black'}
+                    />
+                }
+            </MenuWrapper>
             <MenuWrapper>
                 <BiMenu 
                     size={30}
                     onClick={handleMenu}
                 />
             </MenuWrapper>
-            {onClickModal && 
+            {onResetModal && 
                 <CheckModal 
                     text={'초기화하시겠습니까?'}
                     onClickOkButton={handleReset}
-                    onClickCancleButton={() => setOnClickModal(false)}
+                    onClickCancleButton={() => setOnResetModal(false)}
+                />
+            }
+            {onRemoveModal &&
+                <CheckModal 
+                    text={toggleRemove ? '스레기통을 비활성화합니까?' : '스레기통을 활성화합니까?'}
+                    onClickOkButton={handleRemove}
+                    onClickCancleButton={() => setOnRemoveModal(false)}
                 />
             }
         </Wrapper>
@@ -63,7 +89,9 @@ const ResetWrapper = styled.div`
         cursor: pointer;
     }
 `;
-const MenuWrapper = styled(ResetWrapper)``;
+const MenuWrapper = styled(ResetWrapper)`
+    margin-left: 16px;
+`;
 const Title = styled.div`
     flex: 1;
     margin-left: 16px;

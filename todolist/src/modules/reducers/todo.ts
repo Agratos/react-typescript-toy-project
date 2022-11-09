@@ -11,6 +11,7 @@ const initialState: TTodoListState = {
     }],
     currentId: 1,
     toggleMenu: true,
+    toggleRemove: false,
 };
 
 const todoReducer = createReducer<TTodoListState, TTodoAction>(initialState,{
@@ -37,15 +38,19 @@ const todoReducer = createReducer<TTodoListState, TTodoAction>(initialState,{
             todo.id === action.payload ? {...todo, done: !todo.done } : todo
         ),
     }),
-    [actions.TOGGLE_MENU_TODO]: (state, action ) => ({
-        ...state,
-        toggleMenu: !state.toggleMenu
-    }),
     [actions.RESET_TODO]: (state, action) => ({
         ...state,
         todoItems: initialState.todoItems,
         currentId: initialState.currentId,
-    })
+    }),
+    [actions.TOGGLE_MENU_TODO]: (state, action ) => ({
+        ...state,
+        toggleMenu: !state.toggleMenu
+    }),
+    [actions.TOGGLE_REMOVE_TODO]: (state, action ) => ({
+        ...state,
+        toggleRemove: !state.toggleRemove
+    }),
 })
 
 export default todoReducer;

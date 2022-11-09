@@ -11,6 +11,7 @@ export type TTodoListState = {
     todoItems: TTodoItemParams[];
     currentId: number;
     toggleMenu: boolean;
+    toggleRemove: boolean;
 }
 
 

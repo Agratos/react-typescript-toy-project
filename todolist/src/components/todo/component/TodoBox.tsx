@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { css } from 'styled-components';
 
-import { toggleTodo } from 'src/modules/actions/todo';
-import { TTodoItemParams } from 'src/modules/types/todo';
-
+import { RootState } from 'src/modules';
+import { toggleTodo, removeTodo } from 'src/modules/actions/todo';
 interface ITodoBoxPros {
     id: number;
     text: string;
@@ -13,13 +12,14 @@ interface ITodoBoxPros {
 
 const TodoBox = ({id, text, done }:ITodoBoxPros) => {
     const dispatch = useDispatch();
-
+    const { toggleRemove } = useSelector(({todo}:RootState) => ({toggleRemove: todo.toggleRemove}))
     const handleTodoToggle = () => {
         dispatch(toggleTodo(id)); // toggle 변경
     }
 
-    const handleRightClick = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const handleContextMenu = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
+        dispatch(removeTodo(id));
     }
 
     return(
@@ -27,7 +27,7 @@ const TodoBox = ({id, text, done }:ITodoBoxPros) => {
             <Box 
                 done={done}
                 onClick={handleTodoToggle}
-                onContextMenu={(e) => handleRightClick(e)}
+                onContextMenu={(e) => toggleRemove && handleContextMenu(e)}
                 draggable
             >
                 {text}

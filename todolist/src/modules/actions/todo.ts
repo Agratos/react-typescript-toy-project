@@ -8,6 +8,7 @@ export const REMOVE_TODO = 'todo/REMOVE_TODO' as const;
 export const TOGGLE_TODO = 'todo.TOGGLE_TODO' as const;
 export const RESET_TODO = 'todo/RESET_TODO' as const;
 export const TOGGLE_MENU_TODO = 'todo/TOGGLE_MENU_TODO' as const;
+export const TOGGLE_REMOVE_TODO = 'todo/TOGGLE_REMOVE_TODO' as const;
 
 /** 액션 생성 함수 **/
 /**
@@ -22,3 +23,4 @@ export const removeTodo = createAction(REMOVE_TODO)<number>(); // id값 전달
 export const toggleTodo = createAction(TOGGLE_TODO)<number>(); // id값 전달
 export const resetTodo = createAction(RESET_TODO)();
 export const toggleMenuTodo = createAction(TOGGLE_MENU_TODO)();
+export const toggleRemoveTodo = createAction(TOGGLE_REMOVE_TODO)();
