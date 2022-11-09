@@ -41,7 +41,6 @@ const Wrapper = styled.div`
     text-align: center;
     position: absolute;
     top: 0px;
-    left: -600px;
     z-index: -1;
 `;
 const TestSvg = styled(Test)<{dasharray:number, dashoffset: number}>`

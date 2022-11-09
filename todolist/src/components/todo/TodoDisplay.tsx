@@ -48,6 +48,8 @@ const Wrapper = styled.div`
     ::-webkit-scrollbar{ // 크롬 사파리 오페라 엣지
         display: none;
     }
+
+    z-index: 1;
 `;
 const BodyWrapper = styled.div`
     flex: 1;

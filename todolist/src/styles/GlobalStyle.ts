@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Jua', sans-serif;
         font-size: 16px;
 
+        overflow: hidden;
         resize: none;
     }
 `;

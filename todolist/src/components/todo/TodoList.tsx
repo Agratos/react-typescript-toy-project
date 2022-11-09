@@ -13,7 +13,9 @@ const TodoList = () => {
                 <TodoDisplay />
                 <TodoInput />
             </TodoWrapper>
-            <Animation />
+            <AnimationWrapper>
+                <Animation />
+            </AnimationWrapper>
         </Wrapper>
     )
 }
@@ -29,8 +31,6 @@ const Wrapper = styled.div`
     width: 100%;
 
     background-color: #131414eb;
-
-    z-index: 1;
 `;
 const TodoWrapper = styled.div`
     display: flex;
@@ -43,6 +43,16 @@ const TodoWrapper = styled.div`
     box-shadow: 12px 12px 8px 1px #77838f;
 
     background-color: #b5c7d9;
+
+    z-index: 1;
+`;
+const AnimationWrapper = styled.div`
+    position: absolute;
+    width: 100%;
+    left: -30%;
+    top: 0;
+    
+    z-index: 1;
 `;
 
 export default TodoList;
