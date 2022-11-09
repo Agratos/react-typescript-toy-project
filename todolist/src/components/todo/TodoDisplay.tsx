@@ -3,11 +3,14 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import TodoBox from './component/TodoBox';
-
 import { RootState } from 'src/modules';
+import { todoProperties } from 'src/assets/properties/todoProperties';
 
 const TodoDisplay = () => {
-    const todos = useSelector(({todo}:RootState) => todo.todoItems);
+    const {todos, toggleMenu} = useSelector(({todo}:RootState) => ({
+        todos:todo.todoItems, 
+        toggleMenu:todo.toggleMenu
+    }));
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -22,19 +25,29 @@ const TodoDisplay = () => {
 
     return(
         <Wrapper ref={wrapperRef}>
-            <BodyWrapper >
-                {/* <span>{`<`}</span>{` 일일 계획 `}<span>{`>`}</span> */}
-                {' < 일일 계획 >'}
-                {todos.map(({text, id, done}) => (
-                    <TodoBox 
-                        key={id}
-                        id={id}
-                        text={text}
-                        done={done}
-                        todos={todos}
-                    />
+            
+            {toggleMenu ?
+                <BodyWrapper>
+                {`< 사용 방법 >`}
+                {todoProperties.howToUse.map((text) => (
+                    <Text key={text}>
+                        {text}
+                    </Text>
                 ))}
-            </BodyWrapper>
+                </BodyWrapper>
+                :
+                <BodyWrapper >
+                {' < 일일 계획 >'}
+                    {todos.map(({text, id, done}) => (
+                        <TodoBox 
+                            key={id}
+                            id={id}
+                            text={text}
+                            done={done}
+                        />
+                    ))}
+                </BodyWrapper>
+                }
         </Wrapper>
     )
 }
@@ -54,6 +67,10 @@ const Wrapper = styled.div`
 const BodyWrapper = styled.div`
     flex: 1;
     margin-top: 16px;
+`;
+const Text = styled.div`
+    margin-top: 16px;
+    color: #206608da;
 `;
 
 

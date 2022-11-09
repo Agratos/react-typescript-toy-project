@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 import { addTodo } from 'src/modules/actions/todo';
+import removeBlank from 'src/utils/removeBlank';
 
 const TodoInput = () => {
     const dispatch = useDispatch();
@@ -15,12 +16,13 @@ const TodoInput = () => {
     },[])
 
     const handleResigisterButtonClick = () => {
-        if(inputRef.current!.value.replace(' ','') === ''){
+        if(removeBlank(inputRef.current!.value) === ''){
+            inputRef.current!.value = '';
             return false;
         }else{
             dispatch(addTodo({text: inputRef.current!.value,})) // store에 저장
 
-            inputRef.current!.value = ''; // 초기화
+            inputRef.current!.value = '';
         }
     }
 

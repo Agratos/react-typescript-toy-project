@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { BiLeftArrowAlt, BiMenu } from 'react-icons/bi';
 
-import { resetTodo } from 'src/modules/actions/todo';
-
+import { resetTodo, toggleMenuTodo } from 'src/modules/actions/todo';
 import CheckModal from '../modal/CheckModal';
+import { RootState } from 'src/modules';
 
 const TodoHeader = () => {
     const dispatch = useDispatch();
+    const {toggleMenu} = useSelector(({todo}:RootState) => ({toggleMenu:todo.toggleMenu}));
     const [onClickModal, setOnClickModal] = useState<boolean>(false);
 
     const handleReset = () => {
@@ -17,17 +18,26 @@ const TodoHeader = () => {
         setOnClickModal(false);
     }
 
+    const handleMenu = () => {
+        dispatch(toggleMenuTodo());
+    }
+
+    console.log(toggleMenu);
+
     return(
         <Wrapper>
             <ResetWrapper>
                 <BiLeftArrowAlt 
                     size={30} 
-                    onClick={() => setOnClickModal(true)}
+                    onClick={() => !toggleMenu && setOnClickModal(true)}
                 />
             </ResetWrapper>
             <Title>카카오톡 Todolist</Title>
             <MenuWrapper>
-                <BiMenu size={30} />
+                <BiMenu 
+                    size={30}
+                    onClick={handleMenu}
+                />
             </MenuWrapper>
             {onClickModal && 
                 <CheckModal 
@@ -59,4 +69,4 @@ const Title = styled.div`
     margin-left: 16px;
     font-size: 20px;
 `;
-export default TodoHeader
+export default React.memo(TodoHeader);

@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import TodoHeader from './TodoHeader';
@@ -5,13 +6,19 @@ import TodoDisplay from './TodoDisplay';
 import TodoInput from './TodoInput';
 import Animation from 'src/components/svg/Animation';
 
+import { RootState } from 'src/modules';
+
 const TodoList = () => {
+    const toggleMenu = useSelector(({todo}:RootState) => todo.toggleMenu);
+    
     return(
-        <Wrapper>
+        <Wrapper
+            onContextMenu={(e) => e.preventDefault()}
+        >
             <TodoWrapper>
                 <TodoHeader />
                 <TodoDisplay />
-                <TodoInput />
+                {!toggleMenu && <TodoInput />}
             </TodoWrapper>
             <AnimationWrapper>
                 <Animation />
@@ -44,7 +51,7 @@ const TodoWrapper = styled.div`
 
     background-color: #b5c7d9;
 
-    z-index: 1;
+    z-index: 2;
 `;
 const AnimationWrapper = styled.div`
     position: absolute;

@@ -9,36 +9,17 @@ interface ITodoBoxPros {
     id: number;
     text: string;
     done: boolean;
-    todos: TTodoItemParams[];
 }
 
-const TodoBox = ({id, text, done, todos}:ITodoBoxPros) => {
+const TodoBox = ({id, text, done }:ITodoBoxPros) => {
     const dispatch = useDispatch();
-    const [contextMenuClick, setContextMenuClick] = useState<boolean>(false);
-    const dragItem = React.useRef<any>(null);
-    const dragOverItem = React.useRef<any>(null);
-
 
     const handleTodoToggle = () => {
         dispatch(toggleTodo(id)); // toggle 변경
     }
 
-    const handleSort = () => {
-        let tempTodos = [...todos]
-
-        const draggedItemContent = tempTodos.splice(dragItem.current, 1)[0]
-
-        tempTodos.splice(dragOverItem.current, 0, draggedItemContent);
-
-        dragItem.current = null;
-        dragOverItem.current = null;
-
-        console.log(tempTodos);
-    }
-
     const handleRightClick = (e:React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
-        setContextMenuClick(!contextMenuClick);
     }
 
     return(
@@ -46,10 +27,6 @@ const TodoBox = ({id, text, done, todos}:ITodoBoxPros) => {
             <Box 
                 done={done}
                 onClick={handleTodoToggle}
-                // onDragStart={(e) => dragItem.current = id}
-                // onDragEnter={(e) => dragOverItem.current = id}
-                // onDragEnd={handleSort}
-                // onDragOver={(e) => e.preventDefault()}
                 onContextMenu={(e) => handleRightClick(e)}
                 draggable
             >

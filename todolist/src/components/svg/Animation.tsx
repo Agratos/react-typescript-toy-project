@@ -19,7 +19,6 @@ const Animation = () => {
     useEffect(() => { // 성능 개선?
         const draw = setTimeout(() => {
             calcDashoffset();
-            console.log('작동중');
         }, 25)
         
         if(!dashoffset) clearInterval(draw);
