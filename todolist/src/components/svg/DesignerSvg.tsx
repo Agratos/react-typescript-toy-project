@@ -65,11 +65,7 @@ const Svg = styled(Pointi)`
         stroke-dashoffset: 204.00021362304688;
         animation: line-animation 2s ease forwards 1.8s;
     }
-    /* > path:nth-child(9){
-        stroke-dasharray: 488.05950927734375;
-        stroke-dashoffset: 488.05950927734375;
-        animation: line-animation 2s ease forwards 2.1s;
-    } */
+
 
     @keyframes line-animation {
         to{

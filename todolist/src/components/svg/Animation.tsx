@@ -9,9 +9,10 @@ interface ISvgAnimationProps {
     size: number;
     spead: number;
     color: string;
+    scale: number;
 }
 
-const Animation = ({Svg, id, size, spead, color}:ISvgAnimationProps) => {
+const Animation = ({Svg, id, size, spead, color, scale}:ISvgAnimationProps) => {
     const [dasharray, setDashArray] = useState<number>(0)
     const [dashoffset, setDashOffset] = useState<number>(0);
 
@@ -36,10 +37,9 @@ const Animation = ({Svg, id, size, spead, color}:ISvgAnimationProps) => {
     return (
         <Wrapper color={color}>
             <Svg 
-                stroke='green'
                 strokeDasharray={dasharray} 
                 strokeDashoffset={dashoffset}
-                
+                transform={`scale(${scale})`}
             />
         </Wrapper>
     )

@@ -33,13 +33,10 @@ const TodoList = () => {
                     size={1}
                     spead={5}
                     color={'white'}
+                    scale={0.85}
                 />
             </AnimationWrapper>
-            {/* <StrokeAnimation 
-                svg={HeaderTitle}
-                id={'header-title.svg'}
-                size={HeaderTitle.length}
-            /> */}
+
         </Wrapper>
     )
 }
