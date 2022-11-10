@@ -8,6 +8,8 @@ import Animation from 'src/components/svg/Animation';
 
 import { RootState } from 'src/modules';
 
+import KakaoTodoBakground from 'src/assets/images/svg/kakao-todo-bakground.svg';
+
 const TodoList = () => {
     const toggleMenu = useSelector(({todo}:RootState) => todo.toggleMenu);
     
@@ -21,7 +23,12 @@ const TodoList = () => {
                 {!toggleMenu && <TodoInput />}
             </TodoWrapper>
             <AnimationWrapper>
-                <Animation />
+                <Animation 
+                    svg={KakaoTodoBakground}
+                    id={'kakao-todo-bakground_svg'}
+                    size={1}
+                    spead={1}
+                />
             </AnimationWrapper>
         </Wrapper>
     )
@@ -56,9 +63,8 @@ const TodoWrapper = styled.div`
 const AnimationWrapper = styled.div`
     position: absolute;
     width: 100%;
-    left: -30%;
-    top: 0;
-    
+    top: 24px;
+    left: 5%;
     z-index: 1;
 `;
 
