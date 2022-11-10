@@ -21,20 +21,24 @@ const StrokeAnimation = ({Svg, id, size}:ISvgStrokeAnimationProps) => {
 
     return(
         <Wapper>
-            <SvgWrapper>
+            <SvgWrapper dasharray={dasharray} dashoffset={dashoffset}>
                 <Svg />
             </SvgWrapper>
         </Wapper>
     )
 }
-const createCSS = () => {
+const createCSS = (dasharray: number[], dashoffset: number[]) => {
     let styles:string = '';
 
     styles += `
-        animation: fill-white-svg 2s ease forwards 3s;
-        mask{
-            animation: fill-white-mask 2s ease forwards 3.5s;
-        }
+        transform: scale(1);
+
+        //animation: fill-white-svg 2s ease forwards 3s;
+
+        // mask{
+        //     animation: fill-white-mask 2s ease forwards 3.5s;
+        // }
+
         @keyframes line-animation {
             to{
                 stroke-dashoffset: 0;
@@ -50,18 +54,17 @@ const createCSS = () => {
         }
         @keyframes fill-white-svg {
             to {
-            //transform: rotate(360deg);
                 fill: white;
             }
         }
-    `
+    `  
 
-    for(let i = 0; i < 8 ; i++){
+    for(let i = 0 ; i < 8 ; i++){
         styles += `
-            > path:nth-child(${i + 1}){
-                stroke-dasharray: 371.52294921875;
-                stroke-dashoffset: 371.52294921875;
-                animation: line-animation 2s ease forwards;
+            & path:nth-child(${i + 2}){
+                stroke-dasharray: ${dasharray[i]};
+                stroke-dashoffset: ${dashoffset[i]};
+                animation: line-animation 2s ease forwards ${0.3 * i}s;
             }
         `
     }
@@ -70,10 +73,9 @@ const createCSS = () => {
 const Wapper = styled.div`
     width: 100%;
     height: 100%;
-    background-color: rgb(233, 233, 233);   
 `;
-const SvgWrapper = styled.div`
-    ${createCSS()}
+const SvgWrapper = styled.div<{dasharray:number[], dashoffset:number[]}>`
+    ${({dasharray, dashoffset}) => createCSS(dasharray, dashoffset)}
 `;
 
 export default StrokeAnimation;

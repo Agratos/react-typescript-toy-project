@@ -36,7 +36,11 @@ const TodoList = () => {
                     scale={0.85}
                 />
             </AnimationWrapper>
-
+            {/* <StrokeAnimation 
+                Svg={HeaderTitle}
+                id={'header-title_svg'}
+                size={8}
+            /> */}
         </Wrapper>
     )
 }
@@ -70,7 +74,8 @@ const TodoWrapper = styled.div`
 const AnimationWrapper = styled.div`
     position: absolute;
     width: 100%;
-    top: 24px;
+    top: 27px;
+    right: 24px;
     z-index: 1;
 `;
 

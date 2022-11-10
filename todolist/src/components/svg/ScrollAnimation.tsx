@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 
-import Test from 'src/assets/images/svg/test.svg';
+import Svg from 'src/assets/images/svg/header-title.svg';
 
 import getTotalLength from 'src/utils/getTotalLength';
-
-interface ISvgScrollAnimation {
-    dasharray : number;
-    dashoffset: number;
-}
 
 const ScrollAnimation = () => {
     const [dasharray, setDashArray] = useState<number>(0)
@@ -16,7 +11,7 @@ const ScrollAnimation = () => {
     const wrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => { // 변수 설정
-        const temp = getTotalLength({id: 'test_svg', size: 1})[0];
+        const temp = getTotalLength({id: 'header-title_svg', size: 1})[0];
         setDashArray(temp);
         setDashOffset(temp);
     },[])
@@ -37,23 +32,18 @@ const ScrollAnimation = () => {
     }
 
     return (
-        <Wrapper ref={wrapperRef}>
-            <TestSvg dasharray={dasharray} dashoffset={dashoffset}/>
+        <Wrapper ref={wrapperRef} color={'white'}>
+            <Svg strokeDasharray={dasharray} strokeDashoffset={dashoffset}/>
         </Wrapper>
     )
 }
-const Wrapper = styled.div`
+const Wrapper = styled.div<{color: string}>`
     width: 100%;
     height: 100%;
     text-align: center;
     background-color: black;
-`;
-const TestSvg = styled(Test)<{dasharray:number, dashoffset: number}>`
-    //margin-top: 20%;
-    > path {
-        stroke: white;
-        stroke-dasharray: ${({dasharray}) => dasharray};
-        stroke-dashoffset: ${({dashoffset}) => dashoffset}
+    & path {
+        stroke: ${({color}) => color};
     }
 `;
 
