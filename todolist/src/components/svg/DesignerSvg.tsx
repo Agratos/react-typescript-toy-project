@@ -7,8 +7,6 @@ import Pointi from 'src/assets/images/svg/pointi.svg';
 import useGetTotalLength from 'src/hooks/useGetTotalLength';
 
 const DesignerSvg = () => {
-    console.log(useGetTotalLength({id:'pointi_svg', size:7}))
-
     return(
         <Wapper>
             <Svg />

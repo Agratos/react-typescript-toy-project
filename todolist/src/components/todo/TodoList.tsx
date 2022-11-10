@@ -5,14 +5,18 @@ import TodoHeader from './TodoHeader';
 import TodoDisplay from './TodoDisplay';
 import TodoInput from './TodoInput';
 import Animation from 'src/components/svg/Animation';
+import StrokeAnimation from '../svg/StrokeAnimation';
 
 import { RootState } from 'src/modules';
 
 import KakaoTodoBakground from 'src/assets/images/svg/kakao-todo-bakground.svg';
+import HeaderTitle from 'src/assets/images/svg/header-title.svg';
 
 const TodoList = () => {
     const toggleMenu = useSelector(({todo}:RootState) => todo.toggleMenu);
     
+    console.log(HeaderTitle.length);
+
     return(
         <Wrapper
             onContextMenu={(e) => e.preventDefault()}
@@ -24,12 +28,18 @@ const TodoList = () => {
             </TodoWrapper>
             <AnimationWrapper>
                 <Animation 
-                    svg={KakaoTodoBakground}
+                    Svg={KakaoTodoBakground}
                     id={'kakao-todo-bakground_svg'}
                     size={1}
-                    spead={1}
+                    spead={5}
+                    color={'white'}
                 />
             </AnimationWrapper>
+            {/* <StrokeAnimation 
+                svg={HeaderTitle}
+                id={'header-title.svg'}
+                size={HeaderTitle.length}
+            /> */}
         </Wrapper>
     )
 }
@@ -64,7 +74,6 @@ const AnimationWrapper = styled.div`
     position: absolute;
     width: 100%;
     top: 24px;
-    left: 5%;
     z-index: 1;
 `;
 
