@@ -1,9 +1,16 @@
-const divCommon = {};
+const div = {
+    vhCenter: `
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    `
+};
 const fontSize = {};
 const fontFamily = {};
 
 const theme = {
-    divCommon,
+    div,
     fontSize,
     fontFamily,
 };
