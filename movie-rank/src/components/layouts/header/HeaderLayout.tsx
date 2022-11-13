@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import StrokeAnimation from 'src/components/svg/StrokeAnimation';
-import HeaderTitle from 'src/assets/images/svg/header-title.svg';
+import HeaderTitle from 'src/assets/images/svg/movie-rank-title.svg';
 
 const HeaderLayout = () => {
     return (
@@ -14,8 +14,8 @@ const HeaderLayout = () => {
                 <TitleWrapper>
                     <StrokeAnimation 
                         Svg={HeaderTitle}
-                        id={'header-title_svg'}
-                        size={8}
+                        id={'movie-rank-title_svg'}
+                        size={7}
                     />
                     {/* <StrokeAnimation 
                         Svg={HeaderTitle}

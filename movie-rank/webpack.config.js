@@ -2,8 +2,10 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
+const dotenv = require("dotenv");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
+dotenv.config();
 
 module.exports = {
   mode: isDevelopment ? "development" : "production",
@@ -20,6 +22,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "./public/index.html",
+    }),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env),
     }),
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
     isDevelopment && new ReactRefreshWebpackPlugin(),

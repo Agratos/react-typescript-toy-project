@@ -5,10 +5,11 @@ import loaclStoreService from 'src/utils/loaclStoreService';
 axios.defaults.withCredentials = true;
 
 export default {
-    get: async (url: string) => {
+    get: async (url: string, config: object) => {
         return await axios.get(
-            url,
-            httpServer.authorization(loaclStoreService.get('token') as string)
+            url, 
+            config
+            // httpServer.authorization(loaclStoreService.get('token') as string)
         )
     },
 
