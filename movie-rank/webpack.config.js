@@ -1,10 +1,10 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
-const path = require("path");
 const webpack = require("webpack");
-const dotenv = require("dotenv");
-
+const path = require("path");
+const proxy = require('./src/setupProxy');
 const isDevelopment = process.env.NODE_ENV !== "production";
+const dotenv = require("dotenv");
 dotenv.config();
 
 module.exports = {
@@ -12,7 +12,8 @@ module.exports = {
   entry: "./src/index.tsx",
   devServer: {
     hot: true,
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: proxy
   },
   target: "web",
   output: {
