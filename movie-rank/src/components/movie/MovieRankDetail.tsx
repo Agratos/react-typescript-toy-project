@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
-import axios from 'axios';
 import movieApi from 'src/apis/movieApi';
-import sendApi from 'src/apis/sendApi';
 
 const MovieRankDetail = () => {
     useEffect(() => {

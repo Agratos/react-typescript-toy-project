@@ -3,7 +3,7 @@ import { persistReducer } from 'redux-persist';
 import sessionStorage from 'redux-persist/es/storage/session';
 //import storage from 'redux-persist/lib/storage';
 
-import todoReducer from './reducers/todo';
+//import todoReducer from './reducers/todo';
 
 const persistConfig = {
     key: 'root',
@@ -13,7 +13,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
-    todo: todoReducer,
+    //todo: todoReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);
