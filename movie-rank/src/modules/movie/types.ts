@@ -4,9 +4,9 @@ import { ActionType } from 'typesafe-actions';
 export type MovieAction = ActionType<typeof actions>;
 
 export interface BoxOfficeResult {
-    boxofficeType: string,
-    showRange: string,
-    dailyBoxOfficeList: []
+        boxofficeType: string,
+        showRange: string,
+        dailyBoxOfficeList: []
 }
 
 export type MovieState = {

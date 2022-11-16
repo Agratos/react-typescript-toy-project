@@ -1,17 +1,24 @@
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import axios from 'axios';
-import movieApi from 'src/apis/movieApi';
+import { RootState } from 'src/modules';
+import { getMoviRankAsync } from 'src/modules/movie/actions';
 
 const MovieRankDetail = () => {
+    const dispatch = useDispatch();
+    const movieList = useSelector((state: RootState) => state.movie.dailyBoxOfficeList);
+
     useEffect(() => {
-        movieApi.getDailyBoxOfficeList({targetDt: 20221113}).then((res) => console.log(res));
+        dispatch(getMoviRankAsync.request({targetDt: 20221115}));
     },[])
+
+    console.log('movieList: ', movieList);
 
     return (
         <Wrapper>
             rank detail
+            
         </Wrapper>
     )
 }

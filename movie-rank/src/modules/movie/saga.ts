@@ -12,6 +12,6 @@ function* getUserProfileSaga(action: ReturnType<typeof getMoviRankAsync.request>
   }
 }
 
-export function* githubSaga() {
+export function* movieSaga() {
   yield takeEvery(GET_MOVIE_RANK, getUserProfileSaga);
 }
