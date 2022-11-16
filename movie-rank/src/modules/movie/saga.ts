@@ -13,7 +13,7 @@ import createAsyncSaga from '../createAsyncSaga';
 //   }
 // }
 
-const getMovieDailyRank = createAsyncSaga(getMoviRankAsync, getTest)
+const getMovieDailyRank = createAsyncSaga(getMoviRankAsync, movieApi.getDailyBoxOfficeList)
 
 export function* movieSaga() {
   yield takeEvery(GET_MOVIE_RANK, getMovieDailyRank);

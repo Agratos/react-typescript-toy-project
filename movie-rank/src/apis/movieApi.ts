@@ -9,8 +9,8 @@ export default {
     // getDailyBoxOfficeList: ({targetDt} : {targetDt: number}) => {
     //     return api.get<BoxOfficeResult>(`/api/movie/searchDailyBoxOfficeList.json?key=${process.env.MOVIE_KEY}&targetDt=${targetDt}`)
     // }
-    getDailyBoxOfficeList: (targetDt: number) => {
-        api.get<BoxOfficeResult>(`/api/movie/searchDailyBoxOfficeList.json?key=${process.env.MOVIE_KEY}&targetDt=${targetDt}`)
+    getDailyBoxOfficeList: (targetDt: number): Promise<BoxOfficeResult> => {
+        return api.get<BoxOfficeResult>(`/api/movie/searchDailyBoxOfficeList.json?key=${process.env.MOVIE_KEY}&targetDt=${targetDt}`)
     }
 }
 

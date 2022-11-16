@@ -14,7 +14,7 @@ const MovieRankDetail = () => {
         dispatch(getMoviRankAsync.request(20221115));
     },[])
 
-    console.log('movieList: ', movieList);
+    console.log('movieList: ', movieList.data?.data.boxOfficeResult.dailyBoxOfficeList);
 
     return (
         <Wrapper>
