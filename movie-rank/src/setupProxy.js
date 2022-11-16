@@ -7,4 +7,12 @@ module.exports = {
           '^/api/movie': '',
         }
     },
+
+    '/api/github': {
+        target: 'https://api.github.com',
+        changeOrigin: true,
+        pathRewrite: {
+            '^/api/github': '',
+        }
+    }
 }

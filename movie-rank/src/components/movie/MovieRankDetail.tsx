@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
 
+import axios from 'axios';
 import movieApi from 'src/apis/movieApi';
 
 const MovieRankDetail = () => {
     useEffect(() => {
-        movieApi.getWeeklyBoxOfficeList({targetDt: 20221113}).then((res) => console.log(res));
+        movieApi.getDailyBoxOfficeList({targetDt: 20221113}).then((res) => console.log(res));
     },[])
 
     return (

@@ -23,6 +23,7 @@
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.2.1",
+    "redux-thunk": "^2.4.2",
     "styled-components": "^5.3.5",
     "typesafe-actions": "^5.1.0"
   },
