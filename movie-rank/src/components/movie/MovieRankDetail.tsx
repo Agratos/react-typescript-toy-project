@@ -10,7 +10,8 @@ const MovieRankDetail = () => {
     const movieList = useSelector((state: RootState) => state.movie.dailyBoxOfficeList);
 
     useEffect(() => {
-        dispatch(getMoviRankAsync.request({targetDt: 20221115}));
+        //dispatch(getMoviRankAsync.request({targetDt: 20221115}));
+        dispatch(getMoviRankAsync.request(20221115));
     },[])
 
     console.log('movieList: ', movieList);

@@ -1,6 +1,7 @@
 import { createReducer } from 'typesafe-actions';
 import { MovieState, MovieAction } from './types';
 import { GET_MOVIE_RANK, GET_MOVIE_RANK_ERROR, GET_MOVIE_RANK_SUCCESS } from './actions';
+//import { GET_MOVIE_RANK } from './actions';
 
 const initialState: MovieState = {
     dailyBoxOfficeList: {
