@@ -1,6 +1,6 @@
 import { createAsyncAction } from 'typesafe-actions';
 import { AxiosError } from 'axios';
-import { BoxOfficeResult } from './types';
+import { BoxOfficeResult, IDailyBoxOfficeList } from './types';
 import createActionTypes from '../createActionTypes';
 
 export const GET_MOVIE_RANK = 'movie/GET_MOVIE_RANK';

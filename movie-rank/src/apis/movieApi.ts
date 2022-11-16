@@ -1,5 +1,5 @@
 import api from './common';
-import { BoxOfficeResult } from 'src/modules/movie/types';
+import { BoxOfficeResult, IDailyBoxOfficeList } from 'src/modules/movie/types';
 import axios from 'axios';
 
 export default {

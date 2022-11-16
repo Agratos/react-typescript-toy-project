@@ -25,7 +25,7 @@ const movie = createReducer<MovieState, MovieAction>(initialState, {
         dailyBoxOfficeList: {
             loading: false,
             error: null,
-            data: action.payload
+            data: action.payload.data.boxOfficeResult
         }
     }),
     [GET_MOVIE_RANK_ERROR]: (state, action) => ({

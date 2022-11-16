@@ -21,6 +21,6 @@ export type MovieState = {
     dailyBoxOfficeList: {
         loading: boolean;
         error: Error | null;
-        data:  BoxOfficeResult | null;
+        data:  IDailyBoxOfficeList | null;
     }
 };

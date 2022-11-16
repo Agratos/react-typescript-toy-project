@@ -10,19 +10,26 @@ const MovieRankDetail = () => {
     const movieList = useSelector((state: RootState) => state.movie.dailyBoxOfficeList);
 
     useEffect(() => {
-        //dispatch(getMoviRankAsync.request({targetDt: 20221115}));
         dispatch(getMoviRankAsync.request(20221115));
     },[])
 
-    console.log('movieList: ', movieList.data?.data.boxOfficeResult.dailyBoxOfficeList);
+    console.log('movieList: ', movieList.data?.dailyBoxOfficeList);
 
     return (
         <Wrapper>
             rank detail
-            
+            <div>
+                {movieList.data?.dailyBoxOfficeList.map(({movieNm}, index) => (
+                    <div key={movieNm}>
+                        {index+1 + ': ' + movieNm}
+                    </div>
+                ))}
+            </div>
         </Wrapper>
     )
 }
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    font-size: 24px;
+`;
 
 export default MovieRankDetail;
