@@ -18,6 +18,7 @@ export interface IDailyBoxOfficeList {
 }
 
 export type MovieState = {
+    targetDt: number | null;
     dailyBoxOfficeList: {
         loading: boolean;
         error: Error | null;

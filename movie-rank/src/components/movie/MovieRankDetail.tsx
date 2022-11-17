@@ -1,23 +1,32 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { RootState } from 'src/modules';
-import { getMoviRankAsync } from 'src/modules/movie/actions';
+import { setTargetDate, getMoviRankAsync } from 'src/modules/movie/actions';
 
 const MovieRankDetail = () => {
     const dispatch = useDispatch();
     const movieList = useSelector((state: RootState) => state.movie.dailyBoxOfficeList);
+    const targetDt = useSelector((state: RootState) => state.movie.targetDt);
+
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        dispatch(getMoviRankAsync.request(20221115));
-    },[])
+        targetDt && dispatch(getMoviRankAsync.request(targetDt));
+    },[targetDt])
 
-    console.log('movieList: ', movieList.data?.dailyBoxOfficeList);
+    const onClickTargetDtButton = () => {
+        dispatch(setTargetDate(Number(inputRef.current?.value)));
+    }
 
     return (
         <Wrapper>
             rank detail
+            <input type={'number'} ref={inputRef}/>
+            <button onClick={onClickTargetDtButton}>
+                입력
+            </button>
             <div>
                 {movieList.data?.dailyBoxOfficeList.map(({movieNm}, index) => (
                     <div key={movieNm}>
