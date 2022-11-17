@@ -15,3 +15,4 @@ State management
 ## 3. Todolist
 카카오톡 UI Todolist
 ## 4. Movie Rank
+redux-saga typesafe-actions
