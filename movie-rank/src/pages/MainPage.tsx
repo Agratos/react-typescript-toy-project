@@ -1,16 +1,20 @@
 import styled from 'styled-components';
 
-import MovieRankBanner from 'src/components/movie/MovieRankBanner';
-import MovieRankDetail from 'src/components/movie/MovieRankDetail';
+import MovieSearch from 'src/components/movie/MovieSearch';
+import MovieRank from 'src/components/movie/MovieRank';
 
 const MainPage = () => {
     return (
         <Wrapper>
-            <MovieRankBanner/>
-            <MovieRankDetail />
+            <MovieSearch />
+            <MovieRank />
         </Wrapper>
     )
 }
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    ${({theme}) => theme.div.vhCenter}
+    flex: 1;
+    background-color: #282828;
+`;
 
 export default MainPage;
