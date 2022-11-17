@@ -1,6 +1,7 @@
 import { createReducer } from 'typesafe-actions';
 import { MovieState, MovieAction } from './types';
-import { GET_MOVIE_RANK, GET_MOVIE_RANK_ERROR, GET_MOVIE_RANK_SUCCESS } from './actions';
+import { getMoviRankAsync } from './actions';
+import { GET_MOVIE_RANK_REQUEST, GET_MOVIE_RANK_FAILURE, GET_MOVIE_RANK_SUCCESS } from './actions';
 //import { GET_MOVIE_RANK } from './actions';
 
 const initialState: MovieState = {
@@ -12,7 +13,7 @@ const initialState: MovieState = {
 };
 
 const movie = createReducer<MovieState, MovieAction>(initialState, {
-    [GET_MOVIE_RANK]: state => ({
+    [GET_MOVIE_RANK_REQUEST]: state => ({
         ...state,
         dailyBoxOfficeList: {
             loading: true,
@@ -28,7 +29,7 @@ const movie = createReducer<MovieState, MovieAction>(initialState, {
             data: action.payload.data.boxOfficeResult
         }
     }),
-    [GET_MOVIE_RANK_ERROR]: (state, action) => ({
+    [GET_MOVIE_RANK_FAILURE]: (state, action) => ({
         ...state,
         dailyBoxOfficeList: {
             loading: false,

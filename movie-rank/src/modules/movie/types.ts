@@ -1,7 +1,7 @@
 import * as actions from './actions';
 import { ActionType } from 'typesafe-actions';
 
-export type MovieAction = ActionType<typeof actions>;
+export type MovieAction = ActionType<typeof actions >;
 
 export interface BoxOfficeResult {
     data: {

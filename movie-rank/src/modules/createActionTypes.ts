@@ -1,6 +1,8 @@
+import { createCustomAction } from "typesafe-actions";
+
 export default function createActionTypes(type: string){
-    const RUNNING = `${type}_RUNGGING`;
-    const SUCCESS = `${type}_SUCCESS`;
-    const FAILURE = `${type}_FAILURE`;
-    return {RUNNING, SUCCESS, FAILURE};
+    const REQUEST = `${type}_REQUEST` as const;
+    const SUCCESS = `${type}_SUCCESS` as const;
+    const FAILURE = `${type}_FAILURE` as const;
+    return {REQUEST, SUCCESS, FAILURE};
 };

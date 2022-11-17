@@ -1,4 +1,4 @@
-import { getMoviRankAsync, GET_MOVIE_RANK } from './actions';
+import { getMoviRankAsync } from './actions';
 import movieApi from 'src/apis/movieApi';
 import { getTest } from 'src/apis/movieApi';
 import { takeEvery } from 'redux-saga/effects';
@@ -16,5 +16,5 @@ import createAsyncSaga from '../createAsyncSaga';
 const getMovieDailyRank = createAsyncSaga(getMoviRankAsync, movieApi.getDailyBoxOfficeList)
 
 export function* movieSaga() {
-  yield takeEvery(GET_MOVIE_RANK, getMovieDailyRank);
+  yield takeEvery(getMoviRankAsync.request, getMovieDailyRank);
 }
