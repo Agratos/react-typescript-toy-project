@@ -16,3 +16,4 @@ State management
 카카오톡 UI Todolist
 ## 4. Movie Rank
 redux-saga typesafe-actions 비동기 동기 작업 완료
+디자인 작업중
