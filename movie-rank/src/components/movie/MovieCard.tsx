@@ -2,11 +2,12 @@ import styled from 'styled-components';
 
 interface IMovieCard {
     name: string;
-    rank: number;
+    rank: string;
     url: string;
 }
 
-const MovieMainCard = ({name, rank, url}: IMovieCard) => {
+const MovieCard = ({rank, name, url}: IMovieCard) => {
+    console.log(url);
     return (
         <Wrapper>
             <Rank>{`${rank} 위`}</Rank>
@@ -20,12 +21,11 @@ const Rank = styled.div`
     text-align: center;
 `;
 const Poster = styled.img`
-    width: 400px;
-    height: 600px;
+    //width: 300px;
     flex-grow: 0;
 
     border-radius: 10%;
 `;
 const Title = styled(Rank)``;
 
-export default MovieMainCard;
+export default MovieCard;

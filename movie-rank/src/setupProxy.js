@@ -8,11 +8,13 @@ module.exports = {
         }
     },
 
-    '/api/github': {
-        target: 'https://api.github.com',
+    '/naverApi': {
+        target: 'https://openapi.naver.com',
         changeOrigin: true,
         pathRewrite: {
-            '^/api/github': '',
+            '^/naverApi': '',
         }
-    }
+    },
+
+
 }

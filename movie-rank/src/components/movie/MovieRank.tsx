@@ -1,18 +1,20 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { RootState } from 'src/modules';
 import { setTargetDate, getMoviRankAsync } from 'src/modules/movie/actions';
-import MovieSubCard from './MovieSubCard';
-import MovieMainCard from './MovieMainCard';
+import MovieCard from './MovieCard';
 
 import { posterDummy } from 'src/assets/dummies/posterDummy';
+import movieApi from 'src/apis/movieApi';
 
 const MovieRank = () => {
     const dispatch = useDispatch();
     const movieList = useSelector((state: RootState) => state.movie.dailyBoxOfficeList);
     const targetDt = useSelector((state: RootState) => state.movie.targetDt);
+
+    const start = useState<number>(0);
 
     useEffect(() => {
         const now = new Date();
@@ -27,33 +29,28 @@ const MovieRank = () => {
         targetDt && dispatch(getMoviRankAsync.request(targetDt));
     },[targetDt])
 
+    console.log(`movieList: `,movieList);
+
     return (
         <Wrapper>
-            <MovieSubCard 
-                name={'와칸다 포에버'}
-                rank={1}
-                url={posterDummy}
-           />
-           <MovieSubCard 
-                name={'와칸다 포에버'}
-                rank={2}
-                url={posterDummy}
-           />
-           <MovieMainCard 
-                name={'와칸다 포에버'}
-                rank={3}
-                url={posterDummy}
-           />
-           <MovieSubCard 
-                name={'와칸다 포에버'}
-                rank={4}
-                url={posterDummy}
-           />
-           <MovieSubCard 
-                name={'와칸다 포에버'}
-                rank={5}
-                url={posterDummy}
-           />
+            {movieList.data ? 
+                // movieList.data.map(({rank, movieNm, movieUrl}) => (
+                //     <MovieCard
+                //         key={`movie-rank-${rank}`}
+                //         rank={rank}
+                //         name={movieNm}
+                //         url={movieUrl ? movieUrl : ''}
+                //     />
+                // )) : <>loading 중</>
+                movieList.data.filter(data => Number(data.rank) >= 0 && Number(data.rank) <= 3 ).map(({rank, movieNm, movieUrl}) => (
+                    <MovieCard
+                        key={`movie-rank-${rank}`}
+                        rank={rank}
+                        name={movieNm}
+                        url={movieUrl ? movieUrl : ''}
+                    />
+                )) : <>loading 중</>
+            }
         </Wrapper>
     )
 }

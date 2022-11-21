@@ -3,7 +3,7 @@ import { ActionType } from 'typesafe-actions';
 
 export type MovieAction = ActionType<typeof actions >;
 
-export interface BoxOfficeResult {
+export interface IBoxOfficeResult {
     data: {
         boxOfficeResult: {
             boxofficeType: string,
@@ -13,15 +13,22 @@ export interface BoxOfficeResult {
     }
 }
 
-export interface IDailyBoxOfficeList {
-    dailyBoxOfficeList: []
+export interface IMovieState {
+    rank: string,
+    movieNm: string,
+    rankInten: string,
+    movieUrl?: string,
 }
 
-export type MovieState = {
+export interface IMovieInitialState {
     targetDt: number | null;
     dailyBoxOfficeList: {
         loading: boolean;
         error: Error | null;
-        data:  IDailyBoxOfficeList | null;
+        data:  IMovieState[] | null;
+    };
+    movieUrl: {
+        loading: boolean,
+        error: Error | null;
     }
 };

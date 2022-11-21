@@ -1,24 +1,27 @@
 import { createReducer } from 'typesafe-actions';
-import { MovieState, MovieAction } from './types';
-import { getMoviRankAsync } from './actions';
-import { SET_TARGET_DATA, GET_MOVIE_RANK_REQUEST, GET_MOVIE_RANK_FAILURE, GET_MOVIE_RANK_SUCCESS } from './actions';
-//import { GET_MOVIE_RANK } from './actions';
+import { IMovieInitialState, MovieAction } from './types';
+import * as actions from './actions';
+import { setMovieRankList, setMovieUrl } from './utils';
 
-const initialState: MovieState = {
+const initialState: IMovieInitialState = {
     targetDt: null,
     dailyBoxOfficeList: {
         loading: false,
         error: null,
-        data: null
+        data: null,
+    },
+    movieUrl: {
+        loading: false,
+        error: null,
     }
 };
 
-const movie = createReducer<MovieState, MovieAction>(initialState, {
-    [SET_TARGET_DATA]: (state, action) => ({
+const movie = createReducer<IMovieInitialState, MovieAction>(initialState, {
+    [actions.SET_TARGET_DATA]: (state, action) => ({
         ...state,
         targetDt: action.payload
     }),
-    [GET_MOVIE_RANK_REQUEST]: state => ({
+    [actions.GET_MOVIE_RANK_REQUEST]: state => ({
         ...state,
         dailyBoxOfficeList: {
             loading: true,
@@ -26,22 +29,44 @@ const movie = createReducer<MovieState, MovieAction>(initialState, {
             data: null
         }
     }),
-    [GET_MOVIE_RANK_SUCCESS]: (state, action) => ({
+    [actions.GET_MOVIE_RANK_SUCCESS]: (state, action) => ({
         ...state,
         dailyBoxOfficeList: {
             loading: false,
             error: null,
-            data: action.payload.data.boxOfficeResult
+            data: setMovieRankList(action.payload.data.boxOfficeResult.dailyBoxOfficeList)
+            //data: action.payload.data.boxOfficeResult.dailyBoxOfficeList
         }
     }),
-    [GET_MOVIE_RANK_FAILURE]: (state, action) => ({
+    [actions.GET_MOVIE_RANK_FAILURE]: (state, action) => ({
         ...state,
         dailyBoxOfficeList: {
             loading: false,
             error: action.payload,
             data: null
         }
-    })
+    }),
+    [actions.GET_MOVIE_URL_REQUEST]: state => ({
+        ...state,
+        movieUrl: {
+            loading: true,
+            error: null,
+        }
+    }),
+    [actions.GET_MOVIE_URL_REQUEST]: (state, action) => ({
+        ...state,
+        dailyBoxOfficeList: {
+            loading: false,
+            error: null,
+            //data: setMovieRankList(action.payload.data.boxOfficeResult.dailyBoxOfficeList)
+            data: setMovieUrl(action.payload, state.dailyBoxOfficeList.data!)
+        },
+        movieUrl: {
+            loading: false,
+            error: null,
+        }
+    }),
+
 });
 
 export default movie;
