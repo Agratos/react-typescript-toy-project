@@ -12,7 +12,7 @@ const MovieRank = () => {
     const targetDt = useSelector((state: RootState) => state.movie.targetDt);
     const loading = useSelector((state: RootState) => state.movie.loading);
 
-    const start = useState<number>(0);
+    const [start, setStart] = useState<number>(0);
 
     useEffect(() => {
         const now = new Date();
@@ -33,13 +33,16 @@ const MovieRank = () => {
                 dispatch(getMovieUrlAsync.request(movieNm));
             })
             dispatch(setLoading(false))
+            setInterval(() => {
+                setStart((start) => (start + 1) % 10 );
+            }, 3000)
         }
     },[movieList.data])
 
     return (
         <Wrapper>
             {!loading ? 
-                movieList.data?.filter(data => Number(data.rank) >= 0 && Number(data.rank) <= 5 ).map(({rank, movieNm, movieUrl}) => (
+                movieList.data?.filter(data => Number(data.rank) >= start + 1 && Number(data.rank) <= start + 5 ).map(({rank, movieNm, movieUrl}) => (
                     <MovieCard
                         key={`movie-rank-${rank}`}
                         rank={rank}

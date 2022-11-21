@@ -36,12 +36,12 @@ const Title = styled(Rank)`
 const Wrapper = styled.div`
     ${({theme}) => theme.div.vhCenter}
 
-    :hover {
+    /* :hover {
         ${Title} {
             text-overflow: none;
             white-space: normal;
         }
-    }
+    } */
 `;
 
 export default MovieCard;
