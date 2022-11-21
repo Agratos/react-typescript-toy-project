@@ -4,6 +4,7 @@ import * as actions from './actions';
 import { setMovieRankList, setMovieUrl } from './utils';
 
 const initialState: IMovieInitialState = {
+    loading: true,
     targetDt: null,
     dailyBoxOfficeList: {
         loading: false,
@@ -20,6 +21,10 @@ const movie = createReducer<IMovieInitialState, MovieAction>(initialState, {
     [actions.SET_TARGET_DATA]: (state, action) => ({
         ...state,
         targetDt: action.payload
+    }),
+    [actions.LOADING]: (state, action) => ({
+        ...state,
+        loading: action.payload,
     }),
     [actions.GET_MOVIE_RANK_REQUEST]: state => ({
         ...state,
@@ -53,13 +58,13 @@ const movie = createReducer<IMovieInitialState, MovieAction>(initialState, {
             error: null,
         }
     }),
-    [actions.GET_MOVIE_URL_REQUEST]: (state, action) => ({
+    [actions.GET_MOVIE_URL_SUCCESS]: (state, action) => ({
         ...state,
         dailyBoxOfficeList: {
             loading: false,
             error: null,
             //data: setMovieRankList(action.payload.data.boxOfficeResult.dailyBoxOfficeList)
-            data: setMovieUrl(action.payload, state.dailyBoxOfficeList.data!)
+            data: setMovieUrl(action.payload.data.items[0], state.dailyBoxOfficeList.data!)
         },
         movieUrl: {
             loading: false,

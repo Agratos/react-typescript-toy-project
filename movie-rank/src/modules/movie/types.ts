@@ -21,6 +21,7 @@ export interface IMovieState {
 }
 
 export interface IMovieInitialState {
+    loading: boolean;
     targetDt: number | null;
     dailyBoxOfficeList: {
         loading: boolean;

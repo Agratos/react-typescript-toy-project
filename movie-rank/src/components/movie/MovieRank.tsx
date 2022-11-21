@@ -3,16 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { RootState } from 'src/modules';
-import { setTargetDate, getMoviRankAsync } from 'src/modules/movie/actions';
+import { setTargetDate, setLoading, getMoviRankAsync, getMovieUrlAsync } from 'src/modules/movie/actions';
 import MovieCard from './MovieCard';
-
-import { posterDummy } from 'src/assets/dummies/posterDummy';
-import movieApi from 'src/apis/movieApi';
 
 const MovieRank = () => {
     const dispatch = useDispatch();
     const movieList = useSelector((state: RootState) => state.movie.dailyBoxOfficeList);
     const targetDt = useSelector((state: RootState) => state.movie.targetDt);
+    const loading = useSelector((state: RootState) => state.movie.loading);
 
     const start = useState<number>(0);
 
@@ -29,20 +27,19 @@ const MovieRank = () => {
         targetDt && dispatch(getMoviRankAsync.request(targetDt));
     },[targetDt])
 
-    console.log(`movieList: `,movieList);
+    useEffect(() => {
+        if(movieList.data){
+            movieList.data.map(({movieNm}) => {
+                dispatch(getMovieUrlAsync.request(movieNm));
+            })
+            dispatch(setLoading(false))
+        }
+    },[movieList.data])
 
     return (
         <Wrapper>
-            {movieList.data ? 
-                // movieList.data.map(({rank, movieNm, movieUrl}) => (
-                //     <MovieCard
-                //         key={`movie-rank-${rank}`}
-                //         rank={rank}
-                //         name={movieNm}
-                //         url={movieUrl ? movieUrl : ''}
-                //     />
-                // )) : <>loading 중</>
-                movieList.data.filter(data => Number(data.rank) >= 0 && Number(data.rank) <= 3 ).map(({rank, movieNm, movieUrl}) => (
+            {!loading ? 
+                movieList.data?.filter(data => Number(data.rank) >= 0 && Number(data.rank) <= 5 ).map(({rank, movieNm, movieUrl}) => (
                     <MovieCard
                         key={`movie-rank-${rank}`}
                         rank={rank}

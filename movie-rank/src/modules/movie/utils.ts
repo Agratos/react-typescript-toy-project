@@ -1,8 +1,6 @@
 import { IMovieState } from './types';
-import movieApi from 'src/apis/movieApi';
 
 export const setMovieRankList = (data: any) => {
-    console.log(`setMovieRankListData: `,data);
     let result:IMovieState[] = [];
 
     data.map(({rank, movieNm, rankInten}: IMovieState) => {
@@ -13,14 +11,18 @@ export const setMovieRankList = (data: any) => {
             movieUrl: ''
         })
     })
-
-    console.log('setMovieRankList Result: ', result);
-
+    
     return result;
 }
 
 export const setMovieUrl = (data: any, list: IMovieState[]) => {
-    console.log(`setMovieUrl: `, data);
+    let name = data.title.split(/[<br>,</br>]/)[3];
+    let objectIndex = list.findIndex((obj) => obj.movieNm === name);
+    
+    list[objectIndex] = {
+        ...list[objectIndex],
+        movieUrl: data.image
+    }
 
     return list;
 }

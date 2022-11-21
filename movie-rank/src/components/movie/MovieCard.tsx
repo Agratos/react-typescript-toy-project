@@ -7,7 +7,6 @@ interface IMovieCard {
 }
 
 const MovieCard = ({rank, name, url}: IMovieCard) => {
-    console.log(url);
     return (
         <Wrapper>
             <Rank>{`${rank} 위`}</Rank>
@@ -16,16 +15,33 @@ const MovieCard = ({rank, name, url}: IMovieCard) => {
         </Wrapper>
     )
 }
-const Wrapper = styled.div``;
+
 const Rank = styled.div`
     text-align: center;
+    font-size: 20px;
 `;
 const Poster = styled.img`
-    //width: 300px;
+    width: 180px;
     flex-grow: 0;
 
+    margin: 8px 0px;
     border-radius: 10%;
 `;
-const Title = styled(Rank)``;
+const Title = styled(Rank)`
+    width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+`;
+const Wrapper = styled.div`
+    ${({theme}) => theme.div.vhCenter}
+
+    :hover {
+        ${Title} {
+            text-overflow: none;
+            white-space: normal;
+        }
+    }
+`;
 
 export default MovieCard;
