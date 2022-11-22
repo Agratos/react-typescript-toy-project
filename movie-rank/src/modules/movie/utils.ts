@@ -8,7 +8,6 @@ export const setMovieRankList = (data: any) => {
             rank,
             movieNm,
             rankInten,
-            movieUrl: ''
         })
     })
     
@@ -21,7 +20,9 @@ export const setMovieUrl = (data: any, list: IMovieState[]) => {
     
     list[objectIndex] = {
         ...list[objectIndex],
-        movieUrl: data.image
+        image: data.image,
+        link: data.link,
+        userRating: data.userRating
     }
 
     return list;

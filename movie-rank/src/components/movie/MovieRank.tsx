@@ -32,9 +32,11 @@ const MovieRank = () => {
             movieList.data.map(({movieNm}) => {
                 dispatch(getMovieUrlAsync.request(movieNm));
             })
+
             dispatch(setLoading(false))
+
             setInterval(() => {
-                setStart((start) => (start + 1) % 10 );
+                setStart((start) => (start + 5) % 10 );
             }, 3000)
         }
     },[movieList.data])
@@ -42,13 +44,18 @@ const MovieRank = () => {
     return (
         <Wrapper>
             {!loading ? 
-                movieList.data?.filter(data => Number(data.rank) >= start + 1 && Number(data.rank) <= start + 5 ).map(({rank, movieNm, movieUrl}) => (
-                    <MovieCard
-                        key={`movie-rank-${rank}`}
-                        rank={rank}
-                        name={movieNm}
-                        url={movieUrl ? movieUrl : ''}
-                    />
+                movieList.data?.filter(data => Number(data.rank) >= start + 1 && Number(data.rank) <= start + 5 )
+                    .map(({rank, rankInten, movieNm, image, link, userRating}, index) => (
+                        <MovieCard
+                            key={`movie-rank-${rank}`}
+                            rank={rank}
+                            rankInten={rankInten}
+                            movieNm={movieNm}
+                            image={image}
+                            link={link}
+                            userRating={userRating}
+                            focus={index === 2}
+                        />
                 )) : <>loading 중</>
             }
         </Wrapper>

@@ -17,7 +17,9 @@ export interface IMovieState {
     rank: string,
     movieNm: string,
     rankInten: string,
-    movieUrl?: string,
+    image?: string,
+    link?: string,
+    userRating?: string,
 }
 
 export interface IMovieInitialState {

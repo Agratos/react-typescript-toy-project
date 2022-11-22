@@ -40,7 +40,6 @@ const movie = createReducer<IMovieInitialState, MovieAction>(initialState, {
             loading: false,
             error: null,
             data: setMovieRankList(action.payload.data.boxOfficeResult.dailyBoxOfficeList)
-            //data: action.payload.data.boxOfficeResult.dailyBoxOfficeList
         }
     }),
     [actions.GET_MOVIE_RANK_FAILURE]: (state, action) => ({
@@ -63,7 +62,6 @@ const movie = createReducer<IMovieInitialState, MovieAction>(initialState, {
         dailyBoxOfficeList: {
             loading: false,
             error: null,
-            //data: setMovieRankList(action.payload.data.boxOfficeResult.dailyBoxOfficeList)
             data: setMovieUrl(action.payload.data.items[0], state.dailyBoxOfficeList.data!)
         },
         movieUrl: {

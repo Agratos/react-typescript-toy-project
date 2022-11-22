@@ -14,7 +14,7 @@ const MainPage = () => {
 const Wrapper = styled.div`
     ${({theme}) => theme.div.vhCenter}
     flex: 1;
-    background-color: #282828;
+    background-color: #1b1b1b;
 `;
 
 export default MainPage;
