@@ -32,7 +32,7 @@ const MovieCard = ({rank, rankInten, movieNm, image, link, userRating, focus}: I
             <RankWrapper>
                 <Rank>{`${rank} 위`}</Rank>
                 <RankInten>
-                    {`${rankInten}`}
+                    {`${rankInten.replace('')}`}
                     <RatingSpan>
                         {ratingSwitchRender()}
                     </RatingSpan>               
