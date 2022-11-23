@@ -13,16 +13,13 @@ export default {
         return defaultApi.get<IBoxOfficeResult>(`/api/movie/searchDailyBoxOfficeList.json?key=${process.env.MOVIE_KEY}&targetDt=${targetDt}`)
     },
 
-    getMovieUrl: (movieName: string): Promise<any> => {
-        return naverApi.get(`/naverApi/v1/search/movie.json?query=${movieName}`,
-            {
-                headers: {
-                    'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
-                    'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET
-                }
-            }
-        )
-    }
+    getMovieDetail: (movieName: string): Promise<any> => {
+        return naverApi.get(`/naverApi/v1/search/movie.json?query=${movieName}`)
+    },
+
+    getMovieSearch: ({target, start}:{target:string, start:number}): Promise<any> => {
+        return naverApi.get(`/naverApi/v1/search/movie.json?query=${target}&display=5&start=${start}`)
+    },
 }
 
 export async function getTest(targetDt: number) {

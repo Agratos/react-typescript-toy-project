@@ -17,7 +17,7 @@ const MovieCard = ({rank, rankInten, movieNm, image, link, userRating, focus}: I
         if(rating > 0){
             return <AiOutlineCaretUp size={14} color={`red`}/>
         }else if(rating < 0){
-            return <AiOutlineCaretDown size={14} color={`blue`}/>
+            return <AiOutlineCaretDown size={14} color={`red`}/>
         }else{
             return <BsDash />
         }
@@ -32,7 +32,7 @@ const MovieCard = ({rank, rankInten, movieNm, image, link, userRating, focus}: I
             <RankWrapper>
                 <Rank>{`${rank} 위`}</Rank>
                 <RankInten>
-                    {`${rankInten.replace('')}`}
+                    {`${rankInten.replace('-' , '')}`}
                     <RatingSpan>
                         {ratingSwitchRender()}
                     </RatingSpan>               
@@ -73,7 +73,7 @@ const RatingSpan = styled.span`
     position: absolute;
 
     margin-top: 2px;
-    margin-left: 8px;
+    margin-left: 12px;
 `;
 const Poster = styled.img`
     width: 180px;

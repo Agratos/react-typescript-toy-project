@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import { RootState } from 'src/modules';
-import { setTargetDate, setLoading, getMoviRankAsync, getMovieUrlAsync } from 'src/modules/movie/actions';
-import MovieCard from './MovieCard';
+import { setTargetDate, setLoading, getMoviRankAsync, getMovieDetailAsync } from 'src/modules/movie/actions';
+import MovieRankCard from './MovieRankCard';
 
 const MovieRank = () => {
     const dispatch = useDispatch();
@@ -30,14 +30,14 @@ const MovieRank = () => {
     useEffect(() => {
         if(movieList.data){
             movieList.data.map(({movieNm}) => {
-                dispatch(getMovieUrlAsync.request(movieNm));
+                dispatch(getMovieDetailAsync.request(movieNm));
             })
 
             dispatch(setLoading(false))
 
             setInterval(() => {
                 setStart((start) => (start + 5) % 10 );
-            }, 3000)
+            }, 5000)
         }
     },[movieList.data])
 
@@ -46,7 +46,7 @@ const MovieRank = () => {
             {!loading ? 
                 movieList.data?.filter(data => Number(data.rank) >= start + 1 && Number(data.rank) <= start + 5 )
                     .map(({rank, rankInten, movieNm, image, link, userRating}, index) => (
-                        <MovieCard
+                        <MovieRankCard
                             key={`movie-rank-${rank}`}
                             rank={rank}
                             rankInten={rankInten}

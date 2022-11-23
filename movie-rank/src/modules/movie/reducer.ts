@@ -6,14 +6,21 @@ import { setMovieRankList, setMovieUrl } from './utils';
 const initialState: IMovieInitialState = {
     loading: true,
     targetDt: null,
+    pageIndex: 0,
+
     dailyBoxOfficeList: {
         loading: false,
         error: null,
         data: null,
     },
-    movieUrl: {
+    movieDetail: {
         loading: false,
         error: null,
+    },
+    movieSearchList: {
+        loading: false,
+        error: null,
+        data: null,
     }
 };
 
@@ -26,6 +33,11 @@ const movie = createReducer<IMovieInitialState, MovieAction>(initialState, {
         ...state,
         loading: action.payload,
     }),
+    [actions.PAGE_INDEX]: (state, action) => ({
+        ...state,
+        pageIndex: action.payload
+    }),
+
     [actions.GET_MOVIE_RANK_REQUEST]: state => ({
         ...state,
         dailyBoxOfficeList: {
@@ -50,14 +62,14 @@ const movie = createReducer<IMovieInitialState, MovieAction>(initialState, {
             data: null
         }
     }),
-    [actions.GET_MOVIE_URL_REQUEST]: state => ({
+    [actions.GET_MOVIE_DETAIL_REQUEST]: state => ({
         ...state,
         movieUrl: {
             loading: true,
             error: null,
         }
     }),
-    [actions.GET_MOVIE_URL_SUCCESS]: (state, action) => ({
+    [actions.GET_MOVIE_DETAIL_SUCCESS]: (state, action) => ({
         ...state,
         dailyBoxOfficeList: {
             loading: false,
@@ -69,7 +81,37 @@ const movie = createReducer<IMovieInitialState, MovieAction>(initialState, {
             error: null,
         }
     }),
-
+    [actions.GET_MOVIE_DETAIL_FAILURE]: (state, action) => ({
+        ...state,
+        movieUrl: {
+            loading: false,
+            error: action.payload,
+        }
+    }),
+    [actions.GET_MOVIE_SEARCH_REQUEST]: (state, action) => ({
+        ...state,
+        movieSearchList: {
+            loading: true,
+            error: null,
+            data: null,
+        }
+    }),
+    [actions.GET_MOVIE_SEARCH_SUCCESS]: (state, action) => ({
+        ...state,
+        movieSearchList: {
+            loading: false,
+            error: null,
+            data: action.payload.data
+        }
+    }),
+    [actions.GET_MOVIE_SEARCH_FAILURE]: (state, action) => ({
+        ...state,
+        movieSearchList: {
+            loading: false,
+            error: action.payload,
+            data: null
+        }
+    }),
 });
 
 export default movie;

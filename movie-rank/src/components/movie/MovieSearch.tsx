@@ -1,21 +1,47 @@
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+
+import { getMovieSearchAsync, setPageIndex } from 'src/modules/movie/actions';
+import { RootState } from 'src/modules';
 
 const MovieSearch = () => {
     const dispatch = useDispatch();
     const inputRef = useRef<HTMLInputElement>(null);
+    const pageIndex = useSelector((state: RootState) => state.movie.pageIndex);
+
+    const onClick = () => {
+        dispatch(getMovieSearchAsync.request({target: inputRef.current!.value, start: 1}));
+        handlePageIndex(1)
+    }
+
+    const handlePageIndex = (index: number) => {
+        index === 0 && (inputRef.current!.value = '')
+        dispatch(setPageIndex(index));
+    }
 
     return (
         <Wrapper>
-            <Input type={'string'} ref={inputRef} placeholder='원하시는 영화를 검색하세요'/>
-            <Button>GO</Button>
+            <InputWrapper>
+                <Input type={'string'} ref={inputRef} placeholder='원하시는 영화를 검색하세요'/>
+                <Button onClick={onClick}>GO</Button>
+            </InputWrapper>
+
+            {pageIndex && 
+                <BackButton
+                    onClick={() => handlePageIndex(0)}
+                >
+                    ▶ <Text>오늘의 영화 순위 보러가기</Text> ◀
+                </BackButton>
+            }  
         </Wrapper>
     )
 }
 const Wrapper = styled.div`
+    display: flex;
     margin-top: 8px;
 `;
+const InputWrapper = styled.div``;
 const Input = styled.input`
     width: 376px;
     height: 30px;
@@ -44,6 +70,24 @@ const Button = styled.button`
         cursor: pointer;
         color: #9191f1;
         font-size: 18px;
+    }
+`;
+const Text = styled.div`
+    margin: 0 8px;
+`;
+const BackButton = styled.div`
+    display: flex;
+    position: absolute;
+    left: 0;
+    margin: 4px 10px;
+    color: #ffffffd3;
+
+    :hover{
+        cursor: pointer;
+        color: yellow;
+        ${Text} {
+            color: red;
+        }
     }
 `;
 

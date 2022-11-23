@@ -22,16 +22,36 @@ export interface IMovieState {
     userRating?: string,
 }
 
+export interface IMovieSearchItemsState {
+    title: string,
+    image: string,
+    link: string,
+    userRating: string
+}
+
+export interface IMovieSearchState {
+    dispaly: string,
+    items: IMovieSearchItemsState[],
+    total: string
+}
+
 export interface IMovieInitialState {
     loading: boolean;
     targetDt: number | null;
+    pageIndex: number;
+
     dailyBoxOfficeList: {
         loading: boolean;
         error: Error | null;
         data:  IMovieState[] | null;
     };
-    movieUrl: {
+    movieDetail: {
         loading: boolean,
         error: Error | null;
+    };
+    movieSearchList: {
+        loading: boolean,
+        error:Error | null;
+        data: IMovieSearchState | null;
     }
 };
