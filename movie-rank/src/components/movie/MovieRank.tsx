@@ -35,9 +35,11 @@ const MovieRank = () => {
 
             dispatch(setLoading(false))
 
-            setInterval(() => {
+            const timer = setInterval(() => {
                 setStart((start) => (start + 5) % 10 );
             }, 5000)
+
+            return () => clearInterval(timer);
         }
     },[movieList.data])
 
