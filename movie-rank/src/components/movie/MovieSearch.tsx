@@ -2,22 +2,23 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { getMovieSearchAsync, setPageIndex } from 'src/modules/movie/actions';
+import { getMovieSearchAsync, setMoviePageIndex, setMovieSearchTarget } from 'src/modules/movie/actions';
 import { RootState } from 'src/modules';
 
 const MovieSearch = () => {
     const dispatch = useDispatch();
     const inputRef = useRef<HTMLInputElement>(null);
-    const pageIndex = useSelector((state: RootState) => state.movie.pageIndex);
+    const moviePageIndex = useSelector((state: RootState) => state.movie.moviePageIndex);
 
     const onClick = () => {
         dispatch(getMovieSearchAsync.request({target: inputRef.current!.value, start: 1}));
+        dispatch(setMovieSearchTarget(inputRef.current!.value));
         handlePageIndex(1)
     }
 
     const handlePageIndex = (index: number) => {
         index === 0 && (inputRef.current!.value = '')
-        dispatch(setPageIndex(index));
+        dispatch(setMoviePageIndex(index));
     }
 
     return (
@@ -27,7 +28,7 @@ const MovieSearch = () => {
                 <Button onClick={onClick}>GO</Button>
             </InputWrapper>
 
-            {pageIndex && 
+            {moviePageIndex && 
                 <BackButton
                     onClick={() => handlePageIndex(0)}
                 >

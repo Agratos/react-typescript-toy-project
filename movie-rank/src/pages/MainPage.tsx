@@ -8,10 +8,10 @@ import MovieSearchResult from 'src/components/movie/MovieSearchResult';
 import { RootState } from 'src/modules';
 
 const MainPage = () => {
-    const pageIndex = useSelector((state: RootState) => state.movie.pageIndex);
+    const moviePageIndex = useSelector((state: RootState) => state.movie.moviePageIndex);
 
     const pageSwitchRender = () => {
-        switch(pageIndex){
+        switch(moviePageIndex){
             case 0:
                 return <MovieRank />
             case 1:

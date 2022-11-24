@@ -38,7 +38,8 @@ export interface IMovieSearchState {
 export interface IMovieInitialState {
     loading: boolean;
     targetDt: number | null;
-    pageIndex: number;
+    moviePageIndex: number;
+    searchTarget: string;
 
     dailyBoxOfficeList: {
         loading: boolean;

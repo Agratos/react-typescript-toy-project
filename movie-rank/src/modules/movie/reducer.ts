@@ -6,7 +6,8 @@ import { setMovieRankList, setMovieUrl } from './utils';
 const initialState: IMovieInitialState = {
     loading: true,
     targetDt: null,
-    pageIndex: 0,
+    moviePageIndex: 0,
+    searchTarget: '',
 
     dailyBoxOfficeList: {
         loading: false,
@@ -33,9 +34,13 @@ const movie = createReducer<IMovieInitialState, MovieAction>(initialState, {
         ...state,
         loading: action.payload,
     }),
-    [actions.PAGE_INDEX]: (state, action) => ({
+    [actions.MOVIE_PAGE_INDEX]: (state, action) => ({
         ...state,
-        pageIndex: action.payload
+        moviePageIndex: action.payload
+    }),
+    [actions.MOVIE_SEARCH_TARGET]: (state, action) => ({
+        ...state,
+        searchTarget: action.payload
     }),
 
     [actions.GET_MOVIE_RANK_REQUEST]: state => ({
@@ -93,7 +98,7 @@ const movie = createReducer<IMovieInitialState, MovieAction>(initialState, {
         movieSearchList: {
             loading: true,
             error: null,
-            data: null,
+            data: state.movieSearchList.data,
         }
     }),
     [actions.GET_MOVIE_SEARCH_SUCCESS]: (state, action) => ({
