@@ -4,6 +4,11 @@ const div = {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    `,
+    hCenter: `
+        display: flex;
+        justify-content: center;
+        align-items: center;
     `
 };
 const fontSize = {};
