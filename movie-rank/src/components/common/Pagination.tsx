@@ -67,13 +67,22 @@ const Button = styled.button<{current?: boolean, disabled?: boolean}>`
     
     font-size: 18px;
 
+    :hover {
+        cursor: pointer;
+    }
+
     ${({disabled}) => disabled && css`
         color: transparent;
+        :hover {
+            cursor: auto;
+        }
     `}
 
     ${({current}) => current && css`
         color: red;
     `}
+
+
 `;
 
 export default Pagination;
