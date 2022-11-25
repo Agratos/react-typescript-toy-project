@@ -13,7 +13,10 @@ State management
 ## 2. Drag & Drop
 
 ## 3. Todolist
-카카오톡 UI Todolist
+typesafe-actions
+
 ## 4. Movie Rank
-redux-saga typesafe-actions 비동기 동기 작업 완료
-디자인 작업중
+redux-saga typesafe-actions
+
+## 5. Todolist
+zustand
