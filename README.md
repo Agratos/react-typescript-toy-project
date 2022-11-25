@@ -15,7 +15,7 @@ State management
 ## 3. [Todolist](https://github.com/Agratos/react-typescript-toy-project/tree/main/todolist)
 typesafe-actions
 
-## 4. Movie Rank
+## 4. [Movie Rank](https://github.com/Agratos/react-typescript-toy-project/tree/main/movie-rank)
 redux-saga typesafe-actions
 
 ## 5. Todolist
