@@ -12,7 +12,7 @@ State management
 타입스크립트 프로젝트에 필요한 기본 설정
 ## 2. Drag & Drop
 
-## 3. [Todolist](https://github.com/Agratos/react-typescript-toy-project/tree/main/drag-drop)
+## 3. [Todolist](https://github.com/Agratos/react-typescript-toy-project/tree/main/todolist)
 typesafe-actions
 
 ## 4. Movie Rank
