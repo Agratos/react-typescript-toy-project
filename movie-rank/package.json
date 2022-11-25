@@ -10,7 +10,7 @@
     "build": "webpack --config webpack.config.js --mode development",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "https://agratos.github.io/movie-rank",
+  "homepage": "https://agratos.github.io/react-typescript-toy-project/movie-rank",
   "keywords": [],
   "author": "",
   "license": "ISC",

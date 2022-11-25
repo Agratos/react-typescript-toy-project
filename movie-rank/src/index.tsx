@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { legacy_createStore as createStore, applyMiddleware } from 'redux';
 import { persistStore } from 'redux-persist';
@@ -29,9 +29,9 @@ root.render(
         <Provider store={store}>
             <ThemeProvider theme={theme}>
                 <GlobalStyle />
-                <BrowserRouter>
+                <HashRouter>
                     <App />
-                </BrowserRouter>
+                </HashRouter>
             </ThemeProvider>
         </Provider>
     //</PersistGate>
