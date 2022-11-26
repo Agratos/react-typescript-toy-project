@@ -19,4 +19,6 @@ typesafe-actions
 redux-saga typesafe-actions
 
 ## 5. Alarm
+study zustand
 zustand
+
