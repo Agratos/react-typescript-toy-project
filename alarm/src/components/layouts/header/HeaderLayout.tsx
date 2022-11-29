@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import StrokeAnimation from 'src/components/svg/StrokeAnimation';
+import AlarmTitle from 'src/assets/images/svg/alarm-header.svg';
 //import HeaderTitle from 'src/assets/images/svg/header-title.svg';
 
 const HeaderLayout = () => {
@@ -12,11 +13,11 @@ const HeaderLayout = () => {
                     EVERYTHING IS PERSONAL. INCLUDING THIS BLOG.
                 </IntroduceText>
                 <TitleWrapper>
-                    {/* <StrokeAnimation 
-                        Svg={HeaderTitle}
-                        id={'header-title_svg'}
-                        size={8}
-                    /> */}
+                    <StrokeAnimation 
+                        Svg={AlarmTitle}
+                        id={'alarm-header_svg'}
+                        size={5}
+                    />
                     {/* <StrokeAnimation 
                         Svg={HeaderTitle}
                         id={'header-title_svg'}

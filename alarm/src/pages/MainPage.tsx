@@ -1,22 +1,21 @@
 import styled from 'styled-components';
 
-import counterStore from 'src/modules/zustand';
+//import { TestComponent1, TestComponent2 } from '../components/test';
 
-const MainPage = () => {
-    const { counter, increaseCounter, decreaseCounter } = counterStore();
+import AlarmList from 'src/components/alarm/AlarmList';
+import AlarmRegister from 'src/components/alarm/AlarmRegister';
 
+const MainPage = () => { 
     return (
         <Wrapper>
-            {counter}
-            <button
-                onClick={increaseCounter}
-            >+</button>
-            <button
-                onClick={decreaseCounter}
-            >-</button>
+            <AlarmList />
+            <AlarmRegister />
         </Wrapper>
     )
 }
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+    ${({theme}) => theme.div.hCenter}
+    flex: 1;
+`;
 
 export default MainPage;
