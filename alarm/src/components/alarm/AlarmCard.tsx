@@ -23,7 +23,9 @@ const AlarmCard = ({id}:{id:number}) => {
                     <Toggle></Toggle>
                 </TimeToggleWrapper>
                 <RepeatDayWrapper>
-                    <Repeat>Repeat</Repeat>
+                    <RepeatWrapper>
+                        <Repeat>Repeat</Repeat>
+                    </RepeatWrapper>
                     <DayButton />
                     <DayButton />
                     <DayButton />
@@ -81,14 +83,14 @@ const RepeatDayWrapper = styled(TimeWrapper)`
     margin: 14px 0;
     align-items: baseline;
 `;
+const RepeatWrapper = styled.div`
+
+`;
 const Repeat = styled.div`
-    ${({theme}) => theme.div.vhCenter}
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 12px;
     font-weight: bolder;
     color: #555555;
-
-    align-items: end;
 `;
 
 export default AlarmCard;

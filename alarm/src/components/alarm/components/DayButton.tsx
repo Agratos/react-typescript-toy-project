@@ -4,20 +4,20 @@ const DayButton = () => {
     const toggle = true
     return (
         <Wrapper>
-            <Day>W</Day>            
+            <Day>M</Day>            
         </Wrapper>
     )
 }
 const Wrapper = styled.div`
-    border: 2px solid #414141;
-    border-radius: 50%;
+    ${({theme}) => theme.div.vhCenter}
     width: 24px;
     height: 24px;
-    color: #414141;
+    border: 2px solid #414141;
+    border-radius: 50%;
     margin: 4px;
+    color: #414141;
 `;
 const Day = styled.div`
-    ${({theme}) => theme.div.vhCenter}
     font-size: 16px;
     font-weight: 500;
 `;
