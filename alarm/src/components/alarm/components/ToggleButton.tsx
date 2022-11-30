@@ -13,11 +13,11 @@ const ToggleButton = ({id}: IToggleButtonParams) => {
 
     return (
         <Wrapper>
-            <Button toggle={toggle}>
-                <Circle 
-                    toggle={toggle}
-                    onClick={() => setAlarmToggle(id)}
-                />
+            <Button 
+                toggle={toggle}
+                onClick={() => setAlarmToggle(id)}
+            >
+                <Circle toggle={toggle} />
             </Button>
         </Wrapper>
     )

@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 
 interface IDayButtonProps {
-    day: string[]
-    toggle: boolean
+    day: string[];
+    toggle: boolean;
 }
 
 const DayButton = ({day, toggle}:IDayButtonProps) => {

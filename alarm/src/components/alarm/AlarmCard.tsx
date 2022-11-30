@@ -34,6 +34,7 @@ const AlarmCard = ({id}:{id:number}) => {
                     </Toggle>
                 </TimeToggleWrapper>
                 <RepeatDay 
+                    active={false}
                     alarmDay={alarmDay}
                     toggle={alarm.toggle}
                 />

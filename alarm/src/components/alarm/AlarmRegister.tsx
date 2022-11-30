@@ -1,16 +1,30 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 
 import AlarmHeader from './AlarmHeader';
+import RepeatDay from './components/RepeatDay';
 
 import alarmStore from 'src/modules/zustand/alarm';
+import { IAlarmState } from 'src/modules/zustand/alarm';
+import objectConvertArray from 'src/utils/objectConvertArray';
 
 const AlarmRegister = () => {
-    const { registerToggle } = alarmStore();
+    //const { registerToggle } = alarmStore();
+    //const [registerData, setRegisterData] = useState<IAlarmState>()
+    
+    let alarmDay = objectConvertArray({월: false,화: false,수: false,목: false,금: false,토: false,일: true})
+    
+    console.log(`1111`,alarmDay);
+
     return (
         <Wrapper>
             <AlarmHeader text={'Choose a time to wake up'} />
             <RepeatDayWrapper>
-
+                <RepeatDay 
+                    active={true}
+                    alarmDay={alarmDay}
+                    toggle={true}
+                />
             </RepeatDayWrapper>
             <MessageInputWrapper>
                 <MessageInput>

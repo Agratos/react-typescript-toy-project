@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import DayButton from './DayButton';
 
 interface IRepeatDayParams {
+    active: boolean;
     alarmDay: (string)[][];
     toggle: boolean;
 }
 
-const RepeatDay = ({alarmDay, toggle}: IRepeatDayParams) => {
+const RepeatDay = ({active, alarmDay, toggle}: IRepeatDayParams) => {
     return (
         <Wrapper>
             <Repeat>Repeat</Repeat>
