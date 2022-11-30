@@ -1,14 +1,17 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const DayButton = () => {
-    const toggle = true
+interface IDayButtonProps {
+    day: string[]
+}
+
+const DayButton = ({day}:IDayButtonProps) => {
     return (
-        <Wrapper>
-            <Day>M</Day>            
+        <Wrapper toggle={day[1] === 'true' ? true : false}>
+            <Day>{day[0][0]}</Day>            
         </Wrapper>
     )
 }
-const Wrapper = styled.div`
+const Wrapper = styled.div<{toggle:boolean}>`
     ${({theme}) => theme.div.vhCenter}
     width: 24px;
     height: 24px;
@@ -16,6 +19,10 @@ const Wrapper = styled.div`
     border-radius: 50%;
     margin: 4px;
     color: #414141;
+
+    ${({toggle}) => toggle && css`
+        background-color: #e5e517;
+    `}
 `;
 const Day = styled.div`
     font-size: 16px;

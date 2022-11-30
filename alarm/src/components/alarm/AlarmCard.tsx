@@ -1,12 +1,22 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { ImAlarm } from 'react-icons/im';
 import DayButton from './components/DayButton';
+import ToggleButton from './components/ToggleButton';
 
 import alarmStore from 'src/modules/zustand/alarm';
 
 const AlarmCard = ({id}:{id:number}) => {
     const alarm = alarmStore().getAlarm(id);
+
+    const [alarmDay, setAlarmDay] = useState<(string)[][]>([]);
+
+    useEffect(() => {
+        const temp = Object.keys(alarm.day).map((key) => [String(key), String(alarm.day[key])]);
+        console.log(temp);
+        setAlarmDay(temp);
+    },[alarm.day])
 
     return (
         <Wrapper>
@@ -20,18 +30,20 @@ const AlarmCard = ({id}:{id:number}) => {
                         <Time>7.30</Time>
                         <Meridiem>AM</Meridiem>
                     </TimeWrapper>
-                    <Toggle></Toggle>
+                    <Toggle>
+                        <ToggleButton />
+                    </Toggle>
                 </TimeToggleWrapper>
                 <RepeatDayWrapper>
-                    <RepeatWrapper>
-                        <Repeat>Repeat</Repeat>
-                    </RepeatWrapper>
-                    <DayButton />
-                    <DayButton />
-                    <DayButton />
-                    <DayButton />
-                    <DayButton />
-                    <DayButton />
+                    <Repeat>Repeat</Repeat>
+                    <DayButtonWrapper>
+                        {alarmDay.map((day) => (
+                            <DayButton 
+                                key={alarm.id + day[0]}
+                                day={day} 
+                            />
+                        ))}
+                    </DayButtonWrapper>
                 </RepeatDayWrapper>
             </Body>
         </Wrapper>
@@ -70,7 +82,7 @@ const Time = styled.div`
     display: flex;
     font-family: sans-serif;
     font-size: 30px;
-    font-weight: 500;
+    font-weight: 700;
 `;
 const Meridiem = styled.div`
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -80,17 +92,20 @@ const Meridiem = styled.div`
 `;
 const Toggle = styled.div``;
 const RepeatDayWrapper = styled(TimeWrapper)`
-    margin: 14px 0;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14px;
     align-items: baseline;
-`;
-const RepeatWrapper = styled.div`
-
 `;
 const Repeat = styled.div`
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: bolder;
     color: #555555;
+`;
+const DayButtonWrapper = styled.div`
+    display: flex;
+    
 `;
 
 export default AlarmCard;

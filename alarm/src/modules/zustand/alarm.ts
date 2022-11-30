@@ -7,6 +7,7 @@ interface IAlarmState {
     time: string,
     toggle: boolean,
     day: {
+        [index:string]: boolean,
         Mon: boolean,
         Tue: boolean,
         Wed: boolean,
