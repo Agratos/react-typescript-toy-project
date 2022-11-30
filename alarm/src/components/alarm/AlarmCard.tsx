@@ -27,11 +27,11 @@ const AlarmCard = ({id}:{id:number}) => {
             <Body>
                 <TimeToggleWrapper>
                     <TimeWrapper>
-                        <Time>7.30</Time>
+                        <Time>{alarm.time}</Time>
                         <Meridiem>AM</Meridiem>
                     </TimeWrapper>
                     <Toggle>
-                        <ToggleButton />
+                        <ToggleButton id={alarm.id}/>
                     </Toggle>
                 </TimeToggleWrapper>
                 <RepeatDayWrapper>
@@ -41,6 +41,7 @@ const AlarmCard = ({id}:{id:number}) => {
                             <DayButton 
                                 key={alarm.id + day[0]}
                                 day={day} 
+                                toggle={alarm.toggle}
                             />
                         ))}
                     </DayButtonWrapper>
@@ -51,6 +52,7 @@ const AlarmCard = ({id}:{id:number}) => {
 }
 const Wrapper = styled.div`
     color: #cecece;
+    margin-bottom: 20px;
 `;
 const Header = styled.div`
     display: flex;
@@ -73,7 +75,11 @@ const Body = styled.div`
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
 `;
-const TimeToggleWrapper = styled.div``;
+const TimeToggleWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+`;
 const TimeWrapper = styled.div`
     display: flex;
     align-items: baseline;
@@ -90,11 +96,13 @@ const Meridiem = styled.div`
     font-weight: 700;
     margin-left: 8px;
 `;
-const Toggle = styled.div``;
+const Toggle = styled.div`
+    ${({theme}) => theme.div.vhCenter}
+    margin-right: 4px;
+`;
 const RepeatDayWrapper = styled(TimeWrapper)`
     display: flex;
     justify-content: space-between;
-    margin-top: 14px;
     align-items: baseline;
 `;
 const Repeat = styled.div`

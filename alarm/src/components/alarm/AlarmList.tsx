@@ -3,13 +3,20 @@ import styled from 'styled-components';
 import Header from 'src/components/alarm/AlarmHeader';
 import AlarmCard from './AlarmCard';
 
+import alarmStore from 'src/modules/zustand/alarm';
+
 const AlarmList = () => {
+    const { alarm } = alarmStore()
+
     return (
         <Wrapper>
             <Header />
-            <AlarmCard 
-                id={1}
-            />
+            {alarm.map((data) => (
+                <AlarmCard 
+                    key={`alarm-card-${data.id}`}
+                    id={data.id}
+                />
+            ))}
         </Wrapper>
     )
 }
