@@ -9,14 +9,14 @@ interface IToggleButtonParams {
 
 const ToggleButton = ({id}: IToggleButtonParams) => {
     const toggle:boolean = alarmStore().getAlarm(id).toggle;
-    const {setToggle} = alarmStore()
+    const { setAlarmToggle } = alarmStore()
 
     return (
         <Wrapper>
             <Button toggle={toggle}>
                 <Circle 
                     toggle={toggle}
-                    onClick={() => setToggle(id)}
+                    onClick={() => setAlarmToggle(id)}
                 />
             </Button>
         </Wrapper>

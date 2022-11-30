@@ -2,7 +2,11 @@ import styled from 'styled-components';
 
 import { IoAlarmOutline } from 'react-icons/io5';
 
-const AlarmHeader = () => {
+interface IAlarmHeaderParams {
+    text: string
+}
+
+const AlarmHeader = ({text}:IAlarmHeaderParams) => {
     return (
         <Wrapper>
             <IconTextWrapper>
@@ -10,11 +14,9 @@ const AlarmHeader = () => {
                 <IconText>
                     Alarm
                 </IconText>
-            </IconTextWrapper>
-
-            
+            </IconTextWrapper> 
             <Title>
-                Your Alarms
+                {text}
             </Title>
         </Wrapper>
     )

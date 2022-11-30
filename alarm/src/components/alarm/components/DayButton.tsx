@@ -19,16 +19,18 @@ const Wrapper = styled.div<{toggle:boolean}>`
     border: 2px solid #414141;
     border-radius: 50%;
     margin-left: 8px;
-    color: #414141;
+    color: #8c8b8b;
 
     ${({toggle}) => toggle && css`
-        background-color: #c4b427;
+        background-color: #e6d011;
+        color: #313131;
     `}
     transition: all 0.5s ease-in-out;
 `;
 const Day = styled.div`
-    font-size: 16px;
-    font-weight: 500;
+    ${({theme}) => theme.fontFamily.apple}
+    font-size: 12px;
+    font-weight: 700;
 `;
 
 export default DayButton;

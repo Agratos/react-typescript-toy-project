@@ -8,13 +8,13 @@ interface IAlarmState {
     toggle: boolean,
     day: {
         [index:string]: boolean,
-        Mon: boolean,
-        Tue: boolean,
-        Wed: boolean,
-        Thu: boolean,
-        Fri: boolean,
-        Sat: boolean,
-        Sun: boolean,
+        월: boolean,
+        화: boolean,
+        수: boolean,
+        목: boolean,
+        금: boolean,
+        토: boolean,
+        일: boolean,
     }
     memo: string,
     repeat: number,
@@ -22,26 +22,29 @@ interface IAlarmState {
 
 interface IAlarmInitState {
     currentId: number;
+    registerToggle: boolean;
     alarm: IAlarmState[];
     getAlarm: (id:number) => IAlarmState;
-    setToggle: (id:number) => void;
+    setAlarmToggle: (id:number) => void;
+    setRegisterToggle: () => void;
 }
 
 const alarmStore = create<IAlarmInitState>()(
     devtools(immer((set, get) => ({
         currentId: 1,
+        registerToggle: false,
         alarm: [{
             id: 0,
             time: '7.30',
             toggle: true,
             day: {
-                Mon: true,
-                Tue: true,
-                Wed: true,
-                Thu: true,
-                Fri: true,
-                Sat: false,
-                Sun: false,
+                월: true,
+                화: true,
+                수: true,
+                목: true,
+                금: true,
+                토: false,
+                일: false,
             },
             memo: 'Wake Up for Go to Work!',
             repeat: 5,
@@ -51,29 +54,31 @@ const alarmStore = create<IAlarmInitState>()(
             time: '4.30',
             toggle: false,
             day: {
-                Mon: false,
-                Tue: true,
-                Wed: true,
-                Thu: true,
-                Fri: true,
-                Sat: false,
-                Sun: false,
+                월: false,
+                화: true,
+                수: true,
+                목: true,
+                금: true,
+                토: false,
+                일: false,
             },
             memo: '밥먹을 시간 입니다.',
             repeat: 5,
         }],
 
-        // setMessage: (text: string) => set((state) => { 
-        //     state.message = text;
-        // }, false, 'asdmessage')
-
         getAlarm: (id: number) => get().alarm.filter(state => state.id === id)[0],
 
-        setToggle: (id: number) => set((state) => {
+        setAlarmToggle: (id: number) => set((state) => {
             state.alarm[id].toggle = !state.alarm[id].toggle;
-        }, false, 'setToggle')
+        }, false, 'setAlarmToggle'),
+
+        setRegisterToggle: () => set((state) => {
+            state.registerToggle = !state.registerToggle
+        }, false, 'setRegisterToggle')
     })))
 )
+
+// increaseCounter: () => set((state) => ({ counter: state.counter + 1})),
 
 
 export default alarmStore;

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { ImAlarm } from 'react-icons/im';
-import DayButton from './components/DayButton';
+import RepeatDay from './components/RepeatDay';
 import ToggleButton from './components/ToggleButton';
 
 import alarmStore from 'src/modules/zustand/alarm';
@@ -14,7 +14,6 @@ const AlarmCard = ({id}:{id:number}) => {
 
     useEffect(() => {
         const temp = Object.keys(alarm.day).map((key) => [String(key), String(alarm.day[key])]);
-        console.log(temp);
         setAlarmDay(temp);
     },[alarm.day])
 
@@ -34,18 +33,10 @@ const AlarmCard = ({id}:{id:number}) => {
                         <ToggleButton id={alarm.id}/>
                     </Toggle>
                 </TimeToggleWrapper>
-                <RepeatDayWrapper>
-                    <Repeat>Repeat</Repeat>
-                    <DayButtonWrapper>
-                        {alarmDay.map((day) => (
-                            <DayButton 
-                                key={alarm.id + day[0]}
-                                day={day} 
-                                toggle={alarm.toggle}
-                            />
-                        ))}
-                    </DayButtonWrapper>
-                </RepeatDayWrapper>
+                <RepeatDay 
+                    alarmDay={alarmDay}
+                    toggle={alarm.toggle}
+                />
             </Body>
         </Wrapper>
     )
@@ -57,7 +48,6 @@ const Wrapper = styled.div`
 const Header = styled.div`
     display: flex;
     align-items: baseline;
-
     background-color: #252525;
     padding: 14px 18px 10px;
     border-top-left-radius: 16px;
@@ -91,7 +81,7 @@ const Time = styled.div`
     font-weight: 700;
 `;
 const Meridiem = styled.div`
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    ${({theme}) => theme.fontFamily.apple}
     font-size: 14px;
     font-weight: 700;
     margin-left: 8px;
@@ -100,20 +90,6 @@ const Toggle = styled.div`
     ${({theme}) => theme.div.vhCenter}
     margin-right: 4px;
 `;
-const RepeatDayWrapper = styled(TimeWrapper)`
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-`;
-const Repeat = styled.div`
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 15px;
-    font-weight: bolder;
-    color: #555555;
-`;
-const DayButtonWrapper = styled.div`
-    display: flex;
-    
-`;
+
 
 export default AlarmCard;
