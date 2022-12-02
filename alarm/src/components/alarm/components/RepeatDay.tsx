@@ -16,6 +16,7 @@ const RepeatDay = ({active, alarmDay, toggle}: IRepeatDayParams) => {
                 {alarmDay.map((day) => (
                     <DayButton 
                         key={day[0]}
+                        active={active}
                         day={day} 
                         toggle={toggle}
                     />

@@ -1,11 +1,12 @@
 import styled, { css } from 'styled-components';
 
 interface IDayButtonProps {
+    active: boolean;
     day: string[];
     toggle: boolean;
 }
 
-const DayButton = ({day, toggle}:IDayButtonProps) => {
+const DayButton = ({active, day, toggle}:IDayButtonProps) => {
     return (
         <Wrapper toggle={toggle ? day[1] === 'true' ? true : false : false}>
             <Day>{day[0][0]}</Day>            
