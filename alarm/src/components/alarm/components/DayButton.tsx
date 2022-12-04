@@ -8,12 +8,15 @@ interface IDayButtonProps {
 
 const DayButton = ({active, day, toggle}:IDayButtonProps) => {
     return (
-        <Wrapper toggle={toggle ? day[1] === 'true' ? true : false : false}>
+        <Wrapper 
+            active={active}
+            toggle={toggle ? day[1] === 'true' ? true : false : false}
+        >
             <Day>{day[0][0]}</Day>            
         </Wrapper>
     )
 }
-const Wrapper = styled.div<{toggle:boolean}>`
+const Wrapper = styled.div<{toggle:boolean, active:boolean}>`
     ${({theme}) => theme.div.vhCenter}
     width: 24px;
     height: 24px;
@@ -21,12 +24,15 @@ const Wrapper = styled.div<{toggle:boolean}>`
     border-radius: 50%;
     margin-left: 8px;
     color: #8c8b8b;
+    transition: all 0.5s ease-in-out;
 
     ${({toggle}) => toggle && css`
         background-color: #e6d011;
         color: #313131;
     `}
-    transition: all 0.5s ease-in-out;
+    ${({active}) => active && css`
+        cursor: pointer;
+    `}
 `;
 const Day = styled.div`
     ${({theme}) => theme.fontFamily.apple}

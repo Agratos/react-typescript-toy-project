@@ -11,10 +11,10 @@ import objectConvertArray from 'src/utils/objectConvertArray';
 const AlarmRegister = () => {
     //const { registerToggle } = alarmStore();
     //const [registerData, setRegisterData] = useState<IAlarmState>()
+    const [alarmDay, setAlarmDay] = useState<string[][]>(objectConvertArray({월: false,화: false,수: false,목: false,금: false,토: false,일: true}))
+    //let alarmDay = objectConvertArray({월: false,화: false,수: false,목: false,금: false,토: false,일: true})
     
-    let alarmDay = objectConvertArray({월: false,화: false,수: false,목: false,금: false,토: false,일: true})
-    
-    console.log(`1111`,alarmDay);
+    //console.log(`1111`,alarmDay);
 
     return (
         <Wrapper>
@@ -24,6 +24,7 @@ const AlarmRegister = () => {
                     active={true}
                     alarmDay={alarmDay}
                     toggle={true}
+                    setAlarmDay={setAlarmDay}
                 />
             </RepeatDayWrapper>
             <MessageInputWrapper>

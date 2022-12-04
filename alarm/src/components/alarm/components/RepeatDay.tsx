@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import styled from 'styled-components';
 
 import DayButton from './DayButton';
@@ -6,6 +7,7 @@ interface IRepeatDayParams {
     active: boolean;
     alarmDay: (string)[][];
     toggle: boolean;
+    setAlarmDay?: Dispatch<SetStateAction<any>>
 }
 
 const RepeatDay = ({active, alarmDay, toggle}: IRepeatDayParams) => {
