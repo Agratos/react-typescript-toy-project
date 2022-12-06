@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { ImAlarm } from 'react-icons/im';
@@ -9,13 +8,6 @@ import alarmStore from 'src/modules/zustand/alarm';
 
 const AlarmCard = ({id}:{id:number}) => {
     const alarm = alarmStore().getAlarm(id);
-
-    const [alarmDay, setAlarmDay] = useState<(string)[][]>([]);
-
-    useEffect(() => {
-        const temp = Object.keys(alarm.day).map((key) => [String(key), String(alarm.day[key])]);
-        setAlarmDay(temp);
-    },[alarm.day])
 
     return (
         <Wrapper>
@@ -35,7 +27,7 @@ const AlarmCard = ({id}:{id:number}) => {
                 </TimeToggleWrapper>
                 <RepeatDay 
                     active={false}
-                    alarmDay={alarmDay}
+                    alarmDay={alarm.day}
                     toggle={alarm.toggle}
                 />
             </Body>

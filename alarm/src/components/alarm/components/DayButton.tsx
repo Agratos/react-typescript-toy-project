@@ -1,18 +1,28 @@
+import { Dispatch, SetStateAction } from 'react';
 import styled, { css } from 'styled-components';
 
 interface IDayButtonProps {
     active: boolean;
     day: string[];
     toggle: boolean;
+    setAlarmDay?: Dispatch<SetStateAction<any>>
 }
 
-const DayButton = ({active, day, toggle}:IDayButtonProps) => {
+const DayButton = ({active, day, toggle, setAlarmDay}:IDayButtonProps) => {
     return (
         <Wrapper 
             active={active}
             toggle={toggle ? day[1] === 'true' ? true : false : false}
         >
-            <Day>{day[0][0]}</Day>            
+            <Day
+                onClick={() => setAlarmDay && setAlarmDay((arr:any) => {
+                    const temp = {
+                        ...arr,
+                        [`${day[0]}`]: !arr[`${day[0]}`]
+                    }
+                    return temp;
+                })}
+            >{day[0][0]}</Day>            
         </Wrapper>
     )
 }

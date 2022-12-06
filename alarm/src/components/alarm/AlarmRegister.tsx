@@ -9,12 +9,7 @@ import { IAlarmState } from 'src/modules/zustand/alarm';
 import objectConvertArray from 'src/utils/objectConvertArray';
 
 const AlarmRegister = () => {
-    //const { registerToggle } = alarmStore();
-    //const [registerData, setRegisterData] = useState<IAlarmState>()
-    const [alarmDay, setAlarmDay] = useState<string[][]>(objectConvertArray({월: false,화: false,수: false,목: false,금: false,토: false,일: true}))
-    //let alarmDay = objectConvertArray({월: false,화: false,수: false,목: false,금: false,토: false,일: true})
-    
-    //console.log(`1111`,alarmDay);
+    const [alarmDay, setAlarmDay] = useState<any>({월: false,화: false,수: false,목: false,금: false,토: false,일: true});
 
     return (
         <Wrapper>
@@ -28,9 +23,8 @@ const AlarmRegister = () => {
                 />
             </RepeatDayWrapper>
             <MessageInputWrapper>
-                <MessageInput>
-                    
-                </MessageInput>
+                <MessageInput />
+                <MessageLabel>What's this for?</MessageLabel>
             </MessageInputWrapper>
             <RegisterButton>
                 ALL SET
@@ -53,9 +47,31 @@ const Wrapper = styled.div`
 `;
 const TimeChooseWrapper = styled.div``;
 const RepeatDayWrapper = styled.div``;
-const MessageInputWrapper = styled.div``;
-const MessageInput = styled.div``;
-const MessageLabel = styled.label``;
+const MessageInputWrapper = styled.div`
+    display: flex;
+    margin: 24px 0;
+`;
+const MessageInput = styled.textarea`
+    width: 100%;
+    height: 80px;
+    background-color: inherit;
+    resize: none;
+    color: #ebeaea;
+    border-radius: 4px;
+    padding: 8px;
+    :focus {
+        outline: none
+    }
+`;
+const MessageLabel = styled.div`
+    position: absolute;
+    margin-top: -10px;
+    margin-left: 8px;
+    padding: 0 10px;
+    background-color: #171717;
+    font-size: 14px;
+    color: #d5d5d5;
+`;
 const RegisterButton = styled.div`
     ${({theme}) => theme.fontFamily.apple}
     width: inherit;

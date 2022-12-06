@@ -3,24 +3,29 @@ import styled from 'styled-components';
 
 import DayButton from './DayButton';
 
+import objectConvertArray from 'src/utils/objectConvertArray';
+
 interface IRepeatDayParams {
     active: boolean;
-    alarmDay: (string)[][];
+    alarmDay: {
+        [index: string]: boolean
+    };
     toggle: boolean;
     setAlarmDay?: Dispatch<SetStateAction<any>>
 }
 
-const RepeatDay = ({active, alarmDay, toggle}: IRepeatDayParams) => {
+const RepeatDay = ({active, alarmDay, toggle, setAlarmDay}: IRepeatDayParams) => {
     return (
         <Wrapper>
             <Repeat>Repeat</Repeat>
             <DayButtonWrapper>
-                {alarmDay.map((day) => (
+                {objectConvertArray(alarmDay).map((day) => (
                     <DayButton 
                         key={day[0]}
                         active={active}
                         day={day} 
                         toggle={toggle}
+                        setAlarmDay={setAlarmDay}
                     />
                 ))}
             </DayButtonWrapper>
