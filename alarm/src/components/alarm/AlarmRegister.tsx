@@ -4,16 +4,37 @@ import styled from 'styled-components';
 import AlarmHeader from './AlarmHeader';
 import RepeatDay from './components/RepeatDay';
 
-import alarmStore from 'src/modules/zustand/alarm';
-import { IAlarmState } from 'src/modules/zustand/alarm';
-import objectConvertArray from 'src/utils/objectConvertArray';
+import alarmStore, { IAlarmState} from 'src/modules/zustand/alarm';
 
 const AlarmRegister = () => {
     const [alarmDay, setAlarmDay] = useState<any>({월: false,화: false,수: false,목: false,금: false,토: false,일: true});
 
+    const minuteList = Array(60).fill(0).map((arr, index) => {return index});
+    const hourList = Array(12).fill(0).map((arr, index) => {
+        if(index > 9){
+            return `${index + 1}`
+        }
+        return `0${index + 1}`
+    });
+
     return (
         <Wrapper>
             <AlarmHeader text={'Choose a time to wake up'} />
+            <TimeChooseWrapper>
+                <TimeChoose>
+                    <HourSelect>
+                        {hourList.map((hour) => (
+                            <div>{hour}</div>
+                        ))}
+                    </HourSelect>
+                    <Colon>:</Colon>
+                    <TimeSelect>
+                        {minuteList.map((minute) => (
+                            <div>{minute}</div>
+                        ))}
+                    </TimeSelect>
+                </TimeChoose>
+            </TimeChooseWrapper>
             <RepeatDayWrapper>
                 <RepeatDay 
                     active={true}
@@ -33,6 +54,8 @@ const AlarmRegister = () => {
     )
 }
 const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
     background-color: #171717;
     width: 350px;
     height: 650px;
@@ -45,15 +68,41 @@ const Wrapper = styled.div`
     padding: 16px;
     margin: 16px;
 `;
-const TimeChooseWrapper = styled.div``;
+const TimeChooseWrapper = styled.div`
+    display: flex;
+    justify-content: center;
+    flex:1;
+    width: 100%;
+    height: 264px;
+    align-items: center;
+    text-align: center;
+`;
+const TimeChoose = styled.div`
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+    height: inherit;
+`;
+const HourSelect = styled.div`
+    //${({theme}) => theme.div.vhCenter}
+    display: flex;
+    flex-direction: column;
+    font-size: 48px;
+    height: inherit;
+    overflow-y: hidden;
+`;
+const Colon = styled(HourSelect)``;
+const TimeSelect = styled(HourSelect)``;
 const RepeatDayWrapper = styled.div``;
 const MessageInputWrapper = styled.div`
     display: flex;
     margin: 24px 0;
-`;
-const MessageInput = styled.textarea`
     width: 100%;
     height: 80px;
+`;
+const MessageInput = styled.textarea`
+    width: inherit;
+    height: inherit;
     background-color: inherit;
     resize: none;
     color: #ebeaea;

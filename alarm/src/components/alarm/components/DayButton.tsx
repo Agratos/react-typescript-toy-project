@@ -13,16 +13,15 @@ const DayButton = ({active, day, toggle, setAlarmDay}:IDayButtonProps) => {
         <Wrapper 
             active={active}
             toggle={toggle ? day[1] === 'true' ? true : false : false}
+            onClick={() => setAlarmDay && setAlarmDay((arr:any) => {
+                const temp = {
+                    ...arr,
+                    [`${day[0]}`]: !arr[`${day[0]}`]
+                }
+                return temp;
+            })}
         >
-            <Day
-                onClick={() => setAlarmDay && setAlarmDay((arr:any) => {
-                    const temp = {
-                        ...arr,
-                        [`${day[0]}`]: !arr[`${day[0]}`]
-                    }
-                    return temp;
-                })}
-            >{day[0][0]}</Day>            
+            <Day>{day[0][0]}</Day>            
         </Wrapper>
     )
 }

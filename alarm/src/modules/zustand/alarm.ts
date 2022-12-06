@@ -2,7 +2,7 @@ import create from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { devtools, persist } from 'zustand/middleware'
 
-interface IAlarmState {
+export interface IAlarmState {
     id: number,
     time: string,
     toggle: boolean,
