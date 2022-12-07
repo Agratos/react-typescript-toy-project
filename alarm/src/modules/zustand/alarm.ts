@@ -27,6 +27,7 @@ interface IAlarmInitState {
     getAlarm: (id:number) => IAlarmState;
     setAlarmToggle: (id:number) => void;
     setRegisterToggle: () => void;
+    setRegister: ({id,time,toggle,day,memo,repeat}:IAlarmState) => void;
 }
 
 const alarmStore = create<IAlarmInitState>()(
@@ -74,7 +75,19 @@ const alarmStore = create<IAlarmInitState>()(
 
         setRegisterToggle: () => set((state) => {
             state.registerToggle = !state.registerToggle
-        }, false, 'setRegisterToggle')
+        }, false, 'setRegisterToggle'),
+
+        setRegister: ({id,time,toggle,day,memo,repeat}:IAlarmState) => set((state) => {
+            state.alarm.push({
+                id,
+                time,
+                toggle,
+                day,
+                memo,
+                repeat,
+            });
+            state.currentId = id;
+        }, false, 'setRegister')
     })))
 )
 

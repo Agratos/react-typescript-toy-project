@@ -4,28 +4,51 @@ import styled from 'styled-components';
 import AlarmHeader from './AlarmHeader';
 import RepeatDay from './components/RepeatDay';
 
-import alarmStore, { IAlarmState} from 'src/modules/zustand/alarm';
+import alarmStore, { IAlarmState } from 'src/modules/zustand/alarm';
 
 interface IHTMLDivElement extends HTMLDivElement{
     [index:string]: any
 }
 
 const AlarmRegister = () => {
+    const { setRegister } = alarmStore();
     const [alarmDay, setAlarmDay] = useState<any>({월: false,화: false,수: false,목: false,금: false,토: false,일: true});
     const minuteRef = useRef<IHTMLDivElement>(null);
     const hourRef = useRef<IHTMLDivElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [meridiem, setMeridiem] = useState<string>(''); 
 
-    const minuteList = Array(60).fill(0).map((arr, index) => {return index});
     const hourList = Array(12).fill(0).map((arr, index) => {
         if(index > 8){
             return `${index + 1}`
         }
         return `0${index + 1}`
     });
+    const minuteList = Array(60).fill(0).map((arr, index) => {
+        if(index > 9){
+            return `${index}`
+        }
+        return `0${index}`
+    });
 
     useEffect(() => {
-        hourRef.current!.hour = 6;
-        minuteRef.current!.minute = 30;
+        let currentTime =  new Date().toLocaleTimeString();
+
+        if(currentTime.includes('오후')){
+            setMeridiem('PM')
+            currentTime = currentTime.replace('오후 ','');
+        }else if(currentTime.includes('오전')){
+            setMeridiem('AM')
+            currentTime = currentTime.replace('오전 ','');
+        }
+
+        const time = currentTime.split(':');
+
+        hourRef.current!.hour = 12 - Number(time[0]);
+        minuteRef.current!.minute = 60 - Number(time[1]);
+
+        handleMouseMove(hourRef, 0)
+        handleMouseMove(minuteRef, 0)
     },[])
 
     const handleMouseDown = (ref:React.RefObject<IHTMLDivElement>, position:number) => {
@@ -63,12 +86,30 @@ const AlarmRegister = () => {
                     target.startPosition = position;
                 }
             }
+        }else{ //  현재 시간 위치 수정
+            if(checkHour){
+                target.style.transition = `none`;
+                target.style.transform = `translateY(${60 * (target.hour - 6)}px)`;
+            }else{
+                target.style.transition = `none`;
+                target.style.transform = `translateY(${60 * (target.minute - 30)}px)`;
+            }
         }
     }
     const handleMouseUp = (ref:React.RefObject<IHTMLDivElement>) => {
         ref.current!.isClick = false
-
     }  
+
+    const handleRegister = () => {
+        setRegister({
+            id: 2,
+            time: `${12 - hourRef.current!.hour}.${60 - minuteRef.current!.minute}`,
+            toggle: true,
+            day: alarmDay,
+            memo: textareaRef.current!.value,
+            repeat: 5
+        })
+    }
 
     return (
         <Wrapper>
@@ -100,6 +141,9 @@ const AlarmRegister = () => {
                     </MinuteSelect>
                 </TimeChoose>
             </TimeChooseWrapper>
+            <Meridiem>
+                {meridiem}
+            </Meridiem>
             <RepeatDayWrapper>
                 <RepeatDay 
                     active={true}
@@ -109,11 +153,11 @@ const AlarmRegister = () => {
                 />
             </RepeatDayWrapper>
             <MessageInputWrapper>
-                <MessageInput />
+                <MessageTextArea ref={textareaRef}/>
                 <MessageLabel>What's this for?</MessageLabel>
             </MessageInputWrapper>
             <RegisterButton
-                onClick={() => console.log(`설정한 시각은 ${12 - hourRef.current!.hour} : ${60 - minuteRef.current!.minute} 분 입니다.`)}
+                onClick={handleRegister}
             >
                 ALL SET
             </RegisterButton>
@@ -166,6 +210,13 @@ const HourSelect = styled.div`
 const MinuteSelect = styled(HourSelect)`
     padding-bottom: 120px;
 `;
+const Meridiem = styled.div`
+    ${({theme}) => theme.div.vhCenter}
+    position: absolute;
+    margin-top: 258px;
+    margin-left: 216px;
+    font-size: 24px;
+`;
 const RepeatDayWrapper = styled.div``;
 const MessageInputWrapper = styled.div`
     display: flex;
@@ -173,7 +224,7 @@ const MessageInputWrapper = styled.div`
     width: 100%;
     height: 80px;
 `;
-const MessageInput = styled.textarea`
+const MessageTextArea = styled.textarea`
     width: inherit;
     height: inherit;
     background-color: inherit;
