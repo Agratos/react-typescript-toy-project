@@ -25,6 +25,7 @@ const AlarmRegister = () => {
 
     useEffect(() => {
         hourRef.current!.hour = 6;
+        minuteRef.current!.minute = 30;
     },[])
 
     const handleMouseDown = (ref:React.RefObject<IHTMLDivElement>, position:number) => {
@@ -34,17 +35,33 @@ const AlarmRegister = () => {
     }
     const handleMouseMove = (ref:React.RefObject<IHTMLDivElement>, position:number) => {
         const target = ref.current!;
+        const checkHour = target.hour !== null && target.hour !== undefined && target.hour !== NaN
+
         if(target.isClick){
-            if(target.startPosition - position >= 60){
-                target.hour = target.hour - 1;
-                target.style.transition = `all 0s ease-in-out`;
-                target.style.transform = `translateY(${60 * (target.hour - 6)}px)`;
-                target.startPosition = position;
-            }else if(target.startPosition - position <= -60){
-                target.hour = target.hour + 1;
-                target.style.transition = `all 0s ease-in-out`;
-                target.style.transform = `translateY(${60 * (target.hour - 6)}px)`;
-                target.startPosition = position;
+            if(target.startPosition - position >= 30){
+                if(checkHour){
+                    target.hour = target.hour - 1;
+                    target.style.transition = `all 0s ease-in-out`;
+                    target.style.transform = `translateY(${60 * (target.hour - 6)}px)`;
+                    target.startPosition = position;
+                }else{
+                    target.minute = target.minute - 1;
+                    target.style.transition = `all 0s ease-in-out`;
+                    target.style.transform = `translateY(${60 * (target.minute - 30)}px)`;
+                    target.startPosition = position;
+                }
+            }else if(target.startPosition - position <= -30){
+                if(checkHour){
+                    target.hour = target.hour + 1;
+                    target.style.transition = `all 0s ease-in-out`;
+                    target.style.transform = `translateY(${60 * (target.hour - 6)}px)`;
+                    target.startPosition = position;
+                }else {
+                    target.minute = target.minute + 1;
+                    target.style.transition = `all 0s ease-in-out`;
+                    target.style.transform = `translateY(${60 * (target.minute - 30)}px)`;
+                    target.startPosition = position;
+                }
             }
         }
     }
@@ -70,7 +87,13 @@ const AlarmRegister = () => {
                         ))}
                     </HourSelect>
                     <Colon>:</Colon>
-                    <MinuteSelect ref={minuteRef}>
+                    <MinuteSelect 
+                        ref={minuteRef}
+                        onMouseDown={(e) => handleMouseDown(minuteRef, e.clientY)}
+                        onMouseMove={(e) => handleMouseMove(minuteRef, e.clientY)}
+                        onMouseUp={() => handleMouseUp(minuteRef)}
+                        onMouseLeave={() => handleMouseUp(minuteRef)}
+                    >
                         {minuteList.map((minute) => (
                             <div key={`minute-${minute}`}>{minute}</div>
                         ))}
@@ -90,7 +113,7 @@ const AlarmRegister = () => {
                 <MessageLabel>What's this for?</MessageLabel>
             </MessageInputWrapper>
             <RegisterButton
-                onClick={() => console.log(`설정한 시각은 ${12 - hourRef.current!.hour} : 30 분 입니다.`)}
+                onClick={() => console.log(`설정한 시각은 ${12 - hourRef.current!.hour} : ${60 - minuteRef.current!.minute} 분 입니다.`)}
             >
                 ALL SET
             </RegisterButton>
