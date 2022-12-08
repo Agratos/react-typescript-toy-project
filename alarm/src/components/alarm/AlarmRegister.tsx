@@ -61,40 +61,39 @@ const AlarmRegister = () => {
         target.isClick = true;
         target.startPosition = position;
     }
-    const handleMouseMove = (ref:React.RefObject<IHTMLDivElement>, position:number) => {
+    const handleMouseMove = (ref:React.RefObject<IHTMLDivElement>, position:number, wheel:boolean = false) => {
         const target = ref.current!;
         const checkHour = target.hour !== null && target.hour !== undefined && target.hour !== NaN
-
-        if(target.isClick){
-            if(target.startPosition - position >= 30){
+        
+        if(target.isClick || wheel){
+            if(target.startPosition - position >= 30 || position === 100){
                 if(checkHour){
+                    if(target.hour - 1 === 0) handleMeridiem();
                     if(target.hour - 1 === 0){
                         target.hour = 12;
-                        handleMeridiem();
                     }else{
                         target.hour = target.hour - 1;
                     }
-                    target.startPosition = position;
+                    !wheel && (target.startPosition = position);
                     timeTranslateY(ref, (target.hour - 6))
-                    
                 }else{
                     if(target.minute - 1 === 0){
                         target.minute = 60;
                     }else{
                         target.minute = target.minute - 1;
                     }
-                    target.startPosition = position;
+                    !wheel && (target.startPosition = position);
                     timeTranslateY(ref, (target.minute - 30))
                 }
-            }else if(target.startPosition - position <= -30){
+            }else if(target.startPosition - position <= -30 || position === -100){
                 if(checkHour){
-                    if(target.hour + 1 === 13){
-                        target.hour = 1;
-                        handleMeridiem();
+                    if(target.hour + 1 === 13) handleMeridiem();
+                    if(target.hour + 1 === 12){
+                        target.hour = 0;
                     }else{
                         target.hour = target.hour + 1;
                     }
-                    target.startPosition = position;
+                    !wheel && (target.startPosition = position);
                     timeTranslateY(ref, (target.hour - 6))
                 }else {
                     if(target.minute + 1 === 60){
@@ -102,7 +101,7 @@ const AlarmRegister = () => {
                     }else {
                         target.minute = target.minute + 1;
                     }
-                    target.startPosition = position;
+                    !wheel && (target.startPosition = position);
                     timeTranslateY(ref, (target.minute - 30))
                 }
             }
@@ -172,6 +171,7 @@ const AlarmRegister = () => {
                         onMouseMove={(e) => handleMouseMove(hourRef, e.clientY)}
                         onMouseUp={() => handleMouseUp(hourRef)}
                         onMouseLeave={() => handleMouseUp(hourRef)}
+                        onWheel={(e) => handleMouseMove(hourRef, e.deltaY, true)}
                     >
                         {hourList.map((hour, index) => (
                             <div key={`hour-${index}`}>{hour}</div>
@@ -184,6 +184,10 @@ const AlarmRegister = () => {
                         onMouseMove={(e) => handleMouseMove(minuteRef, e.clientY)}
                         onMouseUp={() => handleMouseUp(minuteRef)}
                         onMouseLeave={() => handleMouseUp(minuteRef)}
+                        onWheel={(e) => {
+                            console.log(e.deltaY)
+                            handleMouseMove(minuteRef, e.deltaY, true)
+                        }}
                     >
                         {minuteList.map((minute ,index) => (
                             <div key={`minute-${index}`}>{minute}</div>
