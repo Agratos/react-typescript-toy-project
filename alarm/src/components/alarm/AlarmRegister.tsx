@@ -100,6 +100,15 @@ const AlarmRegister = () => {
         ref.current!.isClick = false
     }  
 
+    const handleMeridiem = () => {
+        switch(meridiem){
+            case 'AM':
+                return setMeridiem('PM');
+            case 'PM':
+                return setMeridiem('AM');
+        }
+    }
+
     const handleRegister = () => {
         setRegister({
             id: 2,
@@ -149,7 +158,9 @@ const AlarmRegister = () => {
                     </MinuteSelect>
                 </TimeChoose>
             </TimeChooseWrapper>
-            <Meridiem>
+            <Meridiem
+                onClick={handleMeridiem}
+            >
                 {meridiem}
             </Meridiem>
             <RepeatDayWrapper>
@@ -224,6 +235,7 @@ const Meridiem = styled.div`
     margin-top: 258px;
     margin-left: 216px;
     font-size: 24px;
+    cursor: pointer;
 `;
 const RepeatDayWrapper = styled.div``;
 const MessageInputWrapper = styled.div`
