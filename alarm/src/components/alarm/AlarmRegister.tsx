@@ -103,12 +103,20 @@ const AlarmRegister = () => {
     const handleRegister = () => {
         setRegister({
             id: 2,
-            time: `${12 - hourRef.current!.hour}.${60 - minuteRef.current!.minute}`,
+            time: `${timeProcess(12 - hourRef.current!.hour)}.${timeProcess(60 - minuteRef.current!.minute)}`,
+            meridiem,
             toggle: true,
             day: alarmDay,
             memo: textareaRef.current!.value,
             repeat: 5
         })
+    }
+
+    const timeProcess = (time: number):string => {
+        if(time < 10){
+            return `0${time}`
+        }
+        return `${time}`;
     }
 
     return (

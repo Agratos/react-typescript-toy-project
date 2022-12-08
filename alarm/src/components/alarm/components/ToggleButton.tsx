@@ -8,11 +8,8 @@ interface IToggleButtonParams {
 }
 
 const ToggleButton = ({id}: IToggleButtonParams) => {
-    console.log(`toggle button: `, id);
     const toggle:boolean = alarmStore().getAlarm(id).toggle;
     const { setAlarmToggle } = alarmStore()
-
-    console.log('toggle: ', toggle);
 
     return (
         <Wrapper>

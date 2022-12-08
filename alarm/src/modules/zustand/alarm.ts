@@ -5,6 +5,7 @@ import { devtools, persist } from 'zustand/middleware'
 export interface IAlarmState {
     id: number,
     time: string,
+    meridiem: string,
     toggle: boolean,
     day: {
         [index:string]: boolean,
@@ -27,7 +28,7 @@ interface IAlarmInitState {
     getAlarm: (id:number) => IAlarmState;
     setAlarmToggle: (id:number) => void;
     setRegisterToggle: () => void;
-    setRegister: ({id,time,toggle,day,memo,repeat}:IAlarmState) => void;
+    setRegister: ({id,time,meridiem,toggle,day,memo,repeat}:IAlarmState) => void;
 }
 
 const alarmStore = create<IAlarmInitState>()(
@@ -36,7 +37,8 @@ const alarmStore = create<IAlarmInitState>()(
         registerToggle: false,
         alarm: [{
             id: 0,
-            time: '7.30',
+            time: '07.30',
+            meridiem: 'AM',
             toggle: true,
             day: {
                 월: true,
@@ -52,7 +54,8 @@ const alarmStore = create<IAlarmInitState>()(
         },
         {
             id: 1,
-            time: '4.30',
+            time: '04.30',
+            meridiem: 'PM',
             toggle: false,
             day: {
                 월: false,
@@ -77,10 +80,11 @@ const alarmStore = create<IAlarmInitState>()(
             state.registerToggle = !state.registerToggle
         }, false, 'setRegisterToggle'),
 
-        setRegister: ({id,time,toggle,day,memo,repeat}:IAlarmState) => set((state) => {
+        setRegister: ({id,time,meridiem,toggle,day,memo,repeat}:IAlarmState) => set((state) => {
             state.alarm.push({
                 id,
                 time,
+                meridiem,
                 toggle,
                 day,
                 memo,

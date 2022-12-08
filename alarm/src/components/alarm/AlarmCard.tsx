@@ -19,7 +19,7 @@ const AlarmCard = ({id}:{id:number}) => {
                 <TimeToggleWrapper>
                     <TimeWrapper>
                         <Time>{alarm.time}</Time>
-                        <Meridiem>AM</Meridiem>
+                        <Meridiem>{alarm.meridiem}</Meridiem>
                     </TimeWrapper>
                     <Toggle>
                         <ToggleButton id={alarm.id}/>
