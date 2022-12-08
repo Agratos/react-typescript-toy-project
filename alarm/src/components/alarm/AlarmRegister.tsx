@@ -18,18 +18,23 @@ const AlarmRegister = () => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [meridiem, setMeridiem] = useState<string>(''); 
 
-    const hourList = Array(12).fill(0).map((arr, index) => {
+    const hourList = (Array(12).fill(0).map((arr, index) => {
         if(index > 8){
             return `${index + 1}`
         }
         return `0${index + 1}`
-    });
+    }));
     const minuteList = Array(60).fill(0).map((arr, index) => {
         if(index > 9){
             return `${index}`
         }
         return `0${index}`
     });
+    
+    hourList.push('01', '02', '03');
+    hourList.unshift('10', '11', '12');
+    minuteList.push('01', '02', '03');
+    minuteList.unshift('57', '58', '59');
 
     useEffect(() => {
         let currentTime =  new Date().toLocaleTimeString();
@@ -63,36 +68,49 @@ const AlarmRegister = () => {
         if(target.isClick){
             if(target.startPosition - position >= 30){
                 if(checkHour){
-                    target.hour = target.hour - 1;
-                    target.style.transition = `all 0s ease-in-out`;
-                    target.style.transform = `translateY(${60 * (target.hour - 6)}px)`;
+                    if(target.hour - 1 === 0){
+                        target.hour = 12;
+                        handleMeridiem();
+                    }else{
+                        target.hour = target.hour - 1;
+                    }
                     target.startPosition = position;
+                    timeTranslateY(ref, (target.hour - 6))
+                    
                 }else{
-                    target.minute = target.minute - 1;
-                    target.style.transition = `all 0s ease-in-out`;
-                    target.style.transform = `translateY(${60 * (target.minute - 30)}px)`;
+                    if(target.minute - 1 === 0){
+                        target.minute = 60;
+                    }else{
+                        target.minute = target.minute - 1;
+                    }
                     target.startPosition = position;
+                    timeTranslateY(ref, (target.minute - 30))
                 }
             }else if(target.startPosition - position <= -30){
                 if(checkHour){
-                    target.hour = target.hour + 1;
-                    target.style.transition = `all 0s ease-in-out`;
-                    target.style.transform = `translateY(${60 * (target.hour - 6)}px)`;
+                    if(target.hour + 1 === 13){
+                        target.hour = 1;
+                        handleMeridiem();
+                    }else{
+                        target.hour = target.hour + 1;
+                    }
                     target.startPosition = position;
+                    timeTranslateY(ref, (target.hour - 6))
                 }else {
-                    target.minute = target.minute + 1;
-                    target.style.transition = `all 0s ease-in-out`;
-                    target.style.transform = `translateY(${60 * (target.minute - 30)}px)`;
+                    if(target.minute + 1 === 60){
+                        target.minute = 1;
+                    }else {
+                        target.minute = target.minute + 1;
+                    }
                     target.startPosition = position;
+                    timeTranslateY(ref, (target.minute - 30))
                 }
             }
         }else{ //  현재 시간 위치 수정
             if(checkHour){
-                target.style.transition = `none`;
-                target.style.transform = `translateY(${60 * (target.hour - 6)}px)`;
+                timeTranslateY(ref, (target.hour - 6), true)
             }else{
-                target.style.transition = `none`;
-                target.style.transform = `translateY(${60 * (target.minute - 30)}px)`;
+                timeTranslateY(ref, (target.minute - 30), true)
             }
         }
     }
@@ -121,6 +139,21 @@ const AlarmRegister = () => {
         })
     }
 
+    const timeTranslateY = (ref:React.RefObject<IHTMLDivElement>, number:number, reset:boolean = false) => {
+        const target = ref.current!;
+
+        switch(reset){
+            case true:
+                target.style.transition = `none`;
+                break
+            case false:
+                target.style.transition = `all 0s ease-in-out`;
+                break;
+        }
+
+        target.style.transform = `translateY(${60 * number}px)`;
+    }
+
     const timeProcess = (time: number):string => {
         if(time < 10){
             return `0${time}`
@@ -140,8 +173,8 @@ const AlarmRegister = () => {
                         onMouseUp={() => handleMouseUp(hourRef)}
                         onMouseLeave={() => handleMouseUp(hourRef)}
                     >
-                        {hourList.map((hour) => (
-                            <div key={`hour-${hour}`}>{hour}</div>
+                        {hourList.map((hour, index) => (
+                            <div key={`hour-${index}`}>{hour}</div>
                         ))}
                     </HourSelect>
                     <Colon>:</Colon>
@@ -152,8 +185,8 @@ const AlarmRegister = () => {
                         onMouseUp={() => handleMouseUp(minuteRef)}
                         onMouseLeave={() => handleMouseUp(minuteRef)}
                     >
-                        {minuteList.map((minute) => (
-                            <div key={`minute-${minute}`}>{minute}</div>
+                        {minuteList.map((minute ,index) => (
+                            <div key={`minute-${index}`}>{minute}</div>
                         ))}
                     </MinuteSelect>
                 </TimeChoose>
