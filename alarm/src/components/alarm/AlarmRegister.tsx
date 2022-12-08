@@ -132,7 +132,7 @@ const AlarmRegister = () => {
     const handleRegister = () => {
         setRegister({
             id: 2,
-            time: `${timeProcess(12 - hourRef.current!.hour)}.${timeProcess(60 - minuteRef.current!.minute)}`,
+            time: `${timeProcess(11 - hourRef.current!.hour)}.${timeProcess(60 - minuteRef.current!.minute)}`,
             meridiem,
             toggle: true,
             day: alarmDay,
@@ -157,7 +157,9 @@ const AlarmRegister = () => {
     }
 
     const timeProcess = (time: number):string => {
-        if(time < 10){
+        if(time === 0){
+            return `12`
+        }else if(time < 10){
             return `0${time}`
         }
         return `${time}`;
