@@ -36,14 +36,12 @@ const AlarmRegister = () => {
     
     hourList.push('12', '01', '02');
     hourList.unshift('09', '10', '11');
-    minuteList.push('01', '02', '03');
+    minuteList.push('00', '01', '02');
     minuteList.unshift('57', '58', '59');
 
     useEffect(() => {
         let currentTime =  new Date().toLocaleTimeString();
         let currentDay= new Date().getDay();
-
-        console.log(currentDay);
 
         if(currentTime.includes('오후')){
             setMeridiem('PM')
@@ -58,6 +56,51 @@ const AlarmRegister = () => {
         hourRef.current!.hour = 11 - (Number(time[0]) === 12 ? 0 : Number(time[0]));
         minuteRef.current!.minute = 60 - Number(time[1]);
 
+        switch(currentDay){
+            case 0:
+                setAlarmDay((day: any) => {
+                    day['일'] = true
+                    return day
+                })
+                break;
+            case 1:
+                setAlarmDay((day: any) => {
+                    day['월'] = true
+                    return day
+                })
+                break;
+            case 2:
+                setAlarmDay((day: any) => {
+                    day['화'] = true
+                    return day
+                })
+                break;
+            case 3:
+                setAlarmDay((day: any) => {
+                    day['수'] = true
+                    return day
+                })
+                break;
+            case 4:
+                setAlarmDay((day: any) => {
+                    day['목'] = true
+                    return day
+                })
+                break;
+            case 5:
+                setAlarmDay((day: any) => {
+                    day['금'] = true
+                    return day
+                })
+                break;
+            case 6:
+                setAlarmDay((day: any) => {
+                    day['토'] = true
+                    return day
+                })
+                break;
+        }
+
         handleMouseMove(hourRef, 0)
         handleMouseMove(minuteRef, 0)
     },[])
@@ -70,7 +113,7 @@ const AlarmRegister = () => {
     const handleMouseMove = (ref:React.RefObject<IHTMLDivElement>, position:number, wheel:boolean = false) => {
         const target = ref.current!;
         const checkHour = target.hour !== null && target.hour !== undefined && target.hour !== NaN
-
+        
         if(target.isClick || wheel){
             if(target.startPosition - position >= 30 || position === 100){
                 if(checkHour){
@@ -83,8 +126,9 @@ const AlarmRegister = () => {
                     !wheel && (target.startPosition = position);
                     timeTranslateY(ref, (target.hour - 6))
                 }else{
-                    if(target.minute - 1 === 0){
-                        target.minute = 60;
+                    if(target.minute - 1 === -1){
+                        console.log(target.minute)
+                        target.minute = 59;
                     }else{
                         target.minute = target.minute - 1;
                     }
@@ -102,7 +146,7 @@ const AlarmRegister = () => {
                     !wheel && (target.startPosition = position);
                     timeTranslateY(ref, (target.hour - 6))
                 }else {
-                    if(target.minute + 1 === 60){
+                    if(target.minute + 1 === 61){
                         target.minute = 1;
                     }else {
                         target.minute = target.minute + 1;
