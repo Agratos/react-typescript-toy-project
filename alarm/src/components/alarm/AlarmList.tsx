@@ -10,10 +10,6 @@ import alarmStore from 'src/modules/zustand/alarm';
 const AlarmList = () => {
     const { alarm, setRegisterToggle } = alarmStore()
 
-    useEffect(() => {
-        console.log('alarm', alarm);
-    },[alarm])
-
     return (
         <Wrapper>
             <Header text={'Your Alarms'}/>
