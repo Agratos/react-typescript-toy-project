@@ -26,51 +26,22 @@ interface IAlarmInitState {
     registerToggle: boolean;
     alarm: IAlarmState[];
     getAlarm: (id:number) => IAlarmState;
+    getId: () => number;
     setAlarmToggle: (id:number) => void;
     setRegisterToggle: () => void;
     setRegister: ({id,time,meridiem,toggle,day,memo,repeat}:IAlarmState) => void;
+    setDelete: (deleteId:number) => void;
 }
 
 const alarmStore = create<IAlarmInitState>()(
     devtools(immer((set, get) => ({
-        currentId: 1,
+        currentId: 0,
         registerToggle: false,
-        alarm: [{
-            id: 0,
-            time: '07.30',
-            meridiem: 'AM',
-            toggle: true,
-            day: {
-                월: true,
-                화: true,
-                수: true,
-                목: true,
-                금: true,
-                토: false,
-                일: false,
-            },
-            memo: 'Wake Up for Go to Work!',
-            repeat: 5,
-        },
-        {
-            id: 1,
-            time: '04.30',
-            meridiem: 'PM',
-            toggle: false,
-            day: {
-                월: false,
-                화: true,
-                수: true,
-                목: true,
-                금: true,
-                토: false,
-                일: false,
-            },
-            memo: '밥먹을 시간 입니다.',
-            repeat: 5,
-        }],
+        alarm: [],
 
         getAlarm: (id: number) => get().alarm.filter(state => state.id === id)[0],
+
+        getId: () => get().currentId,
 
         setAlarmToggle: (id: number) => set((state) => {
             state.alarm[id].toggle = !state.alarm[id].toggle;
@@ -90,12 +61,13 @@ const alarmStore = create<IAlarmInitState>()(
                 memo,
                 repeat,
             });
-            state.currentId = id;
-        }, false, 'setRegister')
+            state.currentId = id + 1;
+        }, false, 'setRegister'),
+
+        setDelete: (deleteId:number) => set((state) => {
+            state.alarm = state.alarm.filter((alarm) => alarm.id !== deleteId) 
+        }, true, 'delete'),
     })))
 )
-
-// increaseCounter: () => set((state) => ({ counter: state.counter + 1})),
-
 
 export default alarmStore;

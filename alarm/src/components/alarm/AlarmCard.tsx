@@ -8,12 +8,16 @@ import alarmStore from 'src/modules/zustand/alarm';
 
 const AlarmCard = ({id}:{id:number}) => {
     const alarm = alarmStore().getAlarm(id);
+    const { setDelete } = alarmStore()
 
     return (
         <Wrapper>
             <Header>
                 <ImAlarm color={'yellow'} size={14} />
                 <Message>{alarm.memo}</Message>
+                <DeleteButton
+                    onClick={() => setDelete(id)}
+                >X</DeleteButton>
             </Header>
             <Body>
                 <TimeToggleWrapper>
@@ -47,9 +51,16 @@ const Header = styled.div`
     border-top-right-radius: 16px;
 `;
 const Message = styled.div`
-    font-size: 14px;
+    flex:1 ;
+    text-align: left;
+    font-size: 16px;
     color: #8a8a8a;
-    margin-left: 8px;
+    margin-left: 16px;
+`;
+const DeleteButton = styled.div`
+    font-size: 16px;
+    color: #974141;
+    cursor: pointer;
 `;
 const Body = styled.div`
     background-color: #252525;

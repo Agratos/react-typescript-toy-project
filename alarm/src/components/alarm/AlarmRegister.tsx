@@ -11,8 +11,8 @@ interface IHTMLDivElement extends HTMLDivElement{
 }
 
 const AlarmRegister = () => {
-    const { setRegister } = alarmStore();
-    const [alarmDay, setAlarmDay] = useState<any>({월: false,화: false,수: false,목: false,금: false,토: false,일: true});
+    const { setRegister, getId } = alarmStore();
+    const [alarmDay, setAlarmDay] = useState<any>({월: false,화: false,수: false,목: false,금: false,토: false,일: false});
     const minuteRef = useRef<IHTMLDivElement>(null);
     const hourRef = useRef<IHTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -41,6 +41,9 @@ const AlarmRegister = () => {
 
     useEffect(() => {
         let currentTime =  new Date().toLocaleTimeString();
+        let currentDay= new Date().getDay();
+
+        console.log(currentDay);
 
         if(currentTime.includes('오후')){
             setMeridiem('PM')
@@ -131,7 +134,7 @@ const AlarmRegister = () => {
 
     const handleRegister = () => {
         setRegister({
-            id: 2,
+            id: getId(),
             time: `${timeProcess(11 - hourRef.current!.hour)}.${timeProcess(60 - minuteRef.current!.minute)}`,
             meridiem,
             toggle: true,
@@ -139,6 +142,7 @@ const AlarmRegister = () => {
             memo: textareaRef.current!.value,
             repeat: 5
         })
+
     }
 
     const timeTranslateY = (ref:React.RefObject<IHTMLDivElement>, number:number, reset:boolean = false) => {

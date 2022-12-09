@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 import { MdOutlineAlarmAdd } from 'react-icons/md';
@@ -8,6 +9,10 @@ import alarmStore from 'src/modules/zustand/alarm';
 
 const AlarmList = () => {
     const { alarm, setRegisterToggle } = alarmStore()
+
+    useEffect(() => {
+        console.log('alarm', alarm);
+    },[alarm])
 
     return (
         <Wrapper>
@@ -49,10 +54,29 @@ const ButtonWrapper = styled.div`
 `;
 const Body = styled.div`
     flex: 1;
+    margin-left: 8px;
+    padding-right: 8px;
+
+    overflow-y: auto;
+    ::-webkit-scrollbar{
+        width: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background-color: #9c9c9c;
+        border-radius: 16px;
+    }
+
+    
+    //-ms-overflow-style: none; /* IE and Edge */
+    //scrollbar-width: none; /* Firefox */
+    //::-webkit-scrollbar {
+    //    display: none; /* Chrome, Safari, Opera*/
+    //}
+    
 `;
 const AddButton = styled.div`
     ${({theme}) => theme.div.vhCenter}
-
+    margin-top: 20px;
     width: 56px;
     height: 56px;
     border-radius: 50%;
