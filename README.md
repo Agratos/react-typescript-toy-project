@@ -21,4 +21,5 @@ redux-saga typesafe-actions
 ## 5. Alarm
 study zustand
 zustand
+비동기 공부 예정
 
