@@ -11,12 +11,20 @@ interface IProps {
     setMeridiem: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export type RefHandler = HTMLDivElement[]
+export type RefHandler = {
+    hourRef: React.RefObject<IHTMLDivElement>;
+    minuteRef: React.RefObject<IHTMLDivElement>;
+}
 
 const TimeChoose = React.forwardRef<RefHandler, IProps>(({meridiem, setMeridiem}:IProps, ref) => {
     const minuteRef = useRef<IHTMLDivElement>(null);
     const hourRef = useRef<IHTMLDivElement>(null);
     //const [meridiem, setMeridiem] = useState<string>(''); 
+
+    useImperativeHandle(ref, () => ({
+        minuteRef,
+        hourRef
+    }));
 
     const hourList = (Array(12).fill(0).map((arr, index) => {
         if(index === 0){

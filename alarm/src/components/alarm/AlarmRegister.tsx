@@ -6,9 +6,15 @@ import TimeChoose from './components/TimeChoose';
 import RepeatDay from './components/RepeatDay';
 
 import alarmStore, { IAlarmState } from 'src/modules/zustand/alarm';
+//import RefHandler from './components/TimeChoose';
 
 interface IHTMLDivElement extends HTMLDivElement{
     [index:string]: any
+}
+
+type RefHandler = {
+    hourRef: React.RefObject<IHTMLDivElement>;
+    minuteRef: React.RefObject<IHTMLDivElement>;
 }
 
 const AlarmRegister = () => {
@@ -19,7 +25,7 @@ const AlarmRegister = () => {
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [meridiem, setMeridiem] = useState<string>('');
 
-    const testRef = useRef<HTMLDivElement[]>([]);
+    const testRef = useRef<RefHandler>(null);
 
     useEffect(() => {
         let currentDay= new Date().getDay();
@@ -73,7 +79,10 @@ const AlarmRegister = () => {
     const handleRegister = () => {
         setRegister({
             id: getId(),
-            time: `${timeProcess(11 - hourRef.current!.hour)}.${timeProcess(60 - minuteRef.current!.minute)}`,
+            time: `
+                ${timeProcess(11 - testRef?.current?.hourRef?.current?.hour)}.
+                ${timeProcess(60 - testRef?.current?.minuteRef?.current?.minute)}
+            `,
             meridiem,
             toggle: true,
             day: alarmDay,
@@ -169,45 +178,6 @@ const Wrapper = styled.div`
     color: #e9e9e9;
     padding: 16px;
     margin: 16px;
-`;
-const TimeChooseWrapper = styled.div`
-    display: flex;
-    justify-content: center;
-    flex:1;
-    width: 100%;
-    align-items: center;
-    text-align: center;
-    margin: 20px 0;
-    overflow: hidden;
-`;
-// const TimeChoose = styled.div`
-//     display: flex;
-//     justify-content: space-around;
-//     width: 50%;
-// `;
-const Colon = styled.div`
-    ${({theme}) => theme.div.vhCenter}
-    font-size: 40px;
-    height: inherit;
-`;
-const HourSelect = styled.div`
-    ${({theme}) => theme.div.vhCenter}
-    font-size: 48px;
-    height: inherit;
-    overflow-y: hidden;
-    padding-top: 60px;
-    cursor: pointer;
-`;
-const MinuteSelect = styled(HourSelect)`
-    padding-bottom: 120px;
-`;
-const Meridiem = styled.div`
-    ${({theme}) => theme.div.vhCenter}
-    position: absolute;
-    margin-top: 258px;
-    margin-left: 216px;
-    font-size: 24px;
-    cursor: pointer;
 `;
 const RepeatDayWrapper = styled.div``;
 const MessageInputWrapper = styled.div`
