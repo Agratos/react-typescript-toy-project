@@ -32,7 +32,9 @@ const AlarmRegisterUpdate = () => {
                 setTextarea(memo);
                 setAlarmDay(day);
 
-                console.log(time.replace(/\n|\r|\s*/g, "").split('.'));
+                const timeTemp =  time.replace(/\n|\r|\s*/g, "").split('.')
+                testRef.current!.hourRef!.current!.hour = 11 - Number(timeTemp[0])
+                testRef.current!.minuteRef!.current!.minute = 60 - Number(timeTemp[1])
         }
     },[alarmPageIndex])
 
