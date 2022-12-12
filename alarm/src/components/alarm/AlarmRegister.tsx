@@ -80,6 +80,10 @@ const AlarmRegister = () => {
         })
     }
 
+    const handleUpdate = () => {
+        
+    }
+
     const timeProcess = (time: number):string => {
         if(time === 0){
             return `12`
@@ -89,7 +93,7 @@ const AlarmRegister = () => {
         return `${time}`;
     }
 
-    return (
+    return ( registerToggle ?
         <Wrapper>
             <AlarmHeader text={'Choose a time to wake up'} />
             <TimeChoose 
@@ -114,6 +118,10 @@ const AlarmRegister = () => {
             >
                 ALL SET
             </RegisterButton>
+        </Wrapper>
+        : 
+        <Wrapper>
+            
         </Wrapper>
     )
 }

@@ -30,7 +30,8 @@ interface IAlarmInitState {
     setAlarmToggle: (id:number) => void;
     setRegisterToggle: () => void;
     setRegister: ({id,time,meridiem,toggle,day,memo,repeat}:IAlarmState) => void;
-    setDelete: (deleteId:number) => void;
+    setDelete: (id:number) => void;
+    setUpdate: ({id,time,meridiem,toggle,day,memo,repeat}:IAlarmState) => void;
 }
 
 const alarmStore = create<IAlarmInitState>()(
@@ -65,10 +66,22 @@ const alarmStore = create<IAlarmInitState>()(
             state.currentId = id + 1;
         }, false, 'setRegister'),
 
-        setDelete: (deleteId:number) => set((state) => {
-            state.alarm = state.alarm.filter((alarm) => alarm.id !== deleteId) 
+        setDelete: (id:number) => set((state) => {
+            state.alarm = state.alarm.filter((alarm) => alarm.id !== id) 
         }, false, 'delete'),
 
+        setUpdate: ({id,time,meridiem,toggle,day,memo,repeat}:IAlarmState) => set((state) => {
+            const updateIndex = state.alarm.findIndex((alarm) => alarm.id === id)
+            state.alarm[updateIndex] = {
+                id,
+                time,
+                meridiem,
+                toggle,
+                day,
+                memo,
+                repeat,
+            }
+        }, false, 'setUpdate')
     })))
 )
 
