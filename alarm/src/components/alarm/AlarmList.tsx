@@ -8,7 +8,15 @@ import AlarmCard from './AlarmCard';
 import alarmStore from 'src/modules/zustand/alarm';
 
 const AlarmList = () => {
-    const { alarm, setRegisterToggle } = alarmStore()
+    const { alarm, alarmPageIndex , setAlarmPageIndex } = alarmStore()
+
+    const handleRegisterButton = () => {
+        if(alarmPageIndex === 1){
+            setAlarmPageIndex(0);
+        }else{
+            setAlarmPageIndex(1);
+        }
+    }
 
     return (
         <Wrapper>
@@ -23,7 +31,7 @@ const AlarmList = () => {
             </Body>
             <ButtonWrapper>
                 <AddButton
-                    onClick={setRegisterToggle}
+                    onClick={handleRegisterButton}
                 >
                     <MdOutlineAlarmAdd size={28} color={'#dd641e'}/>
                 </AddButton>

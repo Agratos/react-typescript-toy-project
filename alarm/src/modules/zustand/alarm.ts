@@ -9,13 +9,13 @@ export interface IAlarmState {
     toggle: boolean,
     day: {
         [index:string]: boolean,
-        월: boolean,
-        화: boolean,
-        수: boolean,
-        목: boolean,
-        금: boolean,
-        토: boolean,
-        일: boolean,
+        0: boolean,
+        1: boolean,
+        2: boolean,
+        3: boolean,
+        4: boolean,
+        5: boolean,
+        6: boolean,
     }
     memo: string,
     repeat: number,
@@ -23,12 +23,15 @@ export interface IAlarmState {
 
 interface IAlarmInitState {
     currentId: number;
-    registerToggle: boolean;
+    updateId: number | null;
+    alarmPageIndex: number;
     alarm: IAlarmState[];
     getAlarm: (id:number) => IAlarmState;
     getId: () => number;
+    getUpdateId: () => number | null;
+    setUpdateId: (id: number) => void;
     setAlarmToggle: (id:number) => void;
-    setRegisterToggle: () => void;
+    setAlarmPageIndex: (index:number) => void;
     setRegister: ({id,time,meridiem,toggle,day,memo,repeat}:IAlarmState) => void;
     setDelete: (id:number) => void;
     setUpdate: ({id,time,meridiem,toggle,day,memo,repeat}:IAlarmState) => void;
@@ -36,22 +39,29 @@ interface IAlarmInitState {
 
 const alarmStore = create<IAlarmInitState>()(
     devtools(immer((set, get) => ({
-        currentId: 0,
-        registerToggle: false,
+        currentId: 1,
+        updateId: null,
+        alarmPageIndex: 0,
         alarm: [],
 
         getAlarm: (id: number) => get().alarm.filter(state => state.id === id)[0],
 
         getId: () => get().currentId,
 
+        getUpdateId: () => get().updateId,
+
+        setUpdateId: (id: number) => set((state) => {
+            state.updateId = id;
+        }),
+
         setAlarmToggle: (id: number) => set((state) => {
             const tmp = state.alarm.filter((alarm) => alarm.id === id)[0]
             tmp.toggle = !tmp.toggle;
         }, false, 'setAlarmToggle'),
 
-        setRegisterToggle: () => set((state) => {
-            state.registerToggle = !state.registerToggle
-        }, false, 'setRegisterToggle'),
+        setAlarmPageIndex: (index:number) => set((state) => {
+            state.alarmPageIndex = index;
+        }, false, 'setAlarmPageIndex'),
 
         setRegister: ({id,time,meridiem,toggle,day,memo,repeat}:IAlarmState) => set((state) => {
             state.alarm.push({

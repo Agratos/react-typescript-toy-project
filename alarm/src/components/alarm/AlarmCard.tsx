@@ -7,13 +7,21 @@ import ToggleButton from './components/ToggleButton';
 import alarmStore from 'src/modules/zustand/alarm';
 
 const AlarmCard = ({id}:{id:number}) => {
-    const alarm = alarmStore().getAlarm(id);
-    const { setDelete } = alarmStore()
+    const { setDelete, getAlarm, setUpdateId, setAlarmPageIndex } = alarmStore()
+    const alarm = getAlarm(id);
+
+    const handlleUpdateClick = () => {
+        setUpdateId(id);
+        setAlarmPageIndex(2);
+    }
 
     return (
         <Wrapper>
             <Header>
-                <ImAlarm color={'yellow'} size={14} />
+                <ImAlarm 
+                    color={'yellow'} size={14}
+                    onClick={handlleUpdateClick}
+                />
                 <Message>{alarm.memo}</Message>
                 <DeleteButton
                     onClick={() => setDelete(id)}

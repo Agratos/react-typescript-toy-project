@@ -3,13 +3,13 @@ import styled from 'styled-components';
 //import { TestComponent1, TestComponent2 } from '../components/test';
 
 import AlarmList from 'src/components/alarm/AlarmList';
-import AlarmRegister from 'src/components/alarm/AlarmRegister';
+import AlarmRegisterUpdate from 'src/components/alarm/AlarmRegisterUpdate';
 
 const MainPage = () => { 
     return (
         <Wrapper>
             <AlarmList />
-            <AlarmRegister />
+            <AlarmRegisterUpdate />
         </Wrapper>
     )
 }

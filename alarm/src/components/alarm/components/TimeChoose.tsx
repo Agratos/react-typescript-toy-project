@@ -42,7 +42,6 @@ const TimeChoose = React.forwardRef<RefHandler, IProps>(({meridiem, setMeridiem}
 
     useEffect(() => {
         let currentTime =  new Date().toLocaleTimeString();
-        let currentDay= new Date().getDay();
 
         if(currentTime.includes('오후')){
             setMeridiem('PM')

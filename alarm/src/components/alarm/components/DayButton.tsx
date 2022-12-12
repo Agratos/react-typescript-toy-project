@@ -9,6 +9,18 @@ interface IDayButtonProps {
 }
 
 const DayButton = ({active, day, toggle, setAlarmDay}:IDayButtonProps) => {
+    const switchDay = (day:string) => {
+        switch(day){
+            case '0': return '일';
+            case '1': return '월';
+            case '2': return '화';
+            case '3': return '수';
+            case '4': return '목';
+            case '5': return '금';
+            case '6': return '토';
+        }
+    }
+
     return (
         <Wrapper 
             active={active}
@@ -21,7 +33,7 @@ const DayButton = ({active, day, toggle, setAlarmDay}:IDayButtonProps) => {
                 return temp;
             })}
         >
-            <Day>{day[0][0]}</Day>            
+            <Day>{switchDay(day[0][0])}</Day>            
         </Wrapper>
     )
 }
