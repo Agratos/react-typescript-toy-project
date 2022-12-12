@@ -2,6 +2,7 @@ import React, {useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 import AlarmHeader from './AlarmHeader';
+import TimeChoose from './components/TimeChoose';
 import RepeatDay from './components/RepeatDay';
 
 import alarmStore, { IAlarmState } from 'src/modules/zustand/alarm';
@@ -11,50 +12,17 @@ interface IHTMLDivElement extends HTMLDivElement{
 }
 
 const AlarmRegister = () => {
-    const { setRegister, getId } = alarmStore();
+    const { setRegister, getId, registerToggle } = alarmStore();
     const [alarmDay, setAlarmDay] = useState<any>({월: false,화: false,수: false,목: false,금: false,토: false,일: false});
     const minuteRef = useRef<IHTMLDivElement>(null);
     const hourRef = useRef<IHTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    const [meridiem, setMeridiem] = useState<string>(''); 
+    const [meridiem, setMeridiem] = useState<string>('');
 
-    const hourList = (Array(12).fill(0).map((arr, index) => {
-        if(index === 0){
-            return '12'
-        }
-        else if(index > 9){
-            return `${index}`
-        }
-        return `0${index}`
-    }));
-    const minuteList = Array(60).fill(0).map((arr, index) => {
-        if(index > 9){
-            return `${index}`
-        }
-        return `0${index}`
-    });
-    
-    hourList.push('12', '01', '02');
-    hourList.unshift('09', '10', '11');
-    minuteList.push('00', '01', '02');
-    minuteList.unshift('57', '58', '59');
+    const testRef = useRef<HTMLDivElement[]>([]);
 
     useEffect(() => {
-        let currentTime =  new Date().toLocaleTimeString();
         let currentDay= new Date().getDay();
-
-        if(currentTime.includes('오후')){
-            setMeridiem('PM')
-            currentTime = currentTime.replace('오후 ','');
-        }else if(currentTime.includes('오전')){
-            setMeridiem('AM')
-            currentTime = currentTime.replace('오전 ','');
-        }
-
-        const time = currentTime.split(':');
-
-        hourRef.current!.hour = 11 - (Number(time[0]) === 12 ? 0 : Number(time[0]));
-        minuteRef.current!.minute = 60 - Number(time[1]);
 
         switch(currentDay){
             case 0:
@@ -100,81 +68,7 @@ const AlarmRegister = () => {
                 })
                 break;
         }
-
-        handleMouseMove(hourRef, 0)
-        handleMouseMove(minuteRef, 0)
     },[])
-
-    const handleMouseDown = (ref:React.RefObject<IHTMLDivElement>, position:number) => {
-        const target = ref.current!;
-        target.isClick = true;
-        target.startPosition = position;
-    }
-    const handleMouseMove = (ref:React.RefObject<IHTMLDivElement>, position:number, wheel:boolean = false) => {
-        const target = ref.current!;
-        const checkHour = target.hour !== null && target.hour !== undefined && target.hour !== NaN
-        
-        if(target.isClick || wheel){
-            if(target.startPosition - position >= 30 || position === 100){
-                if(checkHour){
-                    if(target.hour - 1 === -1){
-                        target.hour = 11;
-                        handleMeridiem();
-                    }else{
-                        target.hour = target.hour - 1;
-                    }
-                    !wheel && (target.startPosition = position);
-                    timeTranslateY(ref, (target.hour - 6))
-                }else{
-                    if(target.minute - 1 === -1){
-                        console.log(target.minute)
-                        target.minute = 59;
-                    }else{
-                        target.minute = target.minute - 1;
-                    }
-                    !wheel && (target.startPosition = position);
-                    timeTranslateY(ref, (target.minute - 30))
-                }
-            }else if(target.startPosition - position <= -30 || position === -100){
-                if(checkHour){
-                    if(target.hour + 1 === 12){
-                        target.hour = 0;
-                        handleMeridiem();
-                    }else{
-                        target.hour = target.hour + 1;
-                    }
-                    !wheel && (target.startPosition = position);
-                    timeTranslateY(ref, (target.hour - 6))
-                }else {
-                    if(target.minute + 1 === 61){
-                        target.minute = 1;
-                    }else {
-                        target.minute = target.minute + 1;
-                    }
-                    !wheel && (target.startPosition = position);
-                    timeTranslateY(ref, (target.minute - 30))
-                }
-            }
-        }else{ //  현재 시간 위치 수정
-            if(checkHour){
-                timeTranslateY(ref, (target.hour - 6), true)
-            }else{
-                timeTranslateY(ref, (target.minute - 30), true)
-            }
-        }
-    }
-    const handleMouseUp = (ref:React.RefObject<IHTMLDivElement>) => {
-        ref.current!.isClick = false
-    }  
-
-    const handleMeridiem = () => {
-        switch(meridiem){
-            case 'AM':
-                return setMeridiem('PM');
-            case 'PM':
-                return setMeridiem('AM');
-        }
-    }
 
     const handleRegister = () => {
         setRegister({
@@ -186,22 +80,6 @@ const AlarmRegister = () => {
             memo: textareaRef.current!.value,
             repeat: 5
         })
-
-    }
-
-    const timeTranslateY = (ref:React.RefObject<IHTMLDivElement>, number:number, reset:boolean = false) => {
-        const target = ref.current!;
-
-        switch(reset){
-            case true:
-                target.style.transition = `none`;
-                break
-            case false:
-                target.style.transition = `all 0s ease-in-out`;
-                break;
-        }
-
-        target.style.transform = `translateY(${60 * number}px)`;
     }
 
     const timeProcess = (time: number):string => {
@@ -216,7 +94,7 @@ const AlarmRegister = () => {
     return (
         <Wrapper>
             <AlarmHeader text={'Choose a time to wake up'} />
-            <TimeChooseWrapper>
+            {/* <TimeChooseWrapper>
                 <TimeChoose>
                     <HourSelect 
                         ref={hourRef}
@@ -251,7 +129,12 @@ const AlarmRegister = () => {
                 onClick={handleMeridiem}
             >
                 {meridiem}
-            </Meridiem>
+            </Meridiem> */}
+            <TimeChoose 
+                meridiem={meridiem}
+                setMeridiem={setMeridiem}
+                ref={testRef}
+            />
             <RepeatDayWrapper>
                 <RepeatDay 
                     active={true}
@@ -297,11 +180,11 @@ const TimeChooseWrapper = styled.div`
     margin: 20px 0;
     overflow: hidden;
 `;
-const TimeChoose = styled.div`
-    display: flex;
-    justify-content: space-around;
-    width: 50%;
-`;
+// const TimeChoose = styled.div`
+//     display: flex;
+//     justify-content: space-around;
+//     width: 50%;
+// `;
 const Colon = styled.div`
     ${({theme}) => theme.div.vhCenter}
     font-size: 40px;
