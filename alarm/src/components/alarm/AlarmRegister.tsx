@@ -6,22 +6,11 @@ import TimeChoose from './components/TimeChoose';
 import RepeatDay from './components/RepeatDay';
 
 import alarmStore, { IAlarmState } from 'src/modules/zustand/alarm';
-//import RefHandler from './components/TimeChoose';
-
-interface IHTMLDivElement extends HTMLDivElement{
-    [index:string]: any
-}
-
-type RefHandler = {
-    hourRef: React.RefObject<IHTMLDivElement>;
-    minuteRef: React.RefObject<IHTMLDivElement>;
-}
+import { RefHandler } from './types';
 
 const AlarmRegister = () => {
     const { setRegister, getId, registerToggle } = alarmStore();
     const [alarmDay, setAlarmDay] = useState<any>({월: false,화: false,수: false,목: false,금: false,토: false,일: false});
-    const minuteRef = useRef<IHTMLDivElement>(null);
-    const hourRef = useRef<IHTMLDivElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [meridiem, setMeridiem] = useState<string>('');
 
@@ -103,42 +92,6 @@ const AlarmRegister = () => {
     return (
         <Wrapper>
             <AlarmHeader text={'Choose a time to wake up'} />
-            {/* <TimeChooseWrapper>
-                <TimeChoose>
-                    <HourSelect 
-                        ref={hourRef}
-                        onMouseDown={(e) => handleMouseDown(hourRef, e.clientY)}
-                        onMouseMove={(e) => handleMouseMove(hourRef, e.clientY)}
-                        onMouseUp={() => handleMouseUp(hourRef)}
-                        onMouseLeave={() => handleMouseUp(hourRef)}
-                        onWheel={(e) => handleMouseMove(hourRef, e.deltaY, true)}
-                    >
-                        {hourList.map((hour, index) => (
-                            <div key={`hour-${index}`}>{hour}</div>
-                        ))}
-                    </HourSelect>
-                    <Colon>:</Colon>
-                    <MinuteSelect 
-                        ref={minuteRef}
-                        onMouseDown={(e) => handleMouseDown(minuteRef, e.clientY)}
-                        onMouseMove={(e) => handleMouseMove(minuteRef, e.clientY)}
-                        onMouseUp={() => handleMouseUp(minuteRef)}
-                        onMouseLeave={() => handleMouseUp(minuteRef)}
-                        onWheel={(e) => {
-                            handleMouseMove(minuteRef, e.deltaY, true)
-                        }}
-                    >
-                        {minuteList.map((minute ,index) => (
-                            <div key={`minute-${index}`}>{minute}</div>
-                        ))}
-                    </MinuteSelect>
-                </TimeChoose>
-            </TimeChooseWrapper>
-            <Meridiem
-                onClick={handleMeridiem}
-            >
-                {meridiem}
-            </Meridiem> */}
             <TimeChoose 
                 meridiem={meridiem}
                 setMeridiem={setMeridiem}

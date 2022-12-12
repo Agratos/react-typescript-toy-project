@@ -1,19 +1,12 @@
 import React, {useState, useRef, useEffect, useImperativeHandle } from 'react';
 import styled from 'styled-components';
 
-interface IHTMLDivElement extends HTMLDivElement{
-    [index:string]: any
-}
+import {RefHandler, IHTMLDivElement} from '../types';
 
 interface IProps {
     children?: React.ReactNode;
     meridiem: string;
     setMeridiem: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export type RefHandler = {
-    hourRef: React.RefObject<IHTMLDivElement>;
-    minuteRef: React.RefObject<IHTMLDivElement>;
 }
 
 const TimeChoose = React.forwardRef<RefHandler, IProps>(({meridiem, setMeridiem}:IProps, ref) => {
