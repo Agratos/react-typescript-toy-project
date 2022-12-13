@@ -17,7 +17,7 @@ const Layout = ({ children }: ISingleChildren) => {
         <Wrapper>
             <HeaderLayout />
             <ChildrenWrapper>
-                {children}
+                <Outlet />
             </ChildrenWrapper>
             <FooterLayout />
         </Wrapper>
