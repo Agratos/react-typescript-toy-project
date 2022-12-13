@@ -21,13 +21,13 @@ const StrokeAnimation = ({Svg, id, size}:ISvgStrokeAnimationProps) => {
 
     return(
         <Wapper>
-            <SvgWrapper dasharray={dasharray} dashoffset={dashoffset}>
+            <SvgWrapper dasharray={dasharray} dashoffset={dashoffset} size={size}>
                 <Svg />
             </SvgWrapper>
         </Wapper>
     )
 }
-const createCSS = (dasharray: number[], dashoffset: number[]) => {
+const createCSS = (dasharray: number[], dashoffset: number[], size: number) => {
     let styles:string = '';
 
     styles += `
@@ -59,7 +59,7 @@ const createCSS = (dasharray: number[], dashoffset: number[]) => {
         }
     `  
 
-    for(let i = 0 ; i < 8 ; i++){
+    for(let i = 0 ; i < size ; i++){
         styles += `
             & path:nth-child(${i + 2}){
                 stroke-dasharray: ${dasharray[i]};
@@ -74,8 +74,8 @@ const Wapper = styled.div`
     width: 100%;
     height: 100%;
 `;
-const SvgWrapper = styled.div<{dasharray:number[], dashoffset:number[]}>`
-    ${({dasharray, dashoffset}) => createCSS(dasharray, dashoffset)}
+const SvgWrapper = styled.div<{dasharray:number[], dashoffset:number[], size: number}>`
+    ${({dasharray, dashoffset, size}) => createCSS(dasharray, dashoffset, size)}
 `;
 
 export default StrokeAnimation;

@@ -16,7 +16,9 @@ const Layout = ({ children }: ISingleChildren) => {
     return (
         <Wrapper>
             <HeaderLayout />
-            {children}
+            <ChildrenWrapper>
+                {children}
+            </ChildrenWrapper>
             <FooterLayout />
         </Wrapper>
     );
@@ -26,6 +28,9 @@ const Wrapper = styled.div`
     flex-direction: column;
     height: 100vh;
     width: 100vw;
+`;
+const ChildrenWrapper = styled.div`
+    flex: 1;
 `;
 
 export default Layout;

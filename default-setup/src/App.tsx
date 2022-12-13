@@ -1,15 +1,13 @@
-import { Routes, Route } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Layout from './components/layouts/Layout';
-import MainPage from './pages/MainPage';
+import routes from './routes';
 
 const App = () => {
+    const content = useRoutes(routes);
     return (
         <Wrapper>
-            <Routes>
-                <Route path="/" element={<Layout><MainPage /></Layout>} />
-            </Routes>
+            {content}
         </Wrapper>
     );
 };

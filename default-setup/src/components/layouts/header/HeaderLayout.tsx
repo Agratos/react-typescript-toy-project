@@ -15,13 +15,8 @@ const HeaderLayout = () => {
                     <StrokeAnimation 
                         Svg={HeaderTitle}
                         id={'header-title_svg'}
-                        size={8}
+                        size={12}
                     />
-                    {/* <StrokeAnimation 
-                        Svg={HeaderTitle}
-                        id={'header-title_svg'}
-                        size={8}
-                    /> */}
                 </TitleWrapper>
             </TextWrapper>
         </Wrapper>
