@@ -1,17 +1,14 @@
-import { Routes, Route } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import styled from 'styled-components';
 
-import Layout from './components/layouts/Layout';
+import routes from './routes';
 
 const App = () => {
+    const content = useRoutes(routes)
+    
     return (
         <Wrapper>
-           <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route path='' element={<div>Main Page</div>} />
-                    <Route path='*' element={<div>Not Found Page</div>} />
-                </Route>
-            </Routes> 
+            {content}
         </Wrapper>
     );
 };
