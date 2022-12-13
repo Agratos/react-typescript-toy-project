@@ -10,12 +10,12 @@ import { alarmProperties } from 'src/assets/properties/alarmProperties';
 import { RefHandler, IDay } from './types';
 
 const AlarmRegisterUpdate = () => {
-    const { getId, getAlarm, setRegister , setUpdate, alarmPageIndex, setAlarmPageIndex, updateId } = alarmStore();
+    const { getId, getAlarm, setRegister , setUpdate, alarmPageIndex, setAlarmPageIndex, updateId, setUpdateId } = alarmStore();
     const [alarmDay, setAlarmDay] = useState<IDay>(alarmProperties.day);
     const [meridiem, setMeridiem] = useState<string>('');
     const [textarea, setTextarea] = useState<string>('');
 
-    const testRef = useRef<RefHandler>(null);
+    const timeRef = useRef<RefHandler>(null);
 
     useEffect(() => {
         switch(alarmPageIndex){
@@ -31,10 +31,10 @@ const AlarmRegisterUpdate = () => {
 
                 setTextarea(memo);
                 setAlarmDay(day);
-
-                const timeTemp =  time.replace(/\n|\r|\s*/g, "").split('.')
-                testRef.current!.hourRef!.current!.hour = 11 - Number(timeTemp[0])
-                testRef.current!.minuteRef!.current!.minute = 60 - Number(timeTemp[1])
+                setMeridiem(meridiem);
+                break;
+            default:
+                setUpdateId(0);
         }
     },[alarmPageIndex])
 
@@ -42,8 +42,8 @@ const AlarmRegisterUpdate = () => {
         setRegister({
             id: getId(),
             time: `
-                ${timeProcess(11 - testRef?.current?.hourRef?.current?.hour)}.
-                ${timeProcess(60 - testRef?.current?.minuteRef?.current?.minute)}
+                ${timeProcess(11 - timeRef?.current?.hourRef?.current?.hour)}.
+                ${timeProcess(60 - timeRef?.current?.minuteRef?.current?.minute)}
             `,
             meridiem,
             toggle: true,
@@ -60,8 +60,8 @@ const AlarmRegisterUpdate = () => {
         setUpdate({
             id,
             time: `
-                ${timeProcess(11 - testRef?.current?.hourRef?.current?.hour)}.
-                ${timeProcess(60 - testRef?.current?.minuteRef?.current?.minute)}
+                ${timeProcess(11 - timeRef?.current?.hourRef?.current?.hour)}.
+                ${timeProcess(60 - timeRef?.current?.minuteRef?.current?.minute)}
             `,
             meridiem,
             toggle,
@@ -84,6 +84,7 @@ const AlarmRegisterUpdate = () => {
 
     const dataReset = () => {
         setTextarea('');
+        setUpdateId(0);
     }
 
     const switchRender = () => {
@@ -95,7 +96,7 @@ const AlarmRegisterUpdate = () => {
                         <TimeChoose 
                             meridiem={meridiem}
                             setMeridiem={setMeridiem}
-                            ref={testRef}
+                            ref={timeRef}
                         />
                         <RepeatDayWrapper>
                             <RepeatDay 
@@ -126,7 +127,7 @@ const AlarmRegisterUpdate = () => {
                         <TimeChoose 
                             meridiem={meridiem}
                             setMeridiem={setMeridiem}
-                            ref={testRef}
+                            ref={timeRef}
                         />
                         <RepeatDayWrapper>
                             <RepeatDay 

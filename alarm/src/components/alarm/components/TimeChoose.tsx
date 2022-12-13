@@ -2,6 +2,7 @@ import React, {useState, useRef, useEffect, useImperativeHandle } from 'react';
 import styled from 'styled-components';
 
 import {RefHandler, IHTMLDivElement} from '../types';
+import alarmStore from 'src/modules/zustand/alarm';
 
 interface IProps {
     children?: React.ReactNode;
@@ -10,15 +11,9 @@ interface IProps {
 }
 
 const TimeChoose = React.forwardRef<RefHandler, IProps>(({meridiem, setMeridiem}:IProps, ref) => {
+    const { getAlarm, updateId, alarmPageIndex } = alarmStore();
     const minuteRef = useRef<IHTMLDivElement>(null);
     const hourRef = useRef<IHTMLDivElement>(null);
-    //const [meridiem, setMeridiem] = useState<string>(''); 
-
-    useImperativeHandle(ref, () => ({
-        minuteRef,
-        hourRef
-    }));
-
     const hourList = (Array(12).fill(0).map((arr, index) => {
         if(index === 0){
             return '12'
@@ -40,6 +35,11 @@ const TimeChoose = React.forwardRef<RefHandler, IProps>(({meridiem, setMeridiem}
     minuteList.push('00', '01', '02');
     minuteList.unshift('57', '58', '59');
 
+    useImperativeHandle(ref, () => ({
+        minuteRef,
+        hourRef
+    }));
+
     useEffect(() => {
         let currentTime =  new Date().toLocaleTimeString();
 
@@ -53,14 +53,24 @@ const TimeChoose = React.forwardRef<RefHandler, IProps>(({meridiem, setMeridiem}
 
         const time = currentTime.split(':');
 
-        if(hourRef.current && minuteRef.current){
-            hourRef.current.hour = 11 - (Number(time[0]) === 12 ? 0 : Number(time[0]));
-            minuteRef.current.minute = 60 - Number(time[1]);
+        if(updateId){
+            const {time} = getAlarm(updateId!);
+            const timeTemp =  time.replace(/\n|\r|\s*/g, "").split('.')
+            
+            if(hourRef.current && minuteRef.current){
+                hourRef.current.hour = 11 - Number(timeTemp[0])
+                minuteRef.current.minute = 60 - Number(timeTemp[1])
+            }
+        }else{
+            if(hourRef.current && minuteRef.current){
+                hourRef.current.hour = 11 - (Number(time[0]) === 12 ? 0 : Number(time[0]));
+                minuteRef.current.minute = 60 - Number(time[1]);
+            }
         }
-        
+
         handleMouseMove(hourRef, 0)
         handleMouseMove(minuteRef, 0)
-    },[])
+    },[updateId])
 
     const handleMouseDown = (ref:React.RefObject<IHTMLDivElement>, position:number) => {
         if(ref.current){
@@ -69,6 +79,7 @@ const TimeChoose = React.forwardRef<RefHandler, IProps>(({meridiem, setMeridiem}
             target.startPosition = position;
         }
     }
+
     const handleMouseMove = (ref:React.RefObject<IHTMLDivElement>, position:number, wheel:boolean = false) => {
         if(ref.current){
             const target = ref.current;
@@ -124,6 +135,7 @@ const TimeChoose = React.forwardRef<RefHandler, IProps>(({meridiem, setMeridiem}
             }
         }
     }
+
     const handleMouseUp = (ref:React.RefObject<IHTMLDivElement>) => {
         ref.current!.isClick = false
     }  
