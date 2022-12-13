@@ -36,7 +36,7 @@ const AlarmRegisterUpdate = () => {
             default:
                 setUpdateId(0);
         }
-    },[alarmPageIndex])
+    },[alarmPageIndex, updateId])
 
     const handleRegister = () => {
         setRegister({
@@ -92,7 +92,7 @@ const AlarmRegisterUpdate = () => {
             case 1 :
                 return (
                     <Wrapper>
-                        <AlarmHeader text={'Choose a time to wake up'} />
+                        <AlarmHeader text={'Choose a time to wake up'} rightPage={true} />
                         <TimeChoose 
                             meridiem={meridiem}
                             setMeridiem={setMeridiem}
@@ -123,7 +123,7 @@ const AlarmRegisterUpdate = () => {
             case 2 :
                 return (
                     <Wrapper>
-                        <AlarmHeader text={'Update a time to wake up'} />
+                        <AlarmHeader text={'Update a time to wake up'} rightPage={true} />
                         <TimeChoose 
                             meridiem={meridiem}
                             setMeridiem={setMeridiem}

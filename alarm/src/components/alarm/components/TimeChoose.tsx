@@ -210,7 +210,8 @@ const Wrapper = styled.div`
     width: 100%;
     align-items: center;
     text-align: center;
-    margin: 20px 0;
+    margin-top: 20px;
+    margin-bottom: 30px;
     overflow: hidden;
 `;
 const TimeChooseWrapper = styled.div`

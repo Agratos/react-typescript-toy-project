@@ -5,6 +5,7 @@ import RepeatDay from './components/RepeatDay';
 import ToggleButton from './components/ToggleButton';
 
 import alarmStore from 'src/modules/zustand/alarm';
+import getStringBytes from 'src/utils/getStringBytes';
 
 const AlarmCard = ({id}:{id:number}) => {
     const { setDelete, getAlarm, setUpdateId, setAlarmPageIndex } = alarmStore()
@@ -18,11 +19,15 @@ const AlarmCard = ({id}:{id:number}) => {
     return (
         <Wrapper>
             <Header>
-                <ImAlarm 
-                    color={'yellow'} size={14}
+                <MessageWrapper
                     onClick={handlleUpdateClick}
-                />
-                <Message>{alarm.memo}</Message>
+                    style={{cursor:'pointer'}}
+                >
+                    <ImAlarm 
+                        color={'yellow'} size={14}
+                    />
+                    <Message>{alarm.memo}</Message>
+                </MessageWrapper>
                 <DeleteButton
                     onClick={() => setDelete(id)}
                 >X</DeleteButton>
@@ -52,18 +57,27 @@ const Wrapper = styled.div`
 `;
 const Header = styled.div`
     display: flex;
+    justify-content: space-between;
     align-items: baseline;
     background-color: #252525;
     padding: 14px 18px 10px;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
 `;
+const MessageWrapper = styled.div`
+    display: flex;
+    align-items: baseline;
+    background-color: #252525;
+`;
 const Message = styled.div`
-    flex:1 ;
+    width: 240px;
     text-align: left;
     font-size: 16px;
     color: #8a8a8a;
     margin-left: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 `;
 const DeleteButton = styled.div`
     font-size: 16px;
