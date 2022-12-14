@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import routes from './routes';
 
 const App = () => {
-    const content = useRoutes(routes);
+    const content = useRoutes(routes)
     return (
         <Wrapper>
             {content}

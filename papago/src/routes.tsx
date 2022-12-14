@@ -1,13 +1,14 @@
 import { RouteObject } from 'react-router-dom';
 import Layout from './components/layouts/Layout';
-import MainPage from './pages/MainPage';
+import Papago from './components/Papago';
 
 const routes:RouteObject[] = [
     {
         path: '/',
         element: <Layout />,
         children: [
-            { path: '/', element: <MainPage /> },
+            { path: '', element: <Papago /> },
+            { path: '*', element: <div>Not Found Page</div>}
         ]
     }
 ]

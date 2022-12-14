@@ -12,12 +12,12 @@ export interface IMultipleChildren {
     children: React.ReactElement[];
 }
 
-const Layout = ({ children }: ISingleChildren) => {
+const Layout = () => {
     return (
         <Wrapper>
             <HeaderLayout />
             <ChildrenWrapper>
-                {children}
+                <Outlet />    
             </ChildrenWrapper>
             <FooterLayout />
         </Wrapper>
