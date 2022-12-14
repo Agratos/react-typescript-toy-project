@@ -22,6 +22,10 @@ const BeforTranslation = () => {
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+    const getTextareaValue = () => {
+        return textareaRef.current!.value
+    }
+
     return (
         <TranslationWrapper>
             <TranslationHeader>
@@ -38,7 +42,7 @@ const BeforTranslation = () => {
             </TranslationBody>
             <TranslationFooter>
                 <FunctionWrapper>
-                    <CopyButton value={textareaRef.current?.value}/>
+                    <CopyButton getValue={getTextareaValue}/>
                 </FunctionWrapper>
                 <TranslateButton>
                     번역하기
