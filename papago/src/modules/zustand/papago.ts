@@ -2,13 +2,15 @@ import create from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { devtools, persist } from 'zustand/middleware'
 
+import naverApi from 'src/apis/naverApi';
+
 interface PapagoStoreProps {
     beforLanguage: string;
     afterLanguage: string;
     setBeforLanguage: (lang: string) => void;
     setAfterLanguage: (lang: string) => void;
     changeLanguageEachOther: () => void;
-    //sendPapagoApi: () => void;
+    sendPapagoApi: ({source, target, text}:{source:string, target:string, text:string}) => void;
 }
 
 const papagoStore = create<PapagoStoreProps>()(
@@ -29,6 +31,11 @@ const papagoStore = create<PapagoStoreProps>()(
             state.afterLanguage = temp;
         }),
         
+        sendPapagoApi: async({source, target, text}:{source:string, target:string, text:string}) => set((state) => {
+            const response = naverApi.getTranslate({source, target, text})
+            console.log(response);
+        })
+
     }))))
 )
 

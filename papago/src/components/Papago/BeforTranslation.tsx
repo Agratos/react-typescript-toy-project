@@ -17,13 +17,16 @@ import CopyButton from './components/CopyButton';
 import papagoStore from 'src/modules/zustand/papago';
 
 const BeforTranslation = () => {
-    const { beforLanguage, changeLanguageEachOther } = papagoStore()
+    const { beforLanguage, changeLanguageEachOther, sendPapagoApi } = papagoStore()
     const [selectLanguageOpen, setSelectLanguageOpen] = useState<boolean>(false);
-
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [textareaValue, setTextareaValue] = useState<string>('');
+    
+    const handleTextareaValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setTextareaValue(e.target.value)
+    }
 
     const getTextareaValue = () => {
-        return textareaRef.current!.value
+        return textareaValue
     }
 
     return (
@@ -38,13 +41,25 @@ const BeforTranslation = () => {
                 </LanguageChangeButton>
             </TranslationHeader>
             <TranslationBody>
-                <Textarea placeholder='번역할 내용을 입력하세요.' ref={textareaRef}/>
+                <Textarea
+                    onChange={(e) => handleTextareaValue(e)}
+                    placeholder='번역할 내용을 입력하세요.' 
+                />
+                <TextLengthWrapper>
+                    <TextLength>{`${textareaValue.length}`} / 5000</TextLength>
+                </TextLengthWrapper>
             </TranslationBody>
             <TranslationFooter>
                 <FunctionWrapper>
                     <CopyButton getValue={getTextareaValue}/>
                 </FunctionWrapper>
-                <TranslateButton>
+                <TranslateButton
+                    onClick={() => sendPapagoApi({
+                        source:'ko',
+                        target:'en',
+                        text:'hello'
+                    })}
+                >
                     번역하기
                 </TranslateButton>
             </TranslationFooter>
@@ -55,6 +70,15 @@ const LanguageChangeButton = styled.button`
     margin: auto 0;
     border: none;
     background-color: transparent;
+`;
+const TextLengthWrapper = styled.div`
+    flex: 1;
+    margin-top: 16px;
+`;
+const TextLength = styled.div`
+    color: #3d3d3d35;
+    font-size: 22px;
+    float: right;
 `;
 const FunctionWrapper = styled.div``;
 const TranslateButton = styled(LanguageChangeButton)`

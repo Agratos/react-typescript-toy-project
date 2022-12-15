@@ -25,7 +25,7 @@ export const TranslationBody = styled.div`
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 20px 24px 60px;
+    padding: 20px 24px;
 `;
 
 export const TranslationFooter = styled.div`
@@ -36,7 +36,7 @@ export const TranslationFooter = styled.div`
 `;
 
 export const Textarea = styled.textarea`
-    flex: 1;
+    flex: 9;
     resize: none;
     border: none;
     font-size: 36px;

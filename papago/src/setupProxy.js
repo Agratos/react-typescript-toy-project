@@ -1,18 +1,19 @@
 // webpack devServer 에서 사용할 것
 module.exports = {
-    '/api/test': {
+    '/naverapi': {
         target: 'url',
         changeOrigin: true,
         pathRewrite: {
-          '^/api/test': '',
+          '^/naverapi': 'https://openapi.naver.com',
         }
     },
 
-    '/api/test2': {
-        target: 'url',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/api/test2': '',
-        }
-    },
+    // '/api/test2': {
+    //     target: 'url',
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       '^/api/test2': '',
+    //     }
+    // },
+
 }
