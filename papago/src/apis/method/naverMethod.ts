@@ -15,12 +15,13 @@ export default {
         )
     },
 
-    post: async <T>(url: string, jsonData: object) : Promise<T> => {
+    post: async <T>(url: string, jsonData: object) => {
         return await axios.post<T, any>(
             url,
             jsonData,
             {
                 headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
                     'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID,
                     'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET
                 }

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import { HiOutlineChevronDown } from 'react-icons/hi';
 
+import { languageProperties } from 'src/assets/properties/languageProperties';
+
 interface SelectButtonProps {
     language: string;
     setSelectLanguageOpen: Dispatch<SetStateAction<boolean>>
@@ -12,7 +14,7 @@ const SelectButton = ({language, setSelectLanguageOpen}: SelectButtonProps) => {
     return (
         <Wrapper>
             <TextWrapper onClick={() => setSelectLanguageOpen((open) => !open)}>
-                {language}
+                {languageProperties[language]}
                 <IconWrapper>
                     <HiOutlineChevronDown size={22} color={`#ababab`}/>
                 </IconWrapper>

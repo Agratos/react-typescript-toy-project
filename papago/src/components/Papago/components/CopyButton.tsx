@@ -5,12 +5,12 @@ import { CgCopy } from 'react-icons/cg';
 import textCopy from 'src/utils/textCopy';
 
 interface CopyButtonProps {
-    getValue: () => string
+    text: string
 }
 
-const CopyButton = ({getValue}:CopyButtonProps) => {
+const CopyButton = ({text}:CopyButtonProps) => {
     return (
-        <Wrapper onClick={() => {textCopy(getValue())}}>
+        <Wrapper onClick={() => {textCopy(text)}}>
             <CgCopy size={26} color={'#0000003d'}/>
         </Wrapper>
     )

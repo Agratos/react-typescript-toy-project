@@ -4,19 +4,29 @@ import { devtools, persist } from 'zustand/middleware'
 
 import naverApi from 'src/apis/naverApi';
 
-interface PapagoStoreProps {
+interface PapagoInitialState {
     beforLanguage: string;
     afterLanguage: string;
+    translatedText: string;
+}
+
+interface PapagoAction extends PapagoInitialState {
     setBeforLanguage: (lang: string) => void;
     setAfterLanguage: (lang: string) => void;
     changeLanguageEachOther: () => void;
     sendPapagoApi: ({source, target, text}:{source:string, target:string, text:string}) => void;
+    resetTranslatedText: () => void;
 }
 
-const papagoStore = create<PapagoStoreProps>()(
+const initState:PapagoInitialState = {
+    beforLanguage: 'detect',
+    afterLanguage: 'en',
+    translatedText: '',
+}
+
+const papagoStore = create<PapagoAction>()(
     devtools(persist(immer((set , get) => ({
-        beforLanguage: '언어감지',
-        afterLanguage: '영어',
+        ...initState,
 
         setBeforLanguage: (lang: string) => set((state) => {
             state.beforLanguage = lang
@@ -31,10 +41,18 @@ const papagoStore = create<PapagoStoreProps>()(
             state.afterLanguage = temp;
         }),
         
-        sendPapagoApi: async({source, target, text}:{source:string, target:string, text:string}) => set((state) => {
-            const response = naverApi.getTranslate({source, target, text})
-            console.log(response);
-        })
+        sendPapagoApi: async({source, target, text}:{source:string, target:string, text:string}) => {
+            naverApi.getTranslate({source, target, text}).then((res) => set((state) => {
+                console.log(res.data.message.result.translatedText)
+                state.translatedText = res.data.message.result.translatedText;
+            }))
+        },
+
+        resetTranslatedText: () => set((state) => {
+            state.translatedText = ''
+        }),
+
+
 
     }))))
 )

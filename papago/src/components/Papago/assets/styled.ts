@@ -50,3 +50,12 @@ export const Textarea = styled.textarea`
         color: #3d3d3d35;
     }
 `;
+
+export const WriteAreaWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+`;
+export const SelectAreaWrapper = styled.div`
+    display: flex;
+`;

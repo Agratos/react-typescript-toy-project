@@ -6,9 +6,11 @@ import {
     TranslationHeader,
     TranslationBody,
     TranslationFooter,
-    Textarea
+    Textarea,
+    WriteAreaWrapper,
+    SelectAreaWrapper
  } from './assets/styled';
-import ChooseLanguage from './ChooseLanguage';
+import ChooseLanguage from './components/ChooseLanguage';
 import SelectButton from './components/SelectButton';
 import CopyButton from './components/CopyButton';
 
@@ -16,7 +18,7 @@ import papagoStore from 'src/modules/zustand/papago';
 
 
 const AfterTranslation = () => {
-    const { afterLanguage } = papagoStore()
+    const { afterLanguage, translatedText } = papagoStore()
     const [selectLanguageOpen, setSelectLanguageOpen] = useState<boolean>(false);
 
     return (
@@ -28,13 +30,24 @@ const AfterTranslation = () => {
                 />
             </TranslationHeader>
             <TranslationBody>
-                <Textarea readOnly style={{cursor:'default'}} />
+                {selectLanguageOpen ?
+                    <WriteAreaWrapper>
+                        <Textarea value={translatedText} readOnly style={{cursor:'default'}} />
+                    </WriteAreaWrapper>
+                    :
+                    <SelectAreaWrapper>
+                        <ChooseLanguage before={false}/>
+                    </SelectAreaWrapper>
+                }
             </TranslationBody>
             <TranslationFooter>
-                
+                <FunctionWrapper>
+                    <CopyButton text={translatedText}/>
+                </FunctionWrapper>
             </TranslationFooter>
         </TranslationWrapper>
     )
 }
+const FunctionWrapper = styled.div``;
 
 export default AfterTranslation;

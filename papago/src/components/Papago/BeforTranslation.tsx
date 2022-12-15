@@ -8,27 +8,37 @@ import {
     TranslationHeader,
     TranslationBody,
     TranslationFooter,
-    Textarea
+    Textarea,
+    WriteAreaWrapper,
+    SelectAreaWrapper
  } from './assets/styled';
-import ChooseLanguage from './ChooseLanguage';
+import ChooseLanguage from './components/ChooseLanguage';
 import SelectButton from './components/SelectButton';
 import CopyButton from './components/CopyButton';
 
 import papagoStore from 'src/modules/zustand/papago';
 
+
 const BeforTranslation = () => {
-    const { beforLanguage, changeLanguageEachOther, sendPapagoApi } = papagoStore()
+    const { beforLanguage, changeLanguageEachOther, sendPapagoApi, resetTranslatedText } = papagoStore()
     const [selectLanguageOpen, setSelectLanguageOpen] = useState<boolean>(false);
     const [textareaValue, setTextareaValue] = useState<string>('');
     
     const handleTextareaValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setTextareaValue(e.target.value)
-    }
+        const text = e.target.value;
+        setTextareaValue(text)
 
-    const getTextareaValue = () => {
-        return textareaValue
+        if(text.replace(/\n|\r|\s*/g, '') !== ''){
+            sendPapagoApi({
+                source:'ko',
+                target:'en',
+                text: e.target.value
+            })
+        }else{
+            resetTranslatedText();
+        }
     }
-
+ 
     return (
         <TranslationWrapper>
             <TranslationHeader>
@@ -36,28 +46,36 @@ const BeforTranslation = () => {
                     language={beforLanguage}
                     setSelectLanguageOpen={setSelectLanguageOpen}
                 />
-                <LanguageChangeButton onClick={changeLanguageEachOther} disabled={beforLanguage === '언어감지'}>
-                    <FaExchangeAlt size={22} color={beforLanguage === '언어감지' ? '#87878745' :'#8d8b8bb5'}/>
+                <LanguageChangeButton onClick={changeLanguageEachOther} disabled={beforLanguage === 'detect'}>
+                    <FaExchangeAlt size={22} color={beforLanguage === 'detect' ? '#87878745' :'#938484'}/>
                 </LanguageChangeButton>
             </TranslationHeader>
             <TranslationBody>
-                <Textarea
-                    onChange={(e) => handleTextareaValue(e)}
-                    placeholder='번역할 내용을 입력하세요.' 
-                />
-                <TextLengthWrapper>
-                    <TextLength>{`${textareaValue.length}`} / 5000</TextLength>
-                </TextLengthWrapper>
+                {selectLanguageOpen ?
+                    <WriteAreaWrapper>
+                        <Textarea
+                            onChange={(e) => handleTextareaValue(e)}
+                            placeholder='번역할 내용을 입력하세요.' 
+                        />
+                        <TextLengthWrapper>
+                            <TextLength>{`${textareaValue.length}`} / 5000</TextLength>
+                        </TextLengthWrapper>
+                    </WriteAreaWrapper>
+                    :
+                    <SelectAreaWrapper>
+                        <ChooseLanguage before={true}/>
+                    </SelectAreaWrapper>
+                }
             </TranslationBody>
             <TranslationFooter>
                 <FunctionWrapper>
-                    <CopyButton getValue={getTextareaValue}/>
+                    <CopyButton text={textareaValue}/>
                 </FunctionWrapper>
                 <TranslateButton
                     onClick={() => sendPapagoApi({
                         source:'ko',
                         target:'en',
-                        text:'hello'
+                        text: textareaValue
                     })}
                 >
                     번역하기

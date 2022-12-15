@@ -5,6 +5,9 @@ import routes from './routes';
 
 const App = () => {
     const content = useRoutes(routes)
+    
+
+    
     return (
         <Wrapper>
             {content}
