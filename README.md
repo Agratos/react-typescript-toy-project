@@ -21,4 +21,6 @@ redux-saga typesafe-actions
 ## 5. Alarm - done
 study zustand
 
+## 6. Papago
+zustand with axios
 
