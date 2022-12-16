@@ -3,18 +3,33 @@ import styled from 'styled-components';
 
 import { HiOutlineChevronDown } from 'react-icons/hi';
 
+import papagoStore from 'src/modules/zustand/papago';
 import { languageProperties } from 'src/assets/properties/languageProperties';
 
 interface SelectButtonProps {
     language: string;
+    isDetect?: boolean;
     setSelectLanguageOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const SelectButton = ({language, setSelectLanguageOpen}: SelectButtonProps) => {
+const SelectButton = ({language, isDetect, setSelectLanguageOpen}: SelectButtonProps) => {
+
+    const textRender = () => {
+        if(language === 'detect'){
+            return languageProperties[language]
+        }else{
+            if(isDetect){
+                return `${languageProperties[language]} 감지`;
+            }else{
+                return languageProperties[language];
+            }
+        }
+    }
+
     return (
         <Wrapper>
             <TextWrapper onClick={() => setSelectLanguageOpen((open) => !open)}>
-                {languageProperties[language]}
+                {textRender()}
                 <IconWrapper>
                     <HiOutlineChevronDown size={22} color={`#ababab`}/>
                 </IconWrapper>

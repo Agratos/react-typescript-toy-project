@@ -10,5 +10,9 @@ export default {
             target:target,
             text:text
         })
+    },
+
+    getLanguageDetect: (text: string) => {
+        return naverMethod.post('/naverapi/v1/papago/detectLangs', {query: text})
     }
 }

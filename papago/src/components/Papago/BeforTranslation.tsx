@@ -16,27 +16,46 @@ import ChooseLanguage from './components/ChooseLanguage';
 import SelectButton from './components/SelectButton';
 import CopyButton from './components/CopyButton';
 
+import { IHTMLTextAreaElement } from './assets/types';
 import papagoStore from 'src/modules/zustand/papago';
 
 
 const BeforTranslation = () => {
-    const { beforLanguage, changeLanguageEachOther, sendPapagoApi, resetTranslatedText } = papagoStore()
+    const { 
+        changeLanguageEachOther, 
+        papagoTranslateApi, 
+        papagoLanguageDetectApi, 
+        resetTranslatedText,
+        setBeforLanguage,
+    } = papagoStore();
+    const { beforLanguage, afterLanguage, isDetect } = papagoStore();
     const [selectLanguageOpen, setSelectLanguageOpen] = useState<boolean>(false);
     const [textareaValue, setTextareaValue] = useState<string>('');
+    const textareaRef = useRef<IHTMLTextAreaElement>(null);
     
     const handleTextareaValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const text = e.target.value;
-        setTextareaValue(text)
+        clearTimeout(textareaRef.current!.setTimeOut);
+        
+        textareaRef.current!.setTimeOut = setTimeout(() => {
+            const text = e.target.value;
+            if(text.replace(/\n|\r|\s*/g, '') !== ''){
+                if(isDetect) { 
+                    papagoLanguageDetectApi(e.target.value)
+                }
 
-        if(text.replace(/\n|\r|\s*/g, '') !== ''){
-            sendPapagoApi({
-                source:'ko',
-                target:'en',
-                text: e.target.value
-            })
-        }else{
-            resetTranslatedText();
-        }
+                if(beforLanguage !== 'detect'){
+                    papagoTranslateApi({
+                        source: beforLanguage,
+                        target: afterLanguage,
+                        text: e.target.value
+                    })
+                }
+            }else {
+                resetTranslatedText();
+                if(isDetect && text === '') setBeforLanguage('detect');
+            }
+            setTextareaValue(text)
+        }, 100)
     }
  
     return (
@@ -45,6 +64,7 @@ const BeforTranslation = () => {
                 <SelectButton 
                     language={beforLanguage}
                     setSelectLanguageOpen={setSelectLanguageOpen}
+                    isDetect={isDetect}
                 />
                 <LanguageChangeButton onClick={changeLanguageEachOther} disabled={beforLanguage === 'detect'}>
                     <FaExchangeAlt size={22} color={beforLanguage === 'detect' ? '#87878745' :'#938484'}/>
@@ -54,6 +74,7 @@ const BeforTranslation = () => {
                 {selectLanguageOpen ?
                     <WriteAreaWrapper>
                         <Textarea
+                            ref={textareaRef}
                             onChange={(e) => handleTextareaValue(e)}
                             placeholder='번역할 내용을 입력하세요.' 
                         />
@@ -72,7 +93,7 @@ const BeforTranslation = () => {
                     <CopyButton text={textareaValue}/>
                 </FunctionWrapper>
                 <TranslateButton
-                    onClick={() => sendPapagoApi({
+                    onClick={() => papagoTranslateApi({
                         source:'ko',
                         target:'en',
                         text: textareaValue
