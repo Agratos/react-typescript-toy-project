@@ -18,8 +18,8 @@ import papagoStore from 'src/modules/zustand/papago';
 
 
 const AfterTranslation = () => {
-    const { afterLanguage, translatedText } = papagoStore()
-    const [selectLanguageOpen, setSelectLanguageOpen] = useState<boolean>(false);
+    const { afterLanguage, translatedText, setAfterLanguage } = papagoStore()
+    const [selectLanguageOpen, setSelectLanguageOpen] = useState<boolean>(true);
 
     return (
         <TranslationWrapper>
@@ -36,7 +36,12 @@ const AfterTranslation = () => {
                     </WriteAreaWrapper>
                     :
                     <SelectAreaWrapper>
-                        <ChooseLanguage before={false}/>
+                        <ChooseLanguage 
+                            before={false} 
+                            select={afterLanguage} 
+                            setLanaguage={setAfterLanguage}
+                            cloaseLanguageOpen={setSelectLanguageOpen}
+                        />
                     </SelectAreaWrapper>
                 }
             </TranslationBody>

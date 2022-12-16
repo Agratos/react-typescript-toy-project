@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 
 import { FaExchangeAlt } from 'react-icons/fa'; 
@@ -28,34 +28,71 @@ const BeforTranslation = () => {
         resetTranslatedText,
         setBeforLanguage,
     } = papagoStore();
-    const { beforLanguage, afterLanguage, isDetect } = papagoStore();
-    const [selectLanguageOpen, setSelectLanguageOpen] = useState<boolean>(false);
+    const { beforLanguage, afterLanguage, isDetect, beforText } = papagoStore();
+    const [selectLanguageOpen, setSelectLanguageOpen] = useState<boolean>(true);
     const [textareaValue, setTextareaValue] = useState<string>('');
+    const [changeButtonClick, setChangeButtonClick] = useState<boolean>(false);
     const textareaRef = useRef<IHTMLTextAreaElement>(null);
-    
+
+    useEffect(() => {
+        if(textareaRef.current){
+            textareaRef.current.value = beforText;
+            setTextareaValue(beforText);
+        }
+    },[beforText])
+
+    useEffect(() => {
+        if(textareaValue.replace(/\n|\r|\s*/g, '') !== ''){
+            if(isDetect) { 
+                papagoLanguageDetectApi(textareaValue)
+            }
+
+            if(beforLanguage !== 'detect'){
+                papagoTranslateApi({
+                    source: beforLanguage,
+                    target: afterLanguage,
+                    text: textareaValue
+                })
+            }
+        }else {
+            resetTranslatedText();
+            if(isDetect && textareaValue === '') setBeforLanguage('detect');
+        }
+    },[afterLanguage])
+
+    const handleChangeButton = () => {
+        changeLanguageEachOther(textareaValue)
+        setChangeButtonClick((click) => !click);
+    }
+
     const handleTextareaValue = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         clearTimeout(textareaRef.current!.setTimeOut);
         
-        textareaRef.current!.setTimeOut = setTimeout(() => {
-            const text = e.target.value;
-            if(text.replace(/\n|\r|\s*/g, '') !== ''){
-                if(isDetect) { 
-                    papagoLanguageDetectApi(e.target.value)
+        if(!changeButtonClick){
+            textareaRef.current!.setTimeOut = setTimeout(() => {
+                const text = e.target.value;
+                if(text.replace(/\n|\r|\s*/g, '') !== ''){
+                    if(isDetect) { 
+                        papagoLanguageDetectApi(e.target.value)
+                    }
+    
+                    if(beforLanguage !== 'detect'){
+                        papagoTranslateApi({
+                            source: beforLanguage,
+                            target: afterLanguage,
+                            text: e.target.value
+                        })
+                    }
+                }else {
+                    resetTranslatedText();
+                    if(isDetect && text === '') setBeforLanguage('detect');
                 }
-
-                if(beforLanguage !== 'detect'){
-                    papagoTranslateApi({
-                        source: beforLanguage,
-                        target: afterLanguage,
-                        text: e.target.value
-                    })
-                }
-            }else {
-                resetTranslatedText();
-                if(isDetect && text === '') setBeforLanguage('detect');
-            }
-            setTextareaValue(text)
-        }, 100)
+                setTextareaValue(text)
+            }, 100)
+        }else{
+            setChangeButtonClick((click) => !click);
+        }
+        
     }
  
     return (
@@ -66,7 +103,7 @@ const BeforTranslation = () => {
                     setSelectLanguageOpen={setSelectLanguageOpen}
                     isDetect={isDetect}
                 />
-                <LanguageChangeButton onClick={changeLanguageEachOther} disabled={beforLanguage === 'detect'}>
+                <LanguageChangeButton onClick={() => handleChangeButton()} disabled={isDetect}>
                     <FaExchangeAlt size={22} color={beforLanguage === 'detect' ? '#87878745' :'#938484'}/>
                 </LanguageChangeButton>
             </TranslationHeader>
@@ -76,6 +113,7 @@ const BeforTranslation = () => {
                         <Textarea
                             ref={textareaRef}
                             onChange={(e) => handleTextareaValue(e)}
+                            defaultValue={textareaValue}
                             placeholder='번역할 내용을 입력하세요.' 
                         />
                         <TextLengthWrapper>
@@ -84,7 +122,12 @@ const BeforTranslation = () => {
                     </WriteAreaWrapper>
                     :
                     <SelectAreaWrapper>
-                        <ChooseLanguage before={true}/>
+                        <ChooseLanguage 
+                            before={true} 
+                            select={beforLanguage}
+                            setLanaguage={setBeforLanguage}
+                            cloaseLanguageOpen={setSelectLanguageOpen}
+                        />
                     </SelectAreaWrapper>
                 }
             </TranslationBody>

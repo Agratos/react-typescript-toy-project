@@ -8,13 +8,14 @@ interface PapagoInitialState {
     isDetect: boolean;
     beforLanguage: string;
     afterLanguage: string;
+    beforText: string;
     translatedText: string;
 }
 
 interface PapagoAction extends PapagoInitialState {
     setBeforLanguage: (lang: string) => void;
     setAfterLanguage: (lang: string) => void;
-    changeLanguageEachOther: () => void;
+    changeLanguageEachOther: (str: string) => void;
     resetTranslatedText: () => void;
 
     papagoTranslateApi: ({source, target, text}:{source:string, target:string, text:string}) => Promise<void>;
@@ -25,11 +26,12 @@ const initState:PapagoInitialState = {
     isDetect: true,
     beforLanguage: 'detect',
     afterLanguage: 'en',
+    beforText: '',
     translatedText: '',
 }
 
 const papagoStore = create<PapagoAction>()(
-    devtools(persist(immer((set , get) => ({
+    devtools(immer((set , get) => ({
         ...initState,
 
         setBeforLanguage: (lang: string) => set((state) => {
@@ -46,10 +48,14 @@ const papagoStore = create<PapagoAction>()(
             state.afterLanguage = lang;
         }, false, 'setAfterLanguage'),
 
-        changeLanguageEachOther: () => set((state) => {
+        changeLanguageEachOther: (str: string) => set((state) => {
             let temp = state.beforLanguage;
             state.beforLanguage = state.afterLanguage;
             state.afterLanguage = temp;
+
+            temp = state.translatedText;
+            state.translatedText = str;
+            state.beforText = temp;
         }, false, 'changeLanguageEachOther'),
         
         papagoTranslateApi: async({source, target, text}:{source:string, target:string, text:string}) => {
@@ -68,7 +74,7 @@ const papagoStore = create<PapagoAction>()(
             state.translatedText = '';
         }, false, 'resetTranslatedText'),
 
-    }))))
+    })))
 )
 
 
