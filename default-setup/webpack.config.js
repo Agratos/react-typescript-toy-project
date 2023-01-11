@@ -13,7 +13,8 @@ module.exports = {
   devServer: {
     hot: true,
     historyApiFallback: true,
-    proxy: proxy
+    proxy: proxy,
+    port: 8080,
   },
   target: "web",
   output: {
