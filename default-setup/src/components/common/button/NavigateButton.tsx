@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 
-interface IRegisterButton {
+interface INavigateButton {
+    url: string;
     text: string;
-    onClick : () => void;
 }
 
-const NavigateButton = ({text, onClick}:IRegisterButton) => {
+const NavigateButton = ({url, text}:INavigateButton) => {
     return (
-        <Button onClick={onClick}>
+        <Button href={url}>
             {text}
         </Button>
     )
 }
-const Button = styled.button``;
+const Button = styled.a``;
 
 export default NavigateButton;
