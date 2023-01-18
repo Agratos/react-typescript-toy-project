@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import StrokeAnimation from 'src/components/svg/StrokeAnimation';
+import StrokeAnimation from 'src/containers/svg/StrokeAnimation';
 import HeaderTitle from 'src/assets/images/svg/header-title.svg';
 
 const HeaderLayout = () => {

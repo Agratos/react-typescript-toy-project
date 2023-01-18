@@ -1,5 +1,4 @@
-import { useEffect, useRef, RefObject } from 'react';
-import { Outlet, LayoutRouteProps } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
 import HeaderLayout from './header/HeaderLayout';
