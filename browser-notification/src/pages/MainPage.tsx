@@ -51,20 +51,10 @@ const MainPage = () => {
     //     }
     // }
 
-    const notifications = [
-        {
-            id: '1',
-            type: 'SUCCESS',
-            message: 'hellow',
-        }
-    ]
+
 
     const onClick = () => {
-        Notification.requestPermission().then((result) => {
-            console.log(result);
-            const text = `HEY! Your task is now overdue.`;
-            const notification = new Notification('To do list', { body: text });
-        });
+        
     }
 
     return (
