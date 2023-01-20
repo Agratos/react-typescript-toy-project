@@ -1,69 +1,49 @@
 import { useState, useEffect, useRef } from 'react';
-import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4';
 import styled from 'styled-components';
 
+import backgroundImg from 'src/assets/images/1.png';
+
 const MainPage = () => {
-    // const [userResponded, setUserResponded] = useState(false);
 
-    // const pushNotification = async (notificationText:string) => {
-    //     if(!('Notification' in window)){
-    //         alert('Browser does not support notification');
-    //     } else if (Notification.permission === 'granted') {
-    //         const notification = new Notification(notificationText);
-    //     } else if (Notification.permission !== 'denied') {
-    //         await Notification.requestPermission().then((permission) => {
-    //             if (permission === 'granted') {
-    //                 const notification = new Notification(notificationText);
-    //             }
-    //         })
-    //     }
-    // }
+    useEffect(() => {
+        if(!('Notification' in window)){
+            alert("This browser does not support desktop notification");
+        } else if (Notification.permission === 'granted') {
+            const notification = new Notification(
+                '경고!',
+                {
+                    body: '문이 고장 났습니다.',
+                    //icon: backgroundImg,
+                    //image: backgroundImg
+                    
+                }
+            );
 
-    // const enableNotifisAndClose = async () => {
-    //     await pushNotification('안녕하세요');
-    //     setUserResponded(true);
-    // }
+            notification.onclick = () => {
+                window.open('/');
+            }
 
-    // const disableNotifisAndClose = () => {
-    //     setUserResponded(true);
-    // }
-
-    // const conditionRender = () => {
-    //     if(!(userResponded) && (Notification.permission === 'granted')){
-    //         return (
-    //             <div>
-    //                 알림을 허락 하시겠습니까?
-    //                 <button onClick={enableNotifisAndClose}>수락</button>
-    //                 <button onClick={disableNotifisAndClose}>거부</button>
-    //             </div>
-    //         )
-    //     } else if (Notification.permission === 'granted') {
-    //         return (
-    //             <div>
-    //                 알람이 울리고 있습니다!!
-    //                 <button onClick={() => pushNotification('안녕하세요')}> 알람 보내기</button>
-    //             </div>
-    //         )
-    //     } else {
-    //         return (
-    //             <div>알림 거부가 되어있습니다.</div>
-    //         )
-    //     }
-    // }
-
-
-
-    const onClick = () => {
-        
-    }
+        } else if (Notification.permission === 'denied') {
+            Notification.requestPermission().then((permission) => {
+                if (permission !== 'granted' && permission !== 'denied'){
+                    const notification = new Notification('Thanck Allow Notification');
+                }
+            })
+        }
+    },[])
 
     return (
         <Wrapper>
-            <button onClick={() => onClick()}>알람</button>
+           크롬 알림 설정을 활성화 해주세요
         </Wrapper>
     )
 }
 const Wrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     padding: 16px;
 `;
 
