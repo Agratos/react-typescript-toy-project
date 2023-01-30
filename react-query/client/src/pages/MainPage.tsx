@@ -62,8 +62,6 @@ const Wrapper = styled.div`
     align-items: center;
     height: 100%;
 `;
-const Frame = styled.div`
-    
-`;
+const Frame = styled.div``;
 
 export default MainPage;
