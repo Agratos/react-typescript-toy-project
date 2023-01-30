@@ -11,10 +11,15 @@ app.use(bodyParser.json());
 let countDown = 0;
 let count = 0;
 let name = 'lee';
-let todo = [{
-    id: 1,
-    todo: '오늘의 아침은'
-}];
+let todos = [
+    {
+        id: 1,
+        todo: '오늘의 아침은'
+    },{
+        id: 2,
+        todo: '오늘의 점심은'
+    }
+];
 
 app.get('/countdown', (req,res) => {
     countDown = countDown + 1;
@@ -34,23 +39,21 @@ app.post('/multiple', (req, res) => {
 
 
 app.get('/todo', (req, res) => {
-    res.send({todo});
+    res.send({todos});
 })
 app.post('/todo', (req, res) => {
-    todo.push(req.body.todo);
-    res.send({todo});
+    todos.push(req.body.todo);
+    res.send({todos});
 })
 app.put('/todo', (req, res) => {
-    const updateTodo = req.body.todo
-    todo[todo.findIndex((todo) => todo.id === updateTodo.id)] = updateTodo;
-    //console.log(todo.findIndex((todo) => todo.id === updateTodo.id))
-    console.log(updateTodo.id)
-    res.send({todo});
+    const updateTodo = req.body.todo;
+    todos[todos.findIndex((todo) => todo.id === updateTodo.id)] = updateTodo;
+    res.send({todos});
 })
 app.delete('/todo', (req, res) => {
     const delId = req.body.id
-    todo = todo.filter(({id}) => id !== delId);
-    res.send({todo});
+    todos = todos.filter(({id}) => id !== delId);
+    res.send({todos});
 })
 
 

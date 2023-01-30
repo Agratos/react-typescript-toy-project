@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { useQueries, useQuery, useMutation } from 'react-query';
 import axios, { AxiosError } from 'axios';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const MainPage = () => {
     const { data: countDown, status } = useQuery<number>(
@@ -41,6 +42,7 @@ const MainPage = () => {
 
     return (
         <Wrapper>
+            <Link to={'/todo'}>todo 이동</Link>
             서버와 연동한 시간 {countDown}
             <Frame>{queriesData[0].data}</Frame>
             <Frame>{queriesData[1].data}</Frame>
