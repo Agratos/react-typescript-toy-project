@@ -22,7 +22,7 @@ const TodosContainer = () => {
     }
 
     const updateTodoHandle = ({id ,done}:{id?:number, done?: boolean}) => {
-        const temp = {...todos![todos!.findIndex((todos) => todos.id === isUpdate || id)]}
+        const temp = {...todos![todos!.findIndex((todos) => todos.id === (isUpdate || id))]}
         updateTodo({
             ...temp,
             id: id || temp.id,

@@ -8,6 +8,8 @@ import TodosContainer from 'src/containers/todos/TodosContainer';
 const Todos = () => {
     const { todos } = TodosContainer();
 
+    console.log(todos);
+
     return (
         <Wrapper>
             <CardWrapper>
@@ -38,9 +40,6 @@ const CardWrapper = styled.div`
     border: 0.5px solid black;
     margin-bottom: 16px;
     overflow-y: scroll;
-`;
-const InputWrapper = styled.div`
-    flex: 1;
 `;
 
 export default Todos;

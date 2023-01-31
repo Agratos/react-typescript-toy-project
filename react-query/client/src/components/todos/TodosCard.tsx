@@ -1,3 +1,4 @@
+import { memo, useCallback } from 'react';
 import styled from 'styled-components';
 
 import { ITodo } from 'src/stores/react-query/todoStore';
@@ -14,6 +15,10 @@ const TodosCard = ({id,todo,done}:ITodo) => {
         updateTodoHandle, 
         deleteTodoHandle,
     } = TodosContainer();
+
+    console.log(`todo: `,todo);
+    // console.log(`inputData: `,inputData);
+
 
     return (
         <Card>
@@ -32,7 +37,7 @@ const TodosCard = ({id,todo,done}:ITodo) => {
                             setIsUpdate(id)
                             setInputData(todo)
                         }}
-                    >{todo === inputData ? inputData : todo}</Text> 
+                    >{todo}</Text> 
                 }
             </TextWrapper>
             <ButtonWrapper>
@@ -74,4 +79,4 @@ const ButtonWrapper = styled.div`
     margin-left: 16px;
 `;
 
-export default TodosCard;
+export default memo(TodosCard);

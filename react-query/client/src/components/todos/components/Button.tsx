@@ -1,3 +1,4 @@
+import { memo, useCallback } from 'react';
 import styled from 'styled-components';
 
 interface IButton {
@@ -21,4 +22,4 @@ const ButtonWrapper = styled.button`
     }
 `;
 
-export default Button;
+export default memo(Button);
