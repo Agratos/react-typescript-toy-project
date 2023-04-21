@@ -8,7 +8,7 @@ export default {
     get: async <T>(url: string) : Promise<T> => {
         return await axios.get<T, any>(
             url, 
-            httpServer.authorization(loaclStoreService.get('token') as string)
+            httpServer.authorization(loaclStoreService.get('token'))
         )
     },
 
@@ -17,7 +17,7 @@ export default {
         return await axios.post<T, any>(
             url,
             jsonData,
-            httpServer.authorization(loaclStoreService.get('token') as string)
+            httpServer.authorization(loaclStoreService.get('token'))
         )
     },
 
@@ -25,7 +25,7 @@ export default {
         return await axios.put<T, any>(
             url,
             jsonData,
-            httpServer.authorization(loaclStoreService.get('token') as string)
+            httpServer.authorization(loaclStoreService.get('token'))
         )
     },
 

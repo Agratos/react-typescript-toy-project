@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { todoStore } from 'src/stores/react-query/todoStore';
-
 import Todos from 'src/components/todos/Todos';
 
 const TodoPage = () => {

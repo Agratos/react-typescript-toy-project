@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { IMultipleChildren } from '../Layout';
 
+/** 수평 */
 const HorizontalSeparationLayout = ({ children }: IMultipleChildren) => {
     return (
         <Wrapper>
@@ -17,7 +18,6 @@ const HorizontalSeparationLayout = ({ children }: IMultipleChildren) => {
 };
 const Wrapper = styled.div`
     flex: 1;
-    //background-color: #cacaca;
 `;
 const HorizontalSeparationWrapper = styled.div`
     height: 50%;

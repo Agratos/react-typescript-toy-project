@@ -8,8 +8,6 @@ import TodosContainer from 'src/containers/todos/TodosContainer';
 const Todos = () => {
     const { todos } = TodosContainer();
 
-    console.log(todos);
-
     return (
         <Wrapper>
             <CardWrapper>

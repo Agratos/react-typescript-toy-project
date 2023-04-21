@@ -39,9 +39,16 @@ app.post('/multiple', (req, res) => {
 
 
 app.get('/todo', (req, res) => {
+    //res.send(Error)
     res.send({todos});
 })
+app.post('/todo/test', (req, res) => {
+    const result = todos.filter(({id}) => id === Number(req.body.userId));
+
+    res.send({data: result})
+})
 app.post('/todo', (req, res) => {
+    console.log(req.body.todo);
     todos.push(req.body.todo);
     res.send({todos});
 })

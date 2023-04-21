@@ -3,6 +3,7 @@ interface IGetTotalLengthProps {
     size: number;
 }
 
+/** svg 길이 구하는 함수 */
 const getTotalLength = ({id, size}: IGetTotalLengthProps) => {
     let result: number[] = [];
     

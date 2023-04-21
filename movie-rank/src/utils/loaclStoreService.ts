@@ -1,6 +1,6 @@
 export default {
-    get: (key: string) => {
-        return localStorage.getItem(key);
+    get: (key: string):string => {
+        return localStorage.getItem(key) || '';
     },
 
     set: (key: string, value: string) => {
