@@ -1,28 +1,21 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
-    body{
-        width: 100%;
-        min-width: 400px;
-        max-width: 1920px;
-        
-        height: 100%;
-        min-height: 400px;
-        max-height: 1080px;
-        
+    body{ 
+        width: calc(100vw - 17px);
+        max-width: calc(100vw - 17px);
+
+        min-height: 100vh;
+
         margin: 0;
         padding: 0;
 
-        display: flex;
-        flex-direction: column;
-
-        font-family: 'Jua', sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         font-size: 16px;
 
-        overflow: hidden;
+        overflow-y: scroll;
+        //overflow-x: hidden;
         resize: none;
-
-        user-select: none;
     }
 `;
 

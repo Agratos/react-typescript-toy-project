@@ -1,19 +1,24 @@
 import { useState, useLayoutEffect } from 'react';
-import { useQuery } from 'react-query';
-import { AxiosResponse } from 'axios';
+import { useQuery, useQueryClient } from 'react-query';
+import { AxiosError, AxiosResponse } from 'axios';
 
-import { getCurrentTime } from 'src/utils/getCurrentTime';
-import { getHttpMethod } from 'src/utils/getHttpMethod';
+import { getCurrentTime } from 'src/utils/common/customTime';
+import { getHttpMethod } from 'src/utils/api/getHttpMethod';
 
 interface UseFetchDataProps<InputParams, ResponseData> {
     key: any | any[];
     fetchApi: (params?: InputParams) => Promise<AxiosResponse<ResponseData>>;
-    onSuccess?: Function;
-    onError?: Function;
+    onSuccess?: (res: AxiosResponse<ResponseData>) => void;
+    onError?: (error: AxiosError<UseFetchDataError>) => void;
     onLoading?: Function;
     queryOptions?: {
         [key: string]: any;
     };
+}
+
+interface UseFetchDataError {
+    message: string,
+    statusCode: number
 }
 
 /** 
@@ -38,26 +43,27 @@ export const useFetchData = <InputParams, ResponseData>({key, fetchApi, onSucces
     const [fetchLatestTime, setFetchLatestTime] = useState<string>('');
     const [fetchLatestResult, setFetchLatestResult] = useState<string>('');
     const method = getHttpMethod(fetchApi);
+    const queryClient = useQueryClient();
 
     const onFetchLatest = (result: string) => {
         setFetchLatestTime(getCurrentTime());
         setFetchLatestResult(result);
     }
 
-    const { data, isLoading, isError, error } = useQuery(
+    const { data, isLoading, isError, error, refetch } = useQuery(
         key,
         () => fetchApi(),
         {   
             onSuccess: (res) => {
                 onSuccess?.(res);
                 onFetchLatest('success');
-                console.log(`${key[0]} Fetch Api Success: Type: ${method}\n`, res.data)
-                return res.data;
+                //queryClient.invalidateQueries(key);
+                //console.log(`${key[0]} Fetch Api Success: Type: ${method}\n`, res.data)
             },
-            onError: (error) => {
-                onError?.();
+            onError: (error: AxiosError<UseFetchDataError>) => {
+                onError?.(error);
                 onFetchLatest('error')
-                console.error(`${key[0]} Fetch Api Error: Type: ${method}}\n${error}`)         
+                console.error(`${key[0]} Fetch Api Error: Type: ${method}}\n${error}`)   
             },
 
             refetchInterval: false,
@@ -70,5 +76,5 @@ export const useFetchData = <InputParams, ResponseData>({key, fetchApi, onSucces
         isLoading && onLoading?.();
     },[isLoading])
 
-    return { data, isLoading, isError, error, fetchLatestTime, fetchLatestResult }
+    return { data, isLoading, isError, error, fetchLatestTime, fetchLatestResult, refetch }
 }

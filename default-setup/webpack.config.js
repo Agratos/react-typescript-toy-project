@@ -5,8 +5,8 @@ const path = require("path");
 const proxy = require('./src/setupProxy');
 const dotenv = require("dotenv");
 
-module.exports = (env, argv) => {
-  const isProduction = argv.mode === "production";
+module.exports = (env) => {
+  const isProduction = process.env.NODE_ENV === "production";
   isProduction ? dotenv.config() : dotenv.config({ path: "./.env.development" });
 
   return {
@@ -49,8 +49,6 @@ module.exports = (env, argv) => {
       extensions: ["*", ".js", ".jsx", ".tsx", ".ts"],
       alias: {
         src: path.resolve(__dirname, "src/"),
-        //"@common": path.resolve(__dirname, "src/components/@common/"),
-        // "@hooks": path.resolve(__dirname, "src/hooks/"),
       },
     },
     module: {

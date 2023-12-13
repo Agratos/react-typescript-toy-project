@@ -1,20 +1,27 @@
 import { useState, useLayoutEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useMutation, useQueryClient } from 'react-query';
-import { AxiosResponse } from 'axios';
-import { IMessage } from 'src/apis/common';
+import { AxiosError, AxiosResponse } from 'axios';
+import { MessageResponse } from 'src/utils/api/axiosApi';
 
-import { getCurrentTime } from 'src/utils/getCurrentTime';
-import { getHttpMethod } from 'src/utils/getHttpMethod';
+import { getCurrentTime } from 'src/utils/common/customTime';
+
+import localStoreService from 'src/utils/common/localStoreService';
 
 interface UseUpdateDataProps<UpdateParams> {
     key: any | any[];
-    updateApi: (params?:UpdateParams) => Promise<AxiosResponse<IMessage>>
-    onSuccess?: Function;
-    onError?: Function;
+    updateApi: (params?:UpdateParams) => Promise<AxiosResponse<MessageResponse>>
+    onSuccess?: (res: AxiosResponse) => void;
+    onError?: (error: AxiosError<UseUpdateDataError>) => void;
     onLoading?: Function;
     queryOptions?: {
         [key: string]: any;
     };
+}
+
+interface UseUpdateDataError {
+    message: string,
+    statusCode: number
 }
 
 /** 
@@ -36,30 +43,34 @@ interface UseUpdateDataProps<UpdateParams> {
  * - onLoading: 로딩시 처리할 로직
  **/
 export const useUpdateData = <UpdateParams,>({key, updateApi, onSuccess, onError, onLoading, queryOptions}: UseUpdateDataProps<UpdateParams>) => {
-    const queryClient = useQueryClient();
     const [updateLatestTime, setUpdateLatestTime] = useState<string>('');
     const [updateLatestResult, setUpdateLatestResult] = useState<string>('');
-    const method = getHttpMethod(updateApi);
+    const queryClient = useQueryClient();
+    const navigate = useNavigate()
 
     const onFetchLatest = (result: string) => {
         setUpdateLatestTime(getCurrentTime());
         setUpdateLatestResult(result);
     }
 
-    const { mutate, isLoading, isError, error } = useMutation(
+    const { mutate, data, isLoading, isError, error } = useMutation(
         key,
         (params?: UpdateParams) => updateApi(params),
         {
-            onSuccess: () => {
-                onSuccess?.();
+            onSuccess: (res) => {
+                onSuccess?.(res);
                 onFetchLatest('success');
                 queryClient.invalidateQueries(key);
-                console.log(`${key[0]} Update Api Success: Type: ${method}`)
+                //console.log(`${key[0]} Update Api Success: Type: ${method}`)
             },
-            onError: (error) => {
-                onError?.();
+            onError: (error: AxiosError<UseUpdateDataError>) => {
+                onError?.(error);
                 onFetchLatest('error');
-                console.error(`${key[0]} Uodate Api Error: Type: ${method}}\n${error}`)
+                //console.error(`${key[0]} Uodate Api Error: Type: ${method}}\n${error}`)
+                if(error.response?.status === 480){
+                    localStoreService.deleteAll();
+                    navigate('/#/login')
+                }
             },
 
             ...queryOptions
@@ -70,5 +81,5 @@ export const useUpdateData = <UpdateParams,>({key, updateApi, onSuccess, onError
         isLoading && onLoading?.();
     },[isLoading])
     
-    return { mutate, isLoading, isError, error, updateLatestTime, updateLatestResult }
+    return { mutate, data, isLoading, isError, error, updateLatestTime, updateLatestResult }
 }
